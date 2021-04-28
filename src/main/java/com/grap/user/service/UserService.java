@@ -16,5 +16,10 @@ public class UserService {
     public void signup(User user) {
         userRepository.save(user);
     }
+
+    @Transactional(readOnly = true) //start transaction when 'select'
+    public User login(User user) {
+        return userRepository.findByLoginIdAndPassword(user.getLoginId(), user.getPassword());
+    }
 }
 

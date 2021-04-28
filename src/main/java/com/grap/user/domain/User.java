@@ -19,8 +19,8 @@ public class User {
 
     //access id 추가해야함
 
-    @Column(length = 30, nullable = false, unique = true)
-    private String login_id;
+    @Column(length = 30, nullable = false, name = "login_id", unique = true)
+    private String loginId;
 
     @Column(length = 20, nullable = false)
     private String password;
@@ -35,8 +35,8 @@ public class User {
     private Timestamp createDate;
 
     @Builder
-    public User(String login_id, String password, String name, String telephone, Timestamp createDate) {
-        this.login_id = login_id;
+    public User(String loginId, String password, String name, String telephone, Timestamp createDate) {
+        this.loginId = loginId;
         this.password = password;
         this.name = name;
         this.telephone = telephone;
