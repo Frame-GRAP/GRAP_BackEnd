@@ -1,11 +1,13 @@
-package com.grap.backend.web.controller;
+package com.grap.game.controller;
 
-import com.grap.backend.service.game.GameService;
-import com.grap.backend.web.dto.GameResponseDto;
-import com.grap.backend.web.dto.GameSaveRequestDto;
-import com.grap.backend.web.dto.GameUpdateRequestDto;
+import com.grap.game.service.GameService;
+import com.grap.game.dto.GameResponseDto;
+import com.grap.game.dto.GameSaveRequestDto;
+import com.grap.game.dto.GameUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -26,6 +28,12 @@ public class GameApiController {
     public GameResponseDto findById(@PathVariable Long id) {
 
         return gameService.findById(id);
+    }
+
+    @GetMapping("/api/game/all")
+    public List<GameResponseDto> findAllDesc() {
+
+        return gameService.findAllDesc();
     }
 }
 

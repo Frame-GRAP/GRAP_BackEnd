@@ -1,9 +1,9 @@
-package com.grap.backend.web;
+package com.grap.web;
 
-import com.grap.backend.domain.game.Game;
-import com.grap.backend.domain.game.GameRepository;
-import com.grap.backend.web.dto.GameSaveRequestDto;
-import com.grap.backend.web.dto.GameUpdateRequestDto;
+import com.grap.game.domain.Game;
+import com.grap.game.repository.GameRepository;
+import com.grap.game.dto.GameSaveRequestDto;
+import com.grap.game.dto.GameUpdateRequestDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 

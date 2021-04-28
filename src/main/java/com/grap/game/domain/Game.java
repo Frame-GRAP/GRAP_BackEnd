@@ -1,4 +1,4 @@
-package com.grap.backend.domain.game;
+package com.grap.game.domain;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -16,16 +16,16 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 30, nullable = false)
+    @Column(length = 60, nullable = false)
     private String name;
 
     @Column(columnDefinition = "TEXT", length = 1000, nullable = false)
     private String description;
 
-    @Column(length = 30, nullable = false)
+    @Column(nullable = false)
     private String developer;
 
-    @Column(length = 30, nullable = false)
+    @Column(nullable = false)
     private String publisher;
 
     @Column(columnDefinition = "DATE", nullable = false, name = "release_date")

@@ -1,13 +1,16 @@
-package com.grap.backend.service.game;
+package com.grap.game.service;
 
-import com.grap.backend.domain.game.Game;
-import com.grap.backend.domain.game.GameRepository;
-import com.grap.backend.web.dto.GameResponseDto;
-import com.grap.backend.web.dto.GameSaveRequestDto;
-import com.grap.backend.web.dto.GameUpdateRequestDto;
+import com.grap.game.domain.Game;
+import com.grap.game.repository.GameRepository;
+import com.grap.game.dto.GameResponseDto;
+import com.grap.game.dto.GameSaveRequestDto;
+import com.grap.game.dto.GameUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -28,11 +31,19 @@ public class GameService {
         return id;
     }
 
+    @Transactional
     public GameResponseDto findById(Long id) {
         Game entity = gameRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
 
         return new GameResponseDto(entity);
+    }
+
+    @Transactional
+    public List<GameResponseDto> findAllDesc() {
+        return gameRepository.findAllDesc().stream()
+                .map(GameResponseDto::new)
+                .collect(Collectors.toList());
     }
 
 }

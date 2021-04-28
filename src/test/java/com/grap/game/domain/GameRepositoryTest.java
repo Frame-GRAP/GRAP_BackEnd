@@ -1,5 +1,6 @@
-package com.grap.backend.domain.game;
+package com.grap.game.domain;
 
+import com.grap.game.repository.GameRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

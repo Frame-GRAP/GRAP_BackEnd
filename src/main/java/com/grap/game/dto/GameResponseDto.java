@@ -1,6 +1,6 @@
-package com.grap.backend.web.dto;
+package com.grap.game.dto;
 
-import com.grap.backend.domain.game.Game;
+import com.grap.game.domain.Game;
 import lombok.Getter;
 
 import java.time.LocalDate;

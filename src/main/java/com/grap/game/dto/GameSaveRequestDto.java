@@ -1,14 +1,15 @@
-package com.grap.backend.web.dto;
+package com.grap.game.dto;
 
-import com.grap.backend.domain.game.Game;
+import com.grap.game.domain.Game;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class GameSaveRequestDto {
     private String name;

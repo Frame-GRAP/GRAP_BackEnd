@@ -1,4 +1,4 @@
-package com.grap.backend.web.dto;
+package com.grap.game.dto;
 
 import lombok.Builder;
 import lombok.Getter;
