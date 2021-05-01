@@ -4,12 +4,10 @@ import com.grap.game.domain.Game;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Getter
-@Setter
 @NoArgsConstructor
 public class GameSaveRequestDto {
     private String name;

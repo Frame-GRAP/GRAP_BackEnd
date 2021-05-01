@@ -32,7 +32,8 @@ public class SteamApi {
     private void initStaticDao () {
         steamapi = this.api;
     }
-    필요
+    필요.
+    메인 메소드에서 steamapi.saveSteamData(); 호출 필요
      */
     private Game game = new Game();
 
