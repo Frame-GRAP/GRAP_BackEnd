@@ -34,7 +34,7 @@ public class GameService {
     @Transactional
     public GameResponseDto findById(Long id) {
         Game entity = gameRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
+                .orElseThrow(() -> new IllegalArgumentException("해당 게임이 없습니다. id=" + id));
 
         return new GameResponseDto(entity);
     }
