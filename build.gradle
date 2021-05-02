@@ -30,12 +30,11 @@ dependencies {
     implementation('com.h2database:h2')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     
-//    implementation('org.springframework.security:spring-security-taglibs')
-//    implementation('org.springframework.boot:spring-boot-starter-security')
-
-//    implementation('org.springframework.boot:spring-boot-starter-oauth2-client')
-//    implementation('org.springframework.session:spring-session-jdbc')
-//    testImplementation("org.springframework.security:spring-security-test")
+    implementation('org.springframework.security:spring-security-taglibs')
+    implementation('org.springframework.boot:spring-boot-starter-security')
+    implementation('org.springframework.boot:spring-boot-starter-oauth2-client')
+    implementation('org.springframework.session:spring-session-jdbc')
+    testImplementation("org.springframework.security:spring-security-test")
 
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.6.1'
 }
