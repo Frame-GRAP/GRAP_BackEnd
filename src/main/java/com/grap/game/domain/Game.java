@@ -4,7 +4,6 @@ import com.grap.video.domain.Video;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @Entity
 public class Game {
@@ -43,7 +41,6 @@ public class Game {
     private String downloadUrl;
 
     @Column(nullable = false)
-    // 제약조건을 아직 안걸었는데, 여기서 걸면 지금 이 클래스를 통해서 DB를 새로 만들때만 적용 됨. 여기서 걸지 말고 나중에 RDS에 테이블 만들 때 걸어주면 될 듯.
     private Double rating;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "game")
