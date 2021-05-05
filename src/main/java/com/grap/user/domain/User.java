@@ -1,5 +1,6 @@
 package com.grap.user.domain;
 
+import com.grap.review.domain.Review;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -40,6 +43,9 @@ public class User {
 
     @CreationTimestamp
     private Timestamp createDate;
+
+    @OneToMany(mappedBy = "user")
+    private List<Review> userReviews = new ArrayList<>();
 
     @Builder
     public User(String loginId, String password, String name, String telephone, String picture, Role role, Timestamp createDate) {
