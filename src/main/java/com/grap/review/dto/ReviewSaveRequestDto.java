@@ -5,25 +5,26 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
-
 @Getter
 @NoArgsConstructor
 public class ReviewSaveRequestDto {
 
     private String content;
-    private Timestamp createdDate;
+//    private int like;
+//    private int dislike;
 
     @Builder
-    public ReviewSaveRequestDto(String content, Timestamp createdDate) {
+    public ReviewSaveRequestDto(String content) { //, int like, int dislike
         this.content = content;
-        this.createdDate = createdDate;
+//        this.like = like;
+//        this.dislike = dislike;
     }
 
     public Review toEntity() {
         return Review.builder()
                 .content(content)
-                .createdDate(createdDate)
+//                .like(like)
+//                .dislike(dislike)
                 .build();
     }
 }

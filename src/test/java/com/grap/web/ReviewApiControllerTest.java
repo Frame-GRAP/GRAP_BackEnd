@@ -2,6 +2,7 @@ package com.grap.web;
 
 import com.grap.review.domain.Review;
 import com.grap.review.dto.ReviewSaveRequestDto;
+import com.grap.review.dto.ReviewUpdateRequestDto;
 import com.grap.review.repository.ReviewRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -10,11 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,11 +43,10 @@ public class ReviewApiControllerTest {
     public void Review_등록된다() throws Exception {
         //given
         String content = "content";
-        Timestamp createdDate = new Timestamp(System.currentTimeMillis());
         ReviewSaveRequestDto requestDto = ReviewSaveRequestDto.builder()
                 .content(content)
-                .createdDate(createdDate)
                 .build();
+
 
         String url = "http://localhost:" + port + "/api/review";
 
@@ -58,6 +59,34 @@ public class ReviewApiControllerTest {
 
         List<Review> all = reviewRepository.findAll();
         assertThat(all.get(0).getContent()).isEqualTo(content);
-        assertThat(all.get(0).getCreatedDate()).isAfter(createdDate);
+    }
+
+    @Test
+    public void Review_수정된다() throws  Exception {
+        //given
+        Review savedReview = reviewRepository.save(Review.builder()
+                .content("content")
+                .build());
+
+        Long updateId = savedReview.getId();
+        String expectedContent = "content2";
+
+        ReviewUpdateRequestDto requestDto = ReviewUpdateRequestDto.builder()
+                .content(expectedContent)
+                .build();
+
+        String url = "http://localhost:" + port + "/api/review/" + updateId;
+
+        HttpEntity<ReviewUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
+
+        //when
+        ResponseEntity<Long> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Long.class);
+
+        //then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody()).isGreaterThan(0L);
+
+        List<Review> all = reviewRepository.findAll();
+        assertThat(all.get(0).getContent()).isEqualTo(expectedContent);
     }
 }
