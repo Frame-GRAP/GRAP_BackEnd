@@ -21,13 +21,11 @@ public class Review extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT", length = 500, nullable = false)
     private String content;
 
-//    @ColumnDefault("0")
-//    @Column
-//    private int like;
-//
-//    @ColumnDefault("0")
-//    @Column
-//    private int dislike;
+    @Column(name = "like_count", nullable = false)
+    private Integer likeCount;
+
+    @Column(name = "dislike_count", nullable = false)
+    private Integer dislikeCount;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -37,11 +35,17 @@ public class Review extends BaseTimeEntity {
     @JoinColumn(name = "game_id")
     private Game game;
 
+    @PrePersist
+    public void prePersist() {
+        this.likeCount = this.likeCount == null ? 0 : this.likeCount;
+        this.dislikeCount = this.dislikeCount == null ? 0 : this.dislikeCount;
+    }
+
     @Builder
-    public Review(String content, User user, Game game) { // int like, int dislike,
+    public Review(String content, Integer likeCount, Integer dislikeCount, User user, Game game) {
         this.content = content;
-//        this.like = like;
-//        this.dislike = dislike;
+        this.likeCount = likeCount;
+        this.dislikeCount = dislikeCount;
         this.user = user;
         this.game = game;
     }

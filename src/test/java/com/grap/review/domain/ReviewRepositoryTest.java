@@ -41,6 +41,8 @@ public class ReviewRepositoryTest {
         //then
         Review review = reviewList.get(0);
         assertThat(review.getContent()).isEqualTo(content);
+        assertThat(review.getLikeCount()).isEqualTo(0);
+        assertThat(review.getDislikeCount()).isEqualTo(0);
     }
 
     @Test

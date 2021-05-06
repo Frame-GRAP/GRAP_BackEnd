@@ -1,12 +1,14 @@
 package com.grap.review.controller;
 
-//import com.grap.review.dto.ReviewListResponseDto;
+import com.grap.review.dto.ReviewListResponseDto;
 import com.grap.review.dto.ReviewResponseDto;
 import com.grap.review.dto.ReviewSaveRequestDto;
 import com.grap.review.dto.ReviewUpdateRequestDto;
 import com.grap.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -24,18 +26,24 @@ public class ReviewApiController {
         return reviewService.update(id, requestDto);
     }
 
+    @DeleteMapping("/api/review/{id}")
+    public Long delete(@PathVariable Long id) {
+        reviewService.delete(id);
+        return id;
+    }
+
     @GetMapping("/api/review/{id}")
     public ReviewResponseDto findById(@PathVariable Long id) {
         return reviewService.findById(id);
     }
 
-//    @GetMapping("/api/review/likes")
-//    public List<ReviewListResponseDto> findAllByOrderByLikeDesc() {
-//        return reviewService.findAllByOrderByLikeDesc();
-//    }
-//
-//    @GetMapping("/api/review/dislikes")
-//    public List<ReviewListResponseDto> findAllByOrderByDislikeDesc() {
-//        return reviewService.findAllByOrderByDislikeDesc();
-//    }
+    @GetMapping("/api/review/likes")
+    public List<ReviewListResponseDto> findAllByOrderByLikeCountDesc() {
+        return reviewService.findAllByOrderByLikeCountDesc();
+    }
+
+    @GetMapping("/api/review/dislikes")
+    public List<ReviewListResponseDto> findAllByOrderByDislikeCountDesc() {
+        return reviewService.findAllByOrderByDislikeCountDesc();
+    }
 }

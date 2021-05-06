@@ -43,6 +43,9 @@ public class ReviewApiControllerTest {
     public void Review_등록된다() throws Exception {
         //given
         String content = "content";
+        Integer likeCount = 0;
+        Integer dislikeCount = 0;
+
         ReviewSaveRequestDto requestDto = ReviewSaveRequestDto.builder()
                 .content(content)
                 .build();
@@ -59,6 +62,8 @@ public class ReviewApiControllerTest {
 
         List<Review> all = reviewRepository.findAll();
         assertThat(all.get(0).getContent()).isEqualTo(content);
+        assertThat(all.get(0).getLikeCount()).isEqualTo(likeCount);
+        assertThat(all.get(0).getLikeCount()).isEqualTo(dislikeCount);
     }
 
     @Test
@@ -89,4 +94,29 @@ public class ReviewApiControllerTest {
         List<Review> all = reviewRepository.findAll();
         assertThat(all.get(0).getContent()).isEqualTo(expectedContent);
     }
+
+    @Test
+    public void Review_삭제된다() throws  Exception {
+        //given
+        Review savedReview = reviewRepository.save(Review.builder()
+                .content("content")
+                .build());
+
+        Long deleteId = savedReview.getId();
+
+        String url = "http://localhost:" + port + "/api/review/" + deleteId;
+
+        HttpEntity<Review> savedEntity = new HttpEntity<>(savedReview);
+
+        //when
+        ResponseEntity<Long> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, savedEntity, Long.class);
+
+        //then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody()).isGreaterThan(0L);
+
+        List<Review> all = reviewRepository.findAll();
+        assertThat(all).isEmpty();
+    }
+
 }

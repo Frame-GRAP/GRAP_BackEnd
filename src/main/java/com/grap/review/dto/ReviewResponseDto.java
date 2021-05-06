@@ -8,13 +8,13 @@ public class ReviewResponseDto {
 
     private Long id;
     private String content;
-//    private int like;
-//    private int dislike;
+    private Integer likeCount;
+    private Integer dislikeCount;
 
     public ReviewResponseDto(Review entity) {
         this.id = entity.getId();
         this.content = entity.getContent();
-//        this.like = entity.getLike();
-//        this.dislike = entity.getDislike();
+        this.likeCount = entity.getLikeCount();
+        this.dislikeCount = entity.getDislikeCount();
     }
 }
