@@ -1,6 +1,7 @@
 package com.grap.game.domain;
 
 import com.grap.domain.BaseTimeEntity;
+import com.grap.review.domain.Review;
 import com.grap.video.domain.Video;
 import lombok.Builder;
 import lombok.Getter;
@@ -58,6 +59,9 @@ public class Game extends BaseTimeEntity {
         this.lastVideoCrawled = this.lastVideoCrawled == null ? LocalDateTime.now() : this.lastVideoCrawled;
     }
 
+    @OneToMany(mappedBy = "game")
+    private List<Review> gameReviews = new ArrayList<>();
+
     @Builder
     public Game(String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl) {
         this.name = name;
@@ -69,7 +73,7 @@ public class Game extends BaseTimeEntity {
         this.downloadUrl = downloadUrl;
     }
 
-    public void update (String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl, Double rating){
+    public void update(String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl, Double rating) {
         this.name = name;
         this.description = description;
         this.developer = developer;
