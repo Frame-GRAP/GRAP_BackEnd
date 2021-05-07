@@ -1,5 +1,6 @@
 package com.grap.game.domain;
 
+import com.grap.review.domain.Review;
 import com.grap.video.domain.Video;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,6 +47,8 @@ public class Game {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "game")
     private List<Video> videos = new ArrayList<>();
 
+    @OneToMany(mappedBy = "game")
+    private List<Review> gameReviews = new ArrayList<>();
 
     @Builder
     public Game(String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl, Double rating) {
@@ -59,7 +62,7 @@ public class Game {
         this.rating = rating;
     }
 
-    public void update (String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl, Double rating){
+    public void update(String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl, Double rating) {
         this.name = name;
         this.description = description;
         this.developer = developer;
