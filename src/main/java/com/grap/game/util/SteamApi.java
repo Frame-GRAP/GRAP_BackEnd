@@ -75,25 +75,29 @@ public class SteamApi {
             JsonNode obj = (JsonNode)itr.next();
             String appId = obj.get("appid").toString();
 
-            JsonNode detailNode = getJSonFromUrl(SteamAppDetailUrl + appId).get(appId);
-            if(detailNode.get("success").toString().equals("false")){
+            JsonNode infoNode = getJSonFromUrl(SteamAppDetailUrl + appId).get(appId);
+            if(infoNode.get("success").toString().equals("false")){
                 continue;
             }
 
-            detailNode = detailNode.get("data");
-            LocalDate date = LocalDate.parse("1996-05-17");
+            infoNode = infoNode.get("data");
+
             Game savedGame = gameRepository.save(Game.builder()
-                    .name(detailNode.get("name").toString())
-                    .description(detailNode.get("short_description").toString())
-                    .developer(detailNode.get("developers").toString())
-                    .publisher(detailNode.get("publishers").toString())
-                    .releaseDate(date)
+                    .name(removeSepecialSymbol(infoNode.get("name").asText()))
+                    .description(infoNode.get("short_description").asText())
+                    .developer(infoNode.get("developers").toString())
+                    .publisher(infoNode.get("publishers").toString())
+                    .releaseDate(LocalDate.parse("1996-05-17"))
                     .headerImg("https://steamcdn-a.akamaihd.net/steam/apps/" + appId + "/header.jpg")
                     .downloadUrl("https://store.steampowered.com/app/" + appId)
-                    .rating(0.0)
                     .build());
         }
     }
 
+    private String removeSepecialSymbol(String str){
+        String match = "[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s\\p{Punct}]";
+        str =str.replaceAll(match, "");
+        return str;
+    }
 
 }

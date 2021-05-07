@@ -1,19 +1,23 @@
 package com.grap.game.domain;
 
+import com.grap.domain.BaseTimeEntity;
 import com.grap.video.domain.Video;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
 @Entity
-public class Game {
+public class Game extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,14 +45,21 @@ public class Game {
     private String downloadUrl;
 
     @Column(nullable = false)
-    private Double rating;
+    private double rating;
+
+    @Column(columnDefinition = "timestamp", nullable = false)
+    private LocalDateTime lastVideoCrawled;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "game")
     private List<Video> videos = new ArrayList<>();
 
+    @PrePersist
+    public void initializeColumn() {
+        this.lastVideoCrawled = this.lastVideoCrawled == null ? LocalDateTime.now() : this.lastVideoCrawled;
+    }
 
     @Builder
-    public Game(String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl, Double rating) {
+    public Game(String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl) {
         this.name = name;
         this.description = description;
         this.developer = developer;
@@ -56,7 +67,6 @@ public class Game {
         this.releaseDate = releaseDate;
         this.headerImg = headerImg;
         this.downloadUrl = downloadUrl;
-        this.rating = rating;
     }
 
     public void update (String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl, Double rating){

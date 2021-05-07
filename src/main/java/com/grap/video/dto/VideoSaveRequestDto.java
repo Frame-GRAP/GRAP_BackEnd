@@ -14,25 +14,18 @@ public class VideoSaveRequestDto {
     private String platform;
     private String urlKey;
     private String length;
-    private int liked;
     private String gameName;
-    private boolean isRegistered;
-    private Game game;
+    private String image;
 
     @Builder
-    public VideoSaveRequestDto(String title, String uploader, String platform, String urlKey, String length, int liked, String gameName, boolean isRegistered) {
+    public VideoSaveRequestDto(String title, String uploader, String platform, String urlKey, String length, String gameName, String image) {
         this.title = title;
         this.uploader = uploader;
         this.platform = platform;
         this.urlKey = urlKey;
         this.length = length;
-        this.liked = liked;
         this.gameName = gameName;
-        this.isRegistered = isRegistered;
-    }
-
-    public void setGame(Game game){
-        this.game = game;
+        this.image = image;
     }
 
     public Video toEntity(){
@@ -42,10 +35,8 @@ public class VideoSaveRequestDto {
                 .platform(platform)
                 .urlKey(urlKey)
                 .length(length)
-                .liked(liked)
                 .gameName(gameName)
-                .isRegistered(isRegistered)
-                .game(game)
+                .image(image)
                 .build();
     }
 }
