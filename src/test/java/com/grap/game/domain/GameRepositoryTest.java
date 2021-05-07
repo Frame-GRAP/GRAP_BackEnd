@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.testng.annotations.Ignore;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -35,7 +36,6 @@ public class GameRepositoryTest {
         LocalDate releaseDate = LocalDate.now();
         String headerImg = "테스트 이미지";
         String downloadUrl = "테스트 URL";
-        Double rating = 0.5;
 
         gameRepository.save(Game.builder()
                 .name(name)
@@ -45,7 +45,6 @@ public class GameRepositoryTest {
                 .releaseDate(releaseDate)
                 .headerImg(headerImg)
                 .downloadUrl(downloadUrl)
-                .rating(rating)
                 .build());
 
         //when
@@ -60,6 +59,6 @@ public class GameRepositoryTest {
         assertThat(game.getReleaseDate()).isEqualTo(releaseDate);
         assertThat(game.getHeaderImg()).isEqualTo(headerImg);
         assertThat(game.getDownloadUrl()).isEqualTo(downloadUrl);
-        assertThat(game.getRating()).isEqualTo(rating);
+        assertThat(game.getRating()).isEqualTo(0.0d);
     }
 }

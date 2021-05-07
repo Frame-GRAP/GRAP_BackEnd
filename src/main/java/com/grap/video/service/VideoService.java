@@ -10,24 +10,28 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class VideoService {
-    public final VideoRepository videoRepository;
-    public final GameRepository gameRepository;
+
+    private final VideoRepository videoRepository;
+    private final GameRepository gameRepository;
 
     @Transactional
     public Long save(VideoSaveRequestDto requestDto) {
         Optional<Game> gameOp = gameRepository.findByName(requestDto.getGameName());
+
         if(!gameOp.isPresent()) {
             throw new IllegalArgumentException("영상과 일치하는 게임이 없습니다. gamename =" + requestDto.getGameName());
         }
 
         Game game = gameOp.get();
-        requestDto.setGame(game);
         Video video = requestDto.toEntity();
+        video.mappingGame(game);
 
         return videoRepository.save(video).getId();
     }
@@ -38,6 +42,20 @@ public class VideoService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 영상이 없습니다. id=" + id));
 
         return new VideoResponseDto(entity);
+    }
+
+    @Transactional
+    public List<VideoResponseDto> findAllDesc() {
+        return videoRepository.findAllDesc().stream()
+                .map(VideoResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public int delete(Long id) {
+        Optional<Video> opVideo = videoRepository.findById(id);
+        videoRepository.deleteById(opVideo.get().getId());
+        return 1;
     }
 
 }

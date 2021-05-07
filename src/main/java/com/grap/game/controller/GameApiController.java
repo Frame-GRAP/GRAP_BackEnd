@@ -4,11 +4,15 @@ import com.grap.game.service.GameService;
 import com.grap.game.dto.GameResponseDto;
 import com.grap.game.dto.GameSaveRequestDto;
 import com.grap.game.dto.GameUpdateRequestDto;
+import com.grap.video.util.VideoCrawling;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
+@CrossOrigin("*")
 @RequiredArgsConstructor
 @RestController
 public class GameApiController {

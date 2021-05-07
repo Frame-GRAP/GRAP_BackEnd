@@ -17,7 +17,6 @@ public class GameSaveRequestDto {
     private LocalDate releaseDate;
     private String headerImg;
     private String downloadUrl;
-    private Double rating;
 
     @Builder
     public GameSaveRequestDto(String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl, Double rating) {
@@ -28,7 +27,6 @@ public class GameSaveRequestDto {
         this.releaseDate = releaseDate;
         this.headerImg = headerImg;
         this.downloadUrl = downloadUrl;
-        this.rating = rating;
     }
 
     public Game toEntity(){
@@ -40,7 +38,6 @@ public class GameSaveRequestDto {
                 .releaseDate(releaseDate)
                 .headerImg(headerImg)
                 .downloadUrl(downloadUrl)
-                .rating(rating)
                 .build();
     }
 }

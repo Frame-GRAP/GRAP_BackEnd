@@ -5,16 +5,20 @@ import com.grap.game.repository.GameRepository;
 import com.grap.game.dto.GameResponseDto;
 import com.grap.game.dto.GameSaveRequestDto;
 import com.grap.game.dto.GameUpdateRequestDto;
+import com.grap.video.util.VideoCrawling;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class GameService {
+
     private final GameRepository gameRepository;
 
     @Transactional
