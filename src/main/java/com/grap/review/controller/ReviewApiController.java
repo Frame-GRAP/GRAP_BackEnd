@@ -1,49 +1,43 @@
 package com.grap.review.controller;
 
 import com.grap.review.dto.ReviewListResponseDto;
-import com.grap.review.dto.ReviewResponseDto;
 import com.grap.review.dto.ReviewSaveRequestDto;
 import com.grap.review.dto.ReviewUpdateRequestDto;
 import com.grap.review.service.ReviewService;
+import com.grap.user.config.auth.LoginUser;
+import com.grap.user.config.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("*")
+@RequestMapping("/api/game/{gameId}")
 @RequiredArgsConstructor
 @RestController
 public class ReviewApiController {
 
     private final ReviewService reviewService;
 
-    @PostMapping("/api/review")
-    public Long save(@RequestBody ReviewSaveRequestDto requestDto) {
-        return reviewService.save(requestDto);
+    @GetMapping("/review/all")
+    public List<ReviewListResponseDto> getReviewByGameId(@PathVariable Long gameId) {
+        return reviewService.findByGameId(gameId);
     }
 
-    @PutMapping("/api/review/{id}")
-    public Long update(@PathVariable Long id, @RequestBody ReviewUpdateRequestDto requestDto) {
-        return reviewService.update(id, requestDto);
+    @PostMapping("/review")
+    public Long saveReview(@PathVariable Long gameId, @LoginUser SessionUser user, @RequestBody ReviewSaveRequestDto requestDto) {
+        return reviewService.saveReview(gameId, user, requestDto);
     }
 
-    @DeleteMapping("/api/review/{id}")
-    public Long delete(@PathVariable Long id) {
-        reviewService.delete(id);
-        return id;
+    @PutMapping("/review/{reviewId}")
+    public Long updateReview(@PathVariable Long reviewId, @RequestBody ReviewUpdateRequestDto requestDto) {
+        return reviewService.updateReview(reviewId, requestDto);
     }
 
-    @GetMapping("/api/review/{id}")
-    public ReviewResponseDto findById(@PathVariable Long id) {
-        return reviewService.findById(id);
-    }
+    @DeleteMapping("/review/{reviewId}")
+    public Long deleteReview(@PathVariable Long reviewId) {
+        reviewService.deleteReview(reviewId);
 
-    @GetMapping("/api/review/likes")
-    public List<ReviewListResponseDto> findAllByOrderByLikeCountDesc() {
-        return reviewService.findAllByOrderByLikeCountDesc();
-    }
-
-    @GetMapping("/api/review/dislikes")
-    public List<ReviewListResponseDto> findAllByOrderByDislikeCountDesc() {
-        return reviewService.findAllByOrderByDislikeCountDesc();
+        return reviewId;
     }
 }

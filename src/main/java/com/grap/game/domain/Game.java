@@ -51,7 +51,7 @@ public class Game {
     private List<Video> videos = new ArrayList<>();
 
     @OneToMany(mappedBy = "game")
-    private List<Review> users = new ArrayList<>();
+    private List<Review> gameReviews = new ArrayList<>();
 
     @Builder
     public Game(String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl, Double rating) {

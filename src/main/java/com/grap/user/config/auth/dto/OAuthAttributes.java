@@ -12,14 +12,14 @@ public class OAuthAttributes {
     private Map<String, Object> attributes;
     private String nameAttributeKey;
     private String name;
-    private String loginId;
+    private String email;
     private String picture;
 
     @Builder
     public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey, String name, String loginId, String picture) {
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
-        this.loginId = loginId;
+        this.email = loginId;
         this.name = name;
         this.picture = picture;
     }
@@ -70,7 +70,7 @@ public class OAuthAttributes {
     public User toEntity() {
         return User.builder()
                 .name(name)
-                .loginId(loginId)
+                .email(email)
                 .picture(picture)
                 .role(Role.GUEST)
                 .build();

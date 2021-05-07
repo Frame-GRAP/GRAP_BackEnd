@@ -21,6 +21,9 @@ public class Review extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT", length = 500, nullable = false)
     private String content;
 
+    @Column(nullable = false)
+    private int rating;
+
     @Column(name = "like_count", nullable = false)
     private Integer likeCount;
 
@@ -35,6 +38,14 @@ public class Review extends BaseTimeEntity {
     @JoinColumn(name = "game_id")
     private Game game;
 
+    public void mapGame(Game game) {
+        this.game = game;
+    }
+
+    public void mapUser(User user) {
+        this.user = user;
+    }
+
     @PrePersist
     public void prePersist() {
         this.likeCount = this.likeCount == null ? 0 : this.likeCount;
@@ -42,15 +53,17 @@ public class Review extends BaseTimeEntity {
     }
 
     @Builder
-    public Review(String content, Integer likeCount, Integer dislikeCount, User user, Game game) {
+    public Review(String content, int rating, Integer likeCount, Integer dislikeCount, User user, Game game) {
         this.content = content;
+        this.rating = rating;
         this.likeCount = likeCount;
         this.dislikeCount = dislikeCount;
         this.user = user;
         this.game = game;
     }
 
-    public void update(String content) {
+    public void update(String content, int rating) {
         this.content = content;
+        this.rating = rating;
     }
 }

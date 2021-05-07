@@ -50,7 +50,6 @@ public class ReviewApiControllerTest {
                 .content(content)
                 .build();
 
-
         String url = "http://localhost:" + port + "/api/review";
 
         //when

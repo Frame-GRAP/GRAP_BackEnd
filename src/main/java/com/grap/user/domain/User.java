@@ -1,38 +1,29 @@
 package com.grap.user.domain;
 
+import com.grap.domain.BaseTimeEntity;
 import com.grap.review.domain.Review;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
 @Entity
-public class User {
+public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id; //auto_increment
+    private Long id;
 
-    //access id 추가해야함
+    @Column(nullable = false)
+    private String email;
 
-    @Column(length = 30, nullable = false, name = "login_id", unique = true)
-    private String loginId;
-
-    @Column(length = 20, nullable = false)
-    private String password;
-
-    @Column(length = 5, nullable = false)
+    @Column(nullable = false)
     private String name;
-
-    @Column(length = 15, nullable = false)
-    private String telephone;
 
     @Column
     private String picture;
@@ -41,21 +32,15 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
-    @CreationTimestamp
-    private Timestamp createDate;
-
     @OneToMany(mappedBy = "user")
     private List<Review> userReviews = new ArrayList<>();
 
     @Builder
-    public User(String loginId, String password, String name, String telephone, String picture, Role role, Timestamp createDate) {
-        this.loginId = loginId;
-        this.password = password;
+    public User(String email, String name, String picture, Role role) {
+        this.email = email;
         this.name = name;
-        this.telephone = telephone;
         this.picture = picture;
         this.role = role;
-        this.createDate = createDate;
     }
 
     public User update(String name, String picture) {
@@ -64,7 +49,6 @@ public class User {
 
         return this;
     }
-
     public String getRoleKey() {
         return this.role.getKey();
     }

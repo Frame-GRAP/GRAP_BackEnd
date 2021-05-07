@@ -7,7 +7,5 @@ import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    List<Review> findAllByOrderByLikeCountDesc();
-
-    List<Review> findAllByOrderByDislikeCountDesc();
+    List<Review> findByGameId(Long gameId);
 }
