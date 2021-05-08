@@ -1,5 +1,6 @@
 package com.grap.user.config.auth;
 
+import com.grap.user.domain.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -20,7 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .authorizeRequests()
                     // API 테스트를 위해 /* 추가
                     .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/**").permitAll()
-                    // .antMatchers("/api/user/**").hasRole(Role.USER.name())
+                    .antMatchers("/api/user/**").hasRole(Role.USER.name())
                     .anyRequest().authenticated()
                 .and()
                     .logout()
