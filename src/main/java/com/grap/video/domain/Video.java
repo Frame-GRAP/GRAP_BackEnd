@@ -45,7 +45,7 @@ public class Video extends BaseTimeEntity {
     @Column(nullable = false, name="is_registered")
     private boolean isRegistered;
 
-    @ManyToOne(targetEntity = Game.class)
+    @ManyToOne()
     @JoinColumn(name = "game_id")
     private Game game;
 

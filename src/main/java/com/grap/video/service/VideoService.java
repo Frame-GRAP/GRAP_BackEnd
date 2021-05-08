@@ -22,11 +22,11 @@ public class VideoService {
     private final GameRepository gameRepository;
 
     @Transactional
-    public Long save(VideoSaveRequestDto requestDto) {
-        Optional<Game> gameOp = gameRepository.findByName(requestDto.getGameName());
+    public Long save(VideoSaveRequestDto requestDto, Long gameId) {
+        Optional<Game> gameOp = gameRepository.findById(gameId);
 
         if(!gameOp.isPresent()) {
-            throw new IllegalArgumentException("영상과 일치하는 게임이 없습니다. gamename =" + requestDto.getGameName());
+            throw new IllegalArgumentException("영상과 일치하는 게임이 없습니다. Id =" + gameId);
         }
 
         Game game = gameOp.get();
@@ -37,16 +37,16 @@ public class VideoService {
     }
 
     @Transactional
-    public VideoResponseDto findById(Long id) {
-        Video entity = videoRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 영상이 없습니다. id=" + id));
+    public VideoResponseDto findById(Long videoId) {
+        Video entity = videoRepository.findById(videoId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 영상이 없습니다. id=" + videoId));
 
         return new VideoResponseDto(entity);
     }
 
     @Transactional
-    public List<VideoResponseDto> findAllDesc() {
-        return videoRepository.findAllDesc().stream()
+    public List<VideoResponseDto> findByGameId(Long gameId) {
+        return videoRepository.findByGameId(gameId).stream()
                 .map(VideoResponseDto::new)
                 .collect(Collectors.toList());
     }

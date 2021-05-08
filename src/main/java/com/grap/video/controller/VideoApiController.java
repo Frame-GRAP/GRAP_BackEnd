@@ -14,23 +14,23 @@ import java.util.List;
 public class VideoApiController {
     private final VideoService videoService;
 
-    @PostMapping("/api/video")
-    public Long save(@RequestBody VideoSaveRequestDto requestDto) {
-        return videoService.save(requestDto);
+    @PostMapping("/api/game/{gameId}/video")
+    public Long save(@RequestBody VideoSaveRequestDto requestDto, @PathVariable Long gameId) {
+        return videoService.save(requestDto, gameId);
     }
 
-    @GetMapping("/api/video/{id}")
-    public VideoResponseDto findById(@PathVariable Long id) {
-        return videoService.findById(id);
+    @GetMapping("/api/game/{gameId}/video/{videoId}")
+    public VideoResponseDto findById(@PathVariable Long videoId) {
+        return videoService.findById(videoId);
     }
 
-    @GetMapping("/api/video/all")
-    public List<VideoResponseDto> findAllDesc() {
-        return videoService.findAllDesc();
+    @GetMapping("/api/game/{gameId}/video/all")
+    public List<VideoResponseDto> findByGameId(@PathVariable Long gameId) {
+        return videoService.findByGameId(gameId);
     }
 
-    @DeleteMapping("/api/video/{id}")
-    public int delete (@PathVariable Long id) {
-        return videoService.delete(id);
+    @DeleteMapping("/api/game/{gameId}/video/{videoId}")
+    public int delete (@PathVariable Long videoId) {
+        return videoService.delete(videoId);
     }
 }

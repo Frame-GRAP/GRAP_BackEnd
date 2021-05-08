@@ -17,7 +17,6 @@ public class VideoResponseDto {
     private boolean isRegistered;
     private String gameName;
     private String image;
-    private Long gameId;
 
     public VideoResponseDto(Video entity) {
         this.id = entity.getId();
@@ -30,6 +29,5 @@ public class VideoResponseDto {
         this.isRegistered = entity.isRegistered();
         this.gameName = entity.getGameName();
         this.image = entity.getImage();
-        this.gameId = entity.getGame().getId();
     }
 }

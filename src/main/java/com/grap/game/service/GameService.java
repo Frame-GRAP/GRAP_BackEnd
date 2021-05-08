@@ -44,8 +44,8 @@ public class GameService {
     }
 
     @Transactional
-    public List<GameResponseDto> findAllDesc() {
-        return gameRepository.findAllDesc().stream()
+    public List<GameResponseDto> findAll() {
+        return gameRepository.findAll().stream()
                 .map(GameResponseDto::new)
                 .collect(Collectors.toList());
     }

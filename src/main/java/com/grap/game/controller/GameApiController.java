@@ -35,9 +35,9 @@ public class GameApiController {
     }
 
     @GetMapping("/api/game/all")
-    public List<GameResponseDto> findAllDesc() {
+    public List<GameResponseDto> findAll() {
 
-        return gameService.findAllDesc();
+        return gameService.findAll();
     }
 }
 
