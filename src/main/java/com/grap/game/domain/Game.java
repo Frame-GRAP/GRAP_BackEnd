@@ -1,22 +1,24 @@
 package com.grap.game.domain;
 
+import com.grap.domain.BaseTimeEntity;
 import com.grap.review.domain.Review;
 import com.grap.video.domain.Video;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @Entity
-public class Game {
+public class Game extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,17 +46,24 @@ public class Game {
     private String downloadUrl;
 
     @Column(nullable = false)
-    // 제약조건을 아직 안걸었는데, 여기서 걸면 지금 이 클래스를 통해서 DB를 새로 만들때만 적용 됨. 여기서 걸지 말고 나중에 RDS에 테이블 만들 때 걸어주면 될 듯.
-    private Double rating;
+    private double rating;
+
+    @Column(columnDefinition = "timestamp", nullable = false)
+    private LocalDateTime lastVideoCrawled;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "game")
     private List<Video> videos = new ArrayList<>();
+
+    @PrePersist
+    public void initializeColumn() {
+        this.lastVideoCrawled = this.lastVideoCrawled == null ? LocalDateTime.now() : this.lastVideoCrawled;
+    }
 
     @OneToMany(mappedBy = "game")
     private List<Review> gameReviews = new ArrayList<>();
 
     @Builder
-    public Game(String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl, Double rating) {
+    public Game(String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl) {
         this.name = name;
         this.description = description;
         this.developer = developer;
@@ -62,7 +71,6 @@ public class Game {
         this.releaseDate = releaseDate;
         this.headerImg = headerImg;
         this.downloadUrl = downloadUrl;
-        this.rating = rating;
     }
 
     public void update(String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl, Double rating) {

@@ -16,6 +16,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.testng.annotations.Ignore;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -50,7 +51,6 @@ public class GameApiControllerTest {
         LocalDate releaseDate = LocalDate.now();
         String headerImg = "테스트 이미지";
         String downloadUrl = "테스트 URL";
-        Double rating = 0.5;
 
         GameSaveRequestDto requestDto = GameSaveRequestDto.builder()
                 .name(name)
@@ -60,7 +60,6 @@ public class GameApiControllerTest {
                 .releaseDate(releaseDate)
                 .headerImg(headerImg)
                 .downloadUrl(downloadUrl)
-                .rating(rating)
                 .build();
 
         String url = "http://localhost:" + port + "/api/game";
@@ -80,7 +79,7 @@ public class GameApiControllerTest {
         assertThat(all.get(0).getReleaseDate()).isEqualTo(releaseDate);
         assertThat(all.get(0).getHeaderImg()).isEqualTo(headerImg);
         assertThat(all.get(0).getDownloadUrl()).isEqualTo(downloadUrl);
-        assertThat(all.get(0).getRating()).isEqualTo(rating);
+        assertThat(all.get(0).getRating()).isEqualTo(0.0d);
     }
 
     @Test
@@ -93,7 +92,6 @@ public class GameApiControllerTest {
                 .releaseDate(LocalDate.now())
                 .headerImg("headerImg")
                 .downloadUrl("downloadUrl")
-                .rating(0.1)
                 .build());
 
         Long updateId = savedGame.getId();
