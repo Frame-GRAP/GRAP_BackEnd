@@ -26,17 +26,12 @@ public class FavorService {
 
     @Transactional
     public Long save(SessionUser sessionUser, Long gameId) {
-        //        유저 주입 테스트용
-        Optional<User> opUser = userRepository.findById(Long.valueOf(1));
-        User user1 = opUser.get();
-        sessionUser = new SessionUser(user1);
 
-        User user = userRepository.findByEmail(sessionUser.getEmail()).orElseThrow(
-                () -> new IllegalArgumentException("해당 유저는 존재하지 않습니다.")
-        );
+        User user = userRepository.findById(sessionUser.getUserId()).orElseThrow(
+                () -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id : " + sessionUser.getUserId()));
+
         Game game = gameRepository.findById(gameId).orElseThrow(
-                () -> new IllegalArgumentException("해당 게임은 존재하지 않습니다.")
-        );
+                () -> new IllegalArgumentException("해당 게임은 존재하지 않습니다."));
 
         Favor favor = new Favor();
         favor.mapUser(user);
@@ -47,9 +42,8 @@ public class FavorService {
 
     @Transactional
     public List<FavorListResponseDto> findFavorByUser(SessionUser sessionUser) {
-        //        유저 주입 테스트용 (아이디 추가 시 안의 value를 sessionUser.getId()로 변경할 것)
-        Optional<User> opUser = userRepository.findById(Long.valueOf(1));
-        User user = opUser.get();
+        User user = userRepository.findById(sessionUser.getUserId()).orElseThrow(
+                () -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id : " + sessionUser.getUserId()));
 
         return user.getFavors().stream()
                 .map(FavorListResponseDto::new)
@@ -58,14 +52,9 @@ public class FavorService {
 
     @Transactional
     public Long delete(SessionUser sessionUser, Long gameId) {
-        // 테스트를 위해 userId를 1로 대체. 추후 변경할 것
-        Optional<Favor> opFavor = favorRepository.findByUserIdAndGameId(Long.valueOf(1l), gameId);
+        Favor favor = favorRepository.findByUserIdAndGameId(sessionUser.getUserId(), gameId).orElseThrow(
+                () -> new IllegalArgumentException("영상과 일치하는 게임이 없습니다. Id =" + gameId));
 
-        if(opFavor.isEmpty()) {
-            throw new IllegalArgumentException("영상과 일치하는 게임이 없습니다. Id =" + gameId);
-        }
-
-        Favor favor = opFavor.get();
         favorRepository.deleteById(favor.getId());
         return favor.getId();
     }
