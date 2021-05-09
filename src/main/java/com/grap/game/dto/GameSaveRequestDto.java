@@ -19,7 +19,7 @@ public class GameSaveRequestDto {
     private String downloadUrl;
 
     @Builder
-    public GameSaveRequestDto(String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl, Double rating) {
+    public GameSaveRequestDto(String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl) {
         this.name = name;
         this.description = description;
         this.developer = developer;
