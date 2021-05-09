@@ -38,7 +38,7 @@ public class ReviewService {
 //        Optional<User> opUser = userRepository.findById(Long.valueOf(1));
 //        User user = opUser.get();
 
-        User user = userRepository.findByEmail(sessionUser.getEmail()).orElseThrow(
+        User user = userRepository.findById(sessionUser.getUserId()).orElseThrow(
                 () -> new IllegalArgumentException("해당 유저는 존재하지 않습니다.")
         );
         Game game = gameRepository.findById(gameId).orElseThrow(
