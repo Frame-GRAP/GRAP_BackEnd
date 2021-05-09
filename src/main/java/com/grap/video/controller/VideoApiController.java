@@ -19,18 +19,13 @@ public class VideoApiController {
         return videoService.save(requestDto, gameId);
     }
 
-    @GetMapping("/api/game/{gameId}/video/{videoId}")
-    public VideoResponseDto findById(@PathVariable Long videoId) {
-        return videoService.findById(videoId);
-    }
-
     @GetMapping("/api/game/{gameId}/video/all")
     public List<VideoResponseDto> findByGameId(@PathVariable Long gameId) {
         return videoService.findByGameId(gameId);
     }
 
     @DeleteMapping("/api/game/{gameId}/video/{videoId}")
-    public int delete (@PathVariable Long videoId) {
+    public Long delete (@PathVariable Long videoId) {
         return videoService.delete(videoId);
     }
 }

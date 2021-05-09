@@ -49,7 +49,7 @@ public class Video extends BaseTimeEntity {
     @JoinColumn(name = "game_id")
     private Game game;
 
-    public void mappingGame(Game game) {
+    public void mapGame(Game game) {
         this.game = game;
     }
 

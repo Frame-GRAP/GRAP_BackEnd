@@ -12,28 +12,29 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @CrossOrigin("*")
+@RequestMapping("/api/game/{gameId}")
 @RequiredArgsConstructor
 @RestController
 public class ReviewApiController {
 
     private final ReviewService reviewService;
 
-    @GetMapping("/api/game/{gameId}/review/all")
+    @GetMapping("/review/all")
     public List<ReviewListResponseDto> getReviewByGameId(@PathVariable Long gameId) {
         return reviewService.findByGameId(gameId);
     }
 
-    @PostMapping("/api/game/{gameId}/review")
+    @PostMapping("/review")
     public Long saveReview(@PathVariable Long gameId, @LoginUser SessionUser user, @RequestBody ReviewSaveRequestDto requestDto) {
         return reviewService.saveReview(gameId, user, requestDto);
     }
 
-    @PutMapping("/api/game/{gameId}/review/{reviewId}")
+    @PutMapping("/review/{reviewId}")
     public Long updateReview(@PathVariable Long reviewId, @RequestBody ReviewUpdateRequestDto requestDto) {
         return reviewService.updateReview(reviewId, requestDto);
     }
 
-    @DeleteMapping("/api/game/{gameId}/review/{reviewId}")
+    @DeleteMapping("/review/{reviewId}")
     public Long deleteReview(@PathVariable Long reviewId) {
         reviewService.deleteReview(reviewId);
 

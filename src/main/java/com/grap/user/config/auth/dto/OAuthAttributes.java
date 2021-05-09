@@ -16,10 +16,10 @@ public class OAuthAttributes {
     private String picture;
 
     @Builder
-    public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey, String name, String email, String picture) {
+    public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey, String name, String loginId, String picture) {
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
-        this.email = email;
+        this.email = loginId;
         this.name = name;
         this.picture = picture;
     }
@@ -35,7 +35,7 @@ public class OAuthAttributes {
     private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
-                .email((String) attributes.get("email"))
+                .loginId((String) attributes.get("email"))
                 .picture((String) attributes.get("picture"))
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
@@ -47,7 +47,7 @@ public class OAuthAttributes {
 
         return OAuthAttributes.builder()
                 .name((String) response.get("name"))
-                .email((String) response.get("email"))
+                .loginId((String) response.get("email"))
                 .picture((String) response.get("profile_image"))
                 .attributes(response)
                 .nameAttributeKey(userNameAttributeName)
@@ -60,7 +60,7 @@ public class OAuthAttributes {
 
         return OAuthAttributes.builder()
                 .name((String) profile.get("nickname"))
-                .email((String) response.get("email"))
+                .loginId((String) response.get("email"))
                 .picture((String) profile.get("profile_image_url"))
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
