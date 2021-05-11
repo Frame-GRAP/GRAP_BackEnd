@@ -1,6 +1,7 @@
 package com.grap.game.domain;
 
 import com.grap.domain.BaseTimeEntity;
+import com.grap.favor.domain.Favor;
 import com.grap.review.domain.Review;
 import com.grap.video.domain.Video;
 import lombok.Builder;
@@ -8,8 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -54,13 +53,17 @@ public class Game extends BaseTimeEntity {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "game")
     private List<Video> videos = new ArrayList<>();
 
+    @OneToMany(mappedBy = "game")
+    private List<Review> gameReviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "game")
+    private List<Favor> favors = new ArrayList<>();
+
+
     @PrePersist
     public void initializeColumn() {
         this.lastVideoCrawled = this.lastVideoCrawled == null ? LocalDateTime.now() : this.lastVideoCrawled;
     }
-
-    @OneToMany(mappedBy = "game")
-    private List<Review> gameReviews = new ArrayList<>();
 
     @Builder
     public Game(String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl) {

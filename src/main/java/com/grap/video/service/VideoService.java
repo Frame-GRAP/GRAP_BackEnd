@@ -23,15 +23,11 @@ public class VideoService {
 
     @Transactional
     public Long save(VideoSaveRequestDto requestDto, Long gameId) {
-        Optional<Game> gameOp = gameRepository.findById(gameId);
+        Game game = gameRepository.findById(gameId).orElseThrow(
+                () -> new IllegalArgumentException("영상과 일치하는 게임이 없습니다. Id =" + gameId));
 
-        if(!gameOp.isPresent()) {
-            throw new IllegalArgumentException("영상과 일치하는 게임이 없습니다. Id =" + gameId);
-        }
-
-        Game game = gameOp.get();
         Video video = requestDto.toEntity();
-        video.mappingGame(game);
+        video.mapGame(game);
 
         return videoRepository.save(video).getId();
     }
@@ -52,10 +48,12 @@ public class VideoService {
     }
 
     @Transactional
-    public int delete(Long id) {
-        Optional<Video> opVideo = videoRepository.findById(id);
-        videoRepository.deleteById(opVideo.get().getId());
-        return 1;
+    public Long delete(Long videoId) {
+        Video video = videoRepository.findById(videoId).orElseThrow(
+                () -> new IllegalArgumentException("영상과 일치하는 게임이 없습니다. Id =" + videoId));
+
+        videoRepository.deleteById(video.getId());
+        return video.getId();
     }
 
 }

@@ -2,6 +2,7 @@ package com.grap.user.domain;
 
 import com.grap.domain.BaseTimeEntity;
 import com.grap.report.domain.Report;
+import com.grap.favor.domain.Favor;
 import com.grap.review.domain.Review;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,6 +40,8 @@ public class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user")
     private List<Report> userReports = new ArrayList<>();
+
+    private List<Favor> favors = new ArrayList<>();
 
     @Builder
     public User(String email, String name, String picture, Role role) {

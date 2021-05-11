@@ -10,13 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @CrossOrigin("*")
+@RequestMapping("/api/game/{gameId}")
 @RequiredArgsConstructor
 @RestController
 public class ReviewApiController {
 
     private final ReviewService reviewService;
 
-    @GetMapping("/api/game/{gameId}/review/all")
+    @GetMapping("/review/all")
     public List<ReviewListResponseDto> getReviewByGameId(@PathVariable Long gameId) {
         return reviewService.findByGameId(gameId);
     }
@@ -32,6 +33,7 @@ public class ReviewApiController {
     }
 
     @DeleteMapping("/api/review/{reviewId}")
+
     public Long deleteReview(@PathVariable Long reviewId) {
         reviewService.deleteReview(reviewId);
 
