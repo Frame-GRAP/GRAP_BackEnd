@@ -2,12 +2,15 @@ package com.grap.review.domain;
 
 import com.grap.domain.BaseTimeEntity;
 import com.grap.game.domain.Game;
+import com.grap.report.domain.Report;
 import com.grap.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -37,6 +40,10 @@ public class Review extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "game_id")
     private Game game;
+
+    @OneToMany(mappedBy = "review")
+    private List<Report> reportedReview = new ArrayList<>();
+
 
     public void mapGame(Game game) {
         this.game = game;

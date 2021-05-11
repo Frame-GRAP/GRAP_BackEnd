@@ -2,12 +2,14 @@ package com.grap.video.domain;
 
 import com.grap.domain.BaseTimeEntity;
 import com.grap.game.domain.Game;
+import com.grap.report.domain.Report;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -48,6 +50,10 @@ public class Video extends BaseTimeEntity {
     @ManyToOne()
     @JoinColumn(name = "game_id")
     private Game game;
+
+    @OneToMany(mappedBy = "video")
+    private List<Report> reportedVideo = new ArrayList<>();
+
 
     public void mappingGame(Game game) {
         this.game = game;

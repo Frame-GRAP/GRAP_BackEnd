@@ -7,7 +7,6 @@ import com.grap.review.dto.ReviewListResponseDto;
 import com.grap.review.dto.ReviewSaveRequestDto;
 import com.grap.review.dto.ReviewUpdateRequestDto;
 import com.grap.review.repository.ReviewRepository;
-import com.grap.user.config.auth.dto.SessionUser;
 import com.grap.user.domain.User;
 import com.grap.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,12 +32,9 @@ public class ReviewService {
     }
 
     @Transactional
-    public Long saveReview(Long gameId, SessionUser sessionUser, ReviewSaveRequestDto requestDto) {
-//        유저 주입 테스트용
-//        Optional<User> opUser = userRepository.findById(Long.valueOf(1));
-//        User user = opUser.get();
+    public Long saveReview(Long userId, Long gameId, ReviewSaveRequestDto requestDto) {
 
-        User user = userRepository.findById(sessionUser.getUserId()).orElseThrow(
+        User user = userRepository.findById(userId).orElseThrow(
                 () -> new IllegalArgumentException("해당 유저는 존재하지 않습니다.")
         );
         Game game = gameRepository.findById(gameId).orElseThrow(
@@ -55,7 +51,8 @@ public class ReviewService {
     @Transactional
     public Long updateReview(Long reviewId, ReviewUpdateRequestDto requestDto) {
         Review review = reviewRepository.findById(reviewId).orElseThrow(
-                () -> new IllegalArgumentException("해당 리뷰는 존재하지 않습니다."));
+                () -> new IllegalArgumentException("해당 리뷰는 존재하지 않습니다.")
+        );
 
         review.update(requestDto.getContent(), requestDto.getRating());
 
