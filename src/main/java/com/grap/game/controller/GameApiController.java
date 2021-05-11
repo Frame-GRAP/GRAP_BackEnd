@@ -23,15 +23,15 @@ public class GameApiController {
         return gameService.save(requestDto);
     }
 
-    @PutMapping("/api/game/{id}")
-    public Long update(@PathVariable Long id, @RequestBody GameUpdateRequestDto requestDto){
-        return gameService.update(id, requestDto);
+    @PutMapping("/api/game/{gameId}")
+    public Long update(@PathVariable Long gameId, @RequestBody GameUpdateRequestDto requestDto){
+        return gameService.update(gameId, requestDto);
     }
 
-    @GetMapping("/api/game/{id}")
-    public GameResponseDto findById(@PathVariable Long id) {
+    @GetMapping("/api/game/{gameId}")
+    public GameResponseDto findById(@PathVariable Long gameId) {
 
-        return gameService.findById(id);
+        return gameService.findById(gameId);
     }
 
     @GetMapping("/api/game/all")

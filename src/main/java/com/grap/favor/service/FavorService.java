@@ -25,10 +25,10 @@ public class FavorService {
     private final FavorRepository favorRepository;
 
     @Transactional
-    public Long save(SessionUser sessionUser, Long gameId) {
+    public Long save(Long userId, Long gameId) {
 
-        User user = userRepository.findById(sessionUser.getUserId()).orElseThrow(
-                () -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id : " + sessionUser.getUserId()));
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id : " + userId));
 
         Game game = gameRepository.findById(gameId).orElseThrow(
                 () -> new IllegalArgumentException("해당 게임은 존재하지 않습니다."));
@@ -41,9 +41,9 @@ public class FavorService {
     }
 
     @Transactional
-    public List<FavorListResponseDto> findFavorByUser(SessionUser sessionUser) {
-        User user = userRepository.findById(sessionUser.getUserId()).orElseThrow(
-                () -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id : " + sessionUser.getUserId()));
+    public List<FavorListResponseDto> findFavorByUser(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id : " + userId));
 
         return user.getFavors().stream()
                 .map(FavorListResponseDto::new)
@@ -51,9 +51,9 @@ public class FavorService {
     }
 
     @Transactional
-    public Long delete(SessionUser sessionUser, Long gameId) {
-        Favor favor = favorRepository.findByUserIdAndGameId(sessionUser.getUserId(), gameId).orElseThrow(
-                () -> new IllegalArgumentException("영상과 일치하는 게임이 없습니다. Id =" + gameId));
+    public Long delete(Long userId, Long gameId) {
+        Favor favor = favorRepository.findByUserIdAndGameId(userId, gameId).orElseThrow(
+                () -> new IllegalArgumentException("해당 정보와 일치하는 찜이 없습니다. userId = " + userId + "gameId = " + gameId));
 
         favorRepository.deleteById(favor.getId());
         return favor.getId();

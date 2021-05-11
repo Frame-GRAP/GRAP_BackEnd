@@ -33,7 +33,9 @@ public class SteamApi {
         steamapi = this.api;
     }
     필요.
-    메인 메소드에서 steamapi.saveSteamData(); 호출 필요
+    메인 메소드에서
+    steamapi.saveSteamData();
+    호출 필요
      */
     private Game game = new Game();
 
