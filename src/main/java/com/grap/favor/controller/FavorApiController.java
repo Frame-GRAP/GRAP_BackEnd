@@ -15,18 +15,18 @@ import java.util.List;
 public class FavorApiController {
     private final FavorService favorService;
 
-    @PostMapping("/api/favor/{gameId}")
-    public Long save(@LoginUser SessionUser user, @PathVariable Long gameId) {
-        return favorService.save(user, gameId);
+    @PostMapping("/api/user/{userId}/game/{gameId}/favor")
+    public Long save(@PathVariable Long userId, @PathVariable Long gameId) {
+        return favorService.save(userId, gameId);
     }
 
-    @GetMapping("/api/favor/all")
-    public List<FavorListResponseDto> findFavorByUser(@LoginUser SessionUser user) {
-        return favorService.findFavorByUser(user);
+    @GetMapping("/api/user/{userId}/favor/all")
+    public List<FavorListResponseDto> findFavorByUser(@PathVariable Long userId) {
+        return favorService.findFavorByUser(userId);
     }
 
-    @DeleteMapping("/api/favor/{gameId}")
-    public Long delete (@LoginUser SessionUser user, @PathVariable Long gameId) {
-        return favorService.delete(user, gameId);
+    @DeleteMapping("/api/user/{userId}/game/{gameId}/favor")
+    public Long delete (@PathVariable Long userId, @PathVariable Long gameId) {
+        return favorService.delete(userId, gameId);
     }
 }

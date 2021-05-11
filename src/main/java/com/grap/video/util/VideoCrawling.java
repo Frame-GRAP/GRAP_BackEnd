@@ -33,7 +33,7 @@ public class VideoCrawling {
         videocrawling = this.crawling;
     }
     필요.
-    메인 메소드에서 videocrawling.crawl(게임이름); 호출 필요
+    메인 메소드에서 videocrawling.startCrawl(게임이름); 호출 필요
      */
 
     @Autowired
@@ -54,7 +54,15 @@ public class VideoCrawling {
         return gameOp.get();
     }
 
-    public void startCrawl(String gameName){
+    private Game findGameById(Long Id){
+        Optional<Game> gameOp = gameRepository.findById(Id);
+        if(!gameOp.isPresent()) {
+            throw new IllegalArgumentException("일치하는 게임이 없습니다. Id =" + Id);
+        }
+        return gameOp.get();
+    }
+
+    public void startCrawl(Long id){
 //        gameRepository.save(Game.builder()
 //                .name(gameName)
 //                .description("description")
@@ -65,9 +73,9 @@ public class VideoCrawling {
 //                .downloadUrl("downloadUrl")
 //                .build());
 
-        Game gameEntity = findGameByName(gameName);
-        googleCrawl(gameName, gameEntity);
-        twitchCrawl(gameName, gameEntity);
+        Game gameEntity = findGameById(id);
+        googleCrawl(gameEntity.getName(), gameEntity);
+        twitchCrawl(gameEntity.getName(), gameEntity);
     }
 
     private void googleCrawl(String gameName, Game gameEntity){
@@ -85,6 +93,7 @@ public class VideoCrawling {
         for (Element video : videos){
             try {
                 String time = video.selectFirst("#overlays > ytd-thumbnail-overlay-time-status-renderer > span").text();
+                System.out.println(time);
 
                 String[] timeSplit = time.split(":");
                 if (timeSplit.length > 2)
