@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @CrossOrigin("*")
-@RequestMapping("/api/game/{gameId}")
 @RequiredArgsConstructor
 @RestController
 public class ReviewApiController {
