@@ -16,7 +16,7 @@ public class ReviewApiController {
 
     private final ReviewService reviewService;
 
-    @GetMapping("/review/all")
+    @GetMapping("/api/game/{gameId}/review/all")
     public List<ReviewListResponseDto> getReviewByGameId(@PathVariable Long gameId) {
         return reviewService.findByGameId(gameId);
     }
