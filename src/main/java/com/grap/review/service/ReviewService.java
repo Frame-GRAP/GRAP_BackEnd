@@ -35,6 +35,7 @@ public class ReviewService {
     public Long saveReview(Long userId, Long gameId, ReviewSaveRequestDto requestDto) {
 
         User user = userRepository.findById(userId).orElseThrow(
+
                 () -> new IllegalArgumentException("해당 유저는 존재하지 않습니다.")
         );
         Game game = gameRepository.findById(gameId).orElseThrow(

@@ -54,8 +54,7 @@ public class Video extends BaseTimeEntity {
     @OneToMany(mappedBy = "video")
     private List<Report> reportedVideo = new ArrayList<>();
 
-
-    public void mappingGame(Game game) {
+    public void mapGame(Game game) {
         this.game = game;
     }
 
