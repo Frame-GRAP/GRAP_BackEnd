@@ -1,15 +1,12 @@
 package com.grap.game.controller;
 
-import com.grap.game.service.GameService;
 import com.grap.game.dto.GameResponseDto;
 import com.grap.game.dto.GameSaveRequestDto;
 import com.grap.game.dto.GameUpdateRequestDto;
-import com.grap.video.util.VideoCrawling;
+import com.grap.game.service.GameService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -36,7 +33,6 @@ public class GameApiController {
 
     @GetMapping("/api/game/all")
     public List<GameResponseDto> findAll() {
-
         return gameService.findAll();
     }
 }

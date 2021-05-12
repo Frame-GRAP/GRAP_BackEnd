@@ -1,17 +1,14 @@
 package com.grap.game.service;
 
 import com.grap.game.domain.Game;
-import com.grap.game.repository.GameRepository;
 import com.grap.game.dto.GameResponseDto;
 import com.grap.game.dto.GameSaveRequestDto;
 import com.grap.game.dto.GameUpdateRequestDto;
-import com.grap.video.util.VideoCrawling;
+import com.grap.game.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,5 +46,4 @@ public class GameService {
                 .map(GameResponseDto::new)
                 .collect(Collectors.toList());
     }
-
 }

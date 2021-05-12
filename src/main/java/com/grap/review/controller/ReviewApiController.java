@@ -28,7 +28,7 @@ public class ReviewApiController {
     }
 
     @PutMapping("/api/review/{reviewId}")
-    public Long updateReview( @PathVariable Long reviewId, ReviewUpdateRequestDto requestDto) {
+    public Long updateReview( @PathVariable Long reviewId, @RequestBody ReviewUpdateRequestDto requestDto) {
         return reviewService.updateReview(reviewId, requestDto);
     }
 
