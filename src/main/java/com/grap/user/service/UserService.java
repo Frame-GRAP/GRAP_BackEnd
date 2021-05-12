@@ -1,6 +1,5 @@
 package com.grap.user.service;
 
-import com.grap.user.config.auth.dto.SessionUser;
 import com.grap.user.domain.User;
 import com.grap.user.dto.UserSaveRequestDto;
 import com.grap.user.repository.UserRepository;
@@ -15,10 +14,10 @@ public class UserService {
     private final UserRepository userRepository;
     private final HttpSession httpSession;
 
-    public Long save(UserSaveRequestDto userSaveRequestDto){
-        User user = userSaveRequestDto.toEntity();
-        httpSession.setAttribute("user", new SessionUser(user));
-
+    public Long saveOrUpdate(UserSaveRequestDto requestDto) {
+        User user = userRepository.findByEmail(requestDto.getEmail())
+                .map(entity -> entity.update(requestDto.getName(), requestDto.getPicture()))
+                .orElse(requestDto.toEntity());
 
         return userRepository.save(user).getId();
     }
