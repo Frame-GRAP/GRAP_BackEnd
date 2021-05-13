@@ -7,6 +7,7 @@ import com.grap.game.service.GameService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -35,5 +36,20 @@ public class GameApiController {
     public List<GameResponseDto> findAll() {
         return gameService.findAll();
     }
+
+    @GetMapping("/api/admin/game/{gameId}")
+    public GameResponseDto findByIdForAdmin(HttpServletResponse response, @PathVariable Long gameId) {
+        response.addHeader("Access-Control-Expose-Headers", "X-Total-Count");
+        response.addHeader("X-Total-Count", String.valueOf(1));
+        return gameService.findById(gameId);
+    }
+
+    @GetMapping("/api/admin/game/all")
+    public List<GameResponseDto> findAllForAdmin(HttpServletResponse response) {
+        response.addHeader("Access-Control-Expose-Headers", "X-Total-Count");
+        response.addHeader("X-Total-Count", String.valueOf(gameService.findAll().size()));
+        return gameService.findAll();
+    }
+
 }
 
