@@ -23,7 +23,10 @@ public class ReviewValueApiController {
         return reviewValueService.countReviewValueFalse(reviewId);
     }
 
-    //각 유저에 대한 get mapping도 해줘야된다
+    @GetMapping("api/user/{userId}/review/{reviewId}/reviewValue")
+    public String getReviewValue(@PathVariable Long userId, @PathVariable Long reviewId) {
+        return reviewValueService.getReviewValue(userId, reviewId);
+    }
 
     @PostMapping("/api/user/{userId}/review/{reviewId}/reviewValue")
     public Long saveReviewValue(@PathVariable Long userId, @PathVariable Long reviewId, @RequestBody ReviewValueSaveRequestDto requestDto) {
