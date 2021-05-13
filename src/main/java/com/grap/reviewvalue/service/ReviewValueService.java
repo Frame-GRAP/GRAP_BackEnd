@@ -30,6 +30,13 @@ public class ReviewValueService {
         return reviewValueRepository.countReviewValueByReviewIdAndValueFalse(reviewId);
     }
 
+    @Transactional(readOnly = true)
+    public String getReviewValue(Long userId, Long reviewId) {
+        ReviewValue reviewValue = reviewValueRepository.findByUserIdAndReviewId(userId, reviewId).orElse(null);
+
+        return reviewValue != null ? reviewValue.getValue().toString() : "null";
+    }
+
     @Transactional
     public Long saveReviewValue(Long userId, Long reviewId, ReviewValueSaveRequestDto requestDto) {
 
