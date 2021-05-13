@@ -22,7 +22,7 @@ public class ReviewApiController {
     }
 
     @PostMapping("/api/user/{userId}/game/{gameId}/review")
-    public Long saveReview(@PathVariable Long userId, @PathVariable Long gameId, @RequestBody ReviewSaveRequestDto requestDto) {
+    public String saveReview(@PathVariable Long userId, @PathVariable Long gameId, @RequestBody ReviewSaveRequestDto requestDto) {
         return reviewService.saveReview(userId, gameId, requestDto);
     }
 
