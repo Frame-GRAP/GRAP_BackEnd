@@ -8,13 +8,15 @@ import java.time.LocalDateTime;
 @Getter
 public class ReviewListResponseDto {
 
-    private Long id;
+    private Long review_id;
+    private String username;
     private String content;
     private int rating;
     private LocalDateTime modifiedDate;
 
     public ReviewListResponseDto(Review entity) {
-        this.id = entity.getId();
+        this.review_id = entity.getId();
+        this.username = entity.getUser().getName();
         this.content = entity.getContent();
         this.rating = entity.getRating();
         this.modifiedDate = entity.getModifiedDate();
