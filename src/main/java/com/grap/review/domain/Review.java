@@ -36,10 +36,10 @@ public class Review extends BaseTimeEntity {
     @JoinColumn(name = "game_id")
     private Game game;
 
-    @OneToMany(mappedBy = "review")
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     private List<Report> reportedReview = new ArrayList<>();
 
-    @OneToMany(mappedBy = "review")
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     private List<ReviewValue> likedReview = new ArrayList<>();
 
     public void mapGame(Game game) {
