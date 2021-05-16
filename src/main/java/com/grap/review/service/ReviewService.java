@@ -32,7 +32,7 @@ public class ReviewService {
     }
 
     @Transactional
-    public Long saveReview(Long userId, Long gameId, ReviewSaveRequestDto requestDto) {
+    public String saveReview(Long userId, Long gameId, ReviewSaveRequestDto requestDto) {
 
         User user = userRepository.findById(userId).orElseThrow(
 
@@ -46,7 +46,7 @@ public class ReviewService {
         review.mapUser(user);
         review.mapGame(game);
 
-        return reviewRepository.save(review).getId();
+        return reviewRepository.save(review).getUser().getName();
     }
 
     @Transactional

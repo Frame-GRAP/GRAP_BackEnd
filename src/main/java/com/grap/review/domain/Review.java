@@ -2,6 +2,7 @@ package com.grap.review.domain;
 
 import com.grap.domain.BaseTimeEntity;
 import com.grap.game.domain.Game;
+import com.grap.reviewvalue.domain.ReviewValue;
 import com.grap.report.domain.Report;
 import com.grap.user.domain.User;
 import lombok.Builder;
@@ -27,12 +28,6 @@ public class Review extends BaseTimeEntity {
     @Column(nullable = false)
     private int rating;
 
-    @Column(name = "like_count", nullable = false)
-    private Integer likeCount;
-
-    @Column(name = "dislike_count", nullable = false)
-    private Integer dislikeCount;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -41,9 +36,11 @@ public class Review extends BaseTimeEntity {
     @JoinColumn(name = "game_id")
     private Game game;
 
-    @OneToMany(mappedBy = "review")
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     private List<Report> reportedReview = new ArrayList<>();
 
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
+    private List<ReviewValue> likedReview = new ArrayList<>();
 
     public void mapGame(Game game) {
         this.game = game;
@@ -53,18 +50,10 @@ public class Review extends BaseTimeEntity {
         this.user = user;
     }
 
-    @PrePersist
-    public void prePersist() {
-        this.likeCount = this.likeCount == null ? 0 : this.likeCount;
-        this.dislikeCount = this.dislikeCount == null ? 0 : this.dislikeCount;
-    }
-
     @Builder
-    public Review(String content, int rating, Integer likeCount, Integer dislikeCount, User user, Game game) {
+    public Review(String content, int rating, User user, Game game) {
         this.content = content;
         this.rating = rating;
-        this.likeCount = likeCount;
-        this.dislikeCount = dislikeCount;
         this.user = user;
         this.game = game;
     }
