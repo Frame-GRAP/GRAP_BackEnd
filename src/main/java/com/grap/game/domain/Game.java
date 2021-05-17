@@ -56,7 +56,7 @@ public class Game extends BaseTimeEntity {
     @OneToMany(mappedBy = "game")
     private List<Review> gameReviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "game")
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
     private List<Favor> favors = new ArrayList<>();
 
 

@@ -8,14 +8,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.util.Iterator;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Component
@@ -42,7 +40,7 @@ public class SteamApi {
     @Autowired
     private GameRepository gameRepository;
 
-    public JsonNode getJSonFromUrl(String url) {
+    private JsonNode getJSonFromUrl(String url) {
         InputStream is = null;
         try {
             is = new URL(url).openStream();
@@ -94,12 +92,22 @@ public class SteamApi {
                     .downloadUrl("https://store.steampowered.com/app/" + appId)
                     .build());
         }
+
     }
 
     private String removeSepecialSymbol(String str){
         String match = "[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s\\p{Punct}]";
         str =str.replaceAll(match, "");
         return str;
+    }
+
+    public void createCSV(){
+//        File file = null;
+//        BufferedWriter bw = null;
+//        String newLine = System.lineSeparator();
+
+        List<Game> g = gameRepository.findAll();
+        g.forEach(a -> System.out.println(a.getName()));
     }
 
 }

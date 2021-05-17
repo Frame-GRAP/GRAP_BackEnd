@@ -11,8 +11,14 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
+@Table(
+        uniqueConstraints={
+                @UniqueConstraint(
+                        columnNames={"game_id","user_id"}
+                )
+        }
+)
 public class Favor {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
