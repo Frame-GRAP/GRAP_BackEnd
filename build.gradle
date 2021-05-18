@@ -37,6 +37,8 @@ dependencies {
     implementation('org.springframework.session:spring-session-jdbc')
     testImplementation("org.springframework.security:spring-security-test")
 
+    implementation('commons-io:commons-io:2.6')
+
     //crawling
     implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
     implementation group: 'org.jsoup', name: 'jsoup', version: '1.13.1'

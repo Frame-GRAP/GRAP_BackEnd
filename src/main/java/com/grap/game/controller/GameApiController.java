@@ -6,7 +6,10 @@ import com.grap.game.dto.GameUpdateRequestDto;
 import com.grap.game.service.GameService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -15,9 +18,21 @@ import java.util.List;
 public class GameApiController {
     private final GameService gameService;
 
-    @PostMapping("/api/game")
-    public Long save(@RequestBody GameSaveRequestDto requestDto) {
-        return gameService.save(requestDto);
+    @PostMapping(value = "/api/game")
+    public Long save(@RequestPart("img") MultipartFile multipartFile, @RequestPart("dto") GameSaveRequestDto requestDto) {
+
+        try {
+            String baseDir = "/home/ec2-user/grap/GRAP_BackEnd/src/main/resources/static/header-img"; // 로컬에서는 /home/ec2-user/grap <- 변경 필요
+            String filePath = baseDir + "/" + multipartFile.getOriginalFilename();
+            multipartFile.transferTo(new File(filePath));
+            requestDto.setHeaderImg(filePath);
+
+            return gameService.save(requestDto);
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return (long) -1;
     }
 
     @PutMapping("/api/game/{gameId}")
