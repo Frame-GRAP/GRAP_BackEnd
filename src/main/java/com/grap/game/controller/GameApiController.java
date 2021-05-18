@@ -22,7 +22,7 @@ public class GameApiController {
     public Long save(@RequestPart("img") MultipartFile multipartFile, @RequestPart("dto") GameSaveRequestDto requestDto) {
 
         try {
-            String baseDir = "/home/ec2-user/grap/GRAP_BackEnd/src/main/resources/static/header-img";
+            String baseDir = "/home/ec2-user/grap/GRAP_BackEnd/src/main/resources/static/header-img"; // 로컬에서는 /home/ec2-user/grap <- 변경 필요
             String filePath = baseDir + "/" + multipartFile.getOriginalFilename();
             multipartFile.transferTo(new File(filePath));
             requestDto.setHeaderImg(filePath);
