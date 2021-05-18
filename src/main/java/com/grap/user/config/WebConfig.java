@@ -22,9 +22,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/header-img/**")
-                .addResourceLocations("/home/ec2-user/grap/GRAP_BackEnd/src/main/resources/static/header-img");
-//                .addResourceLocations("classpath:/static/header-img/"); 로컬용
-
-
+                .addResourceLocations("/home/ec2-user/grap/GRAP_BackEnd/src/main/resources/static/header-img/"); // "classpath:/static/header-img/" 로컬용
     }
 }
