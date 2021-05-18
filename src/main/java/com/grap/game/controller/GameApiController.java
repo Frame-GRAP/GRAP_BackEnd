@@ -42,7 +42,6 @@ public class GameApiController {
 
     @GetMapping("/api/game/{gameId}")
     public GameResponseDto findById(@PathVariable Long gameId) {
-
         return gameService.findById(gameId);
     }
 
@@ -51,19 +50,9 @@ public class GameApiController {
         return gameService.findAll();
     }
 
-    @GetMapping("/api/admin/game/{gameId}")
-    public GameResponseDto findByIdForAdmin(HttpServletResponse response, @PathVariable Long gameId) {
-        response.addHeader("Access-Control-Expose-Headers", "X-Total-Count");
-        response.addHeader("X-Total-Count", String.valueOf(1));
-        return gameService.findById(gameId);
+    @DeleteMapping("/api/game/{gameId}")
+    public Long delete (@PathVariable Long gameId) {
+        return gameService.delete(gameId);
     }
-
-    @GetMapping("/api/admin/game/all")
-    public List<GameResponseDto> findAllForAdmin(HttpServletResponse response) {
-        response.addHeader("Access-Control-Expose-Headers", "X-Total-Count");
-        response.addHeader("X-Total-Count", String.valueOf(gameService.findAll().size()));
-        return gameService.findAll();
-    }
-
 }
 

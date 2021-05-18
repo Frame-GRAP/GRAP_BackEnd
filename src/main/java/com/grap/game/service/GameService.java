@@ -5,6 +5,7 @@ import com.grap.game.dto.GameResponseDto;
 import com.grap.game.dto.GameSaveRequestDto;
 import com.grap.game.dto.GameUpdateRequestDto;
 import com.grap.game.repository.GameRepository;
+import com.grap.video.domain.Video;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,4 +47,14 @@ public class GameService {
                 .map(GameResponseDto::new)
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public Long delete(Long gameId) {
+        Game game = gameRepository.findById(gameId).orElseThrow(
+                () -> new IllegalArgumentException("일치하는 게임이 없습니다. Id =" + gameId));
+
+        gameRepository.deleteById(game.getId());
+        return game.getId();
+    }
+
 }

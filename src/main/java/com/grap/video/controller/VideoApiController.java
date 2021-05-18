@@ -29,11 +29,4 @@ public class VideoApiController {
     public Long delete (@PathVariable Long videoId) {
         return videoService.delete(videoId);
     }
-
-    @GetMapping("/api/admin/game/{gameId}/video/all")
-    public List<VideoResponseDto> findByGameId(HttpServletResponse response, @PathVariable Long gameId) {
-        response.addHeader("Access-Control-Expose-Headers", "X-Total-Count");
-        response.addHeader("X-Total-Count", String.valueOf(videoService.findByGameId(gameId).size()));
-        return videoService.findByGameId(gameId);
-    }
 }
