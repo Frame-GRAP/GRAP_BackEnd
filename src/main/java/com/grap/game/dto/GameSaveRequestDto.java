@@ -40,5 +40,9 @@ public class GameSaveRequestDto {
                 .downloadUrl(downloadUrl)
                 .build();
     }
+
+    public void setHeaderImg(String headerImg) {
+        this.headerImg = headerImg;
+    }
 }
 
