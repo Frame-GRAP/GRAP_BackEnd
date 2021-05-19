@@ -59,7 +59,6 @@ public class Game extends BaseTimeEntity {
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
     private List<Favor> favors = new ArrayList<>();
 
-
     @PrePersist
     public void initializeColumn() {
         this.lastVideoCrawled = this.lastVideoCrawled == null ? LocalDateTime.now() : this.lastVideoCrawled;

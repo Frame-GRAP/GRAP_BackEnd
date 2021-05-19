@@ -18,6 +18,11 @@ import java.util.List;
 public class GameApiController {
     private final GameService gameService;
 
+    @PostMapping("/api/game/test")
+    public Long save(@RequestBody GameSaveRequestDto requestDto) {
+        return gameService.save(requestDto);
+    }
+
     @PostMapping(value = "/api/game")
     public Long save(@RequestPart("img") MultipartFile multipartFile, @RequestPart("dto") GameSaveRequestDto requestDto) {
 
