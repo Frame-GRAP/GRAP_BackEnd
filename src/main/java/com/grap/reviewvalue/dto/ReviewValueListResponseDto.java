@@ -1,9 +1,11 @@
 package com.grap.reviewvalue.dto;
 
 import com.grap.reviewvalue.domain.ReviewValue;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class ReviewValueListResponseDto {
 
     private Long id;
