@@ -33,15 +33,13 @@ public class ReviewValueApiController {
         return reviewValueService.saveReviewValue(userId, reviewId, requestDto);
     }
 
-    @PutMapping("/api/reviewValue/{reviewValueId}")
-    public Long updateReviewValue(@PathVariable Long reviewValueId, @RequestBody ReviewValueUpdateRequestDto requestDto) {
-        return reviewValueService.updateReviewValue(reviewValueId, requestDto);
+    @PutMapping("/api/user/{userId}/review/{reviewId}/reviewValue")
+    public Long updateReviewValue(@PathVariable Long userId, @PathVariable Long reviewId, @RequestBody ReviewValueUpdateRequestDto requestDto) {
+        return reviewValueService.updateReviewValue(userId, reviewId, requestDto);
     }
 
-    @DeleteMapping("/api/reviewValue/{reviewValueId}")
-    public Long deleteReviewValue(@PathVariable Long reviewValueId) {
-        reviewValueService.deleteReviewValue(reviewValueId);
-
-        return reviewValueId;
+    @DeleteMapping("/api/user/{userId}/review/{reviewId}/reviewValue")
+    public Long deleteReviewValue(@PathVariable Long userId, @PathVariable Long reviewId) {
+        return reviewValueService.deleteReviewValue(userId, reviewId);
     }
 }
