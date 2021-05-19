@@ -55,22 +55,24 @@ public class ReviewValueService {
     }
 
     @Transactional
-    public Long updateReviewValue(Long reviewValueId, ReviewValueUpdateRequestDto requestDto) {
-        ReviewValue reviewValue = reviewValueRepository.findById(reviewValueId).orElseThrow(
+    public Long updateReviewValue(Long userId, Long reviewId, ReviewValueUpdateRequestDto requestDto) {
+        ReviewValue reviewValue = reviewValueRepository.findByUserIdAndReviewId(userId, reviewId).orElseThrow(
                 () -> new IllegalArgumentException("해당 평가는 존재하지 않습니다.")
         );
 
         reviewValue.update(requestDto.getValue());
 
-        return reviewValueId;
+        return reviewValue.getId();
     }
 
     @Transactional
-    public void deleteReviewValue(Long reviewValueId) {
-        ReviewValue deleteReviewValue = reviewValueRepository.findById(reviewValueId).orElseThrow(
+    public Long deleteReviewValue(Long userId, Long reviewId) {
+        ReviewValue deleteReviewValue = reviewValueRepository.findByUserIdAndReviewId(userId, reviewId).orElseThrow(
                 () -> new IllegalArgumentException("해당 평가는 존재하지 않습니다.")
         );
 
         reviewValueRepository.delete(deleteReviewValue);
+
+        return deleteReviewValue.getId();
     }
 }
