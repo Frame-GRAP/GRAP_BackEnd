@@ -64,7 +64,6 @@ public class SteamApi {
     }
 
     public void saveSteamData(){
-        int id = 100;
         String SteamTop100ApiUrl = "https://steamspy.com/api.php?request=top100forever";
         String SteamAppDetailUrl = "https://store.steampowered.com/api/appdetails?appids=";
 
@@ -82,7 +81,7 @@ public class SteamApi {
 
             infoNode = infoNode.get("data");
 
-            Game savedGame = gameRepository.save(Game.builder()
+            gameRepository.save(Game.builder()
                     .name(removeSepecialSymbol(infoNode.get("name").asText()))
                     .description(infoNode.get("short_description").asText())
                     .developer(infoNode.get("developers").toString())
@@ -92,7 +91,6 @@ public class SteamApi {
                     .downloadUrl("https://store.steampowered.com/app/" + appId)
                     .build());
         }
-
     }
 
     private String removeSepecialSymbol(String str){
