@@ -12,12 +12,14 @@ public class UserSaveRequestDto {
     private String name;
     private String email;
     private String picture;
+    private String nickname;
 
     @Builder
-    public UserSaveRequestDto(String name, String email, String picture) {
+    public UserSaveRequestDto(String name, String email, String picture, String nickname) {
         this.name = name;
         this.email = email;
         this.picture = picture;
+        this.nickname = nickname;
     }
 
     public User toEntity() {
@@ -25,6 +27,7 @@ public class UserSaveRequestDto {
                 .name(name)
                 .email(email)
                 .picture(picture)
+                .nickname(nickname)
                 .role(Role.USER)
                 .build();
     }
