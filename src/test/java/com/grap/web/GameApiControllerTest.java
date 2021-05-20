@@ -102,17 +102,11 @@ public class GameApiControllerTest {
         LocalDate fixedReleaseDate = LocalDate.of(1996, 05, 17);
         String fixedHeaderImg = "fixedHeaderImg";
         String fixedDownloadUrl = "fixedDownloadUrl";
-        Double fixedRating = 0.2;
 
         GameUpdateRequestDto requestDto = GameUpdateRequestDto.builder()
                 .name(fixedName)
                 .description(fixedDescription)
-                .developer(fixedDeveloper)
-                .publisher(fixedPublisher)
-                .releaseDate(fixedReleaseDate)
-                .headerImg(fixedHeaderImg)
                 .downloadUrl(fixedDownloadUrl)
-                .rating(fixedRating)
                 .build();
 
         String url = "http://localhost:" + port + "/api/game/" + updateId;
@@ -134,6 +128,5 @@ public class GameApiControllerTest {
         assertThat(all.get(0).getReleaseDate()).isEqualTo(fixedReleaseDate);
         assertThat(all.get(0).getHeaderImg()).isEqualTo(fixedHeaderImg);
         assertThat(all.get(0).getDownloadUrl()).isEqualTo(fixedDownloadUrl);
-        assertThat(all.get(0).getRating()).isEqualTo(fixedRating);
     }
 }
