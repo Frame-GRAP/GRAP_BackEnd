@@ -82,14 +82,9 @@ public class Game extends BaseTimeEntity {
         this.downloadUrl = downloadUrl;
     }
 
-    public void update(String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl, Double rating) {
+    public void update(String name, String description,String downloadUrl) {
         this.name = name;
         this.description = description;
-        this.developer = developer;
-        this.publisher = publisher;
-        this.releaseDate = releaseDate;
-        this.headerImg = headerImg;
         this.downloadUrl = downloadUrl;
-        this.rating = rating;
     }
 }

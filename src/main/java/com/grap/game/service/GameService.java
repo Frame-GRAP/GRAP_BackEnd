@@ -33,7 +33,7 @@ public class GameService {
     public Long update(Long id, GameUpdateRequestDto requestDto){
         Game game = gameRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게임이 없습니다. id = "+ id));
 
-        game.update(requestDto.getName(), requestDto.getDescription(), requestDto.getDeveloper(), requestDto.getPublisher(), requestDto.getReleaseDate(), requestDto.getHeaderImg(), requestDto.getDownloadUrl(), requestDto.getRating());
+        game.update(requestDto.getName(), requestDto.getDescription(), requestDto.getDownloadUrl());
 
         return id;
     }
