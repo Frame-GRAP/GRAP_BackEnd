@@ -1,15 +1,19 @@
 package com.grap.game.service;
 
+import com.grap.category.domain.Category;
+import com.grap.category.repository.CategoryRepository;
 import com.grap.game.domain.Game;
 import com.grap.game.dto.GameResponseDto;
 import com.grap.game.dto.GameSaveRequestDto;
 import com.grap.game.dto.GameUpdateRequestDto;
 import com.grap.game.repository.GameRepository;
+import com.grap.gameandcategory.domain.GameAndCategory;
 import com.grap.video.domain.Video;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +22,7 @@ import java.util.stream.Collectors;
 public class GameService {
 
     private final GameRepository gameRepository;
+    private final CategoryRepository categoryRepository;
 
     @Transactional
     public Long save(GameSaveRequestDto requestDto) {
@@ -44,6 +49,20 @@ public class GameService {
     @Transactional
     public List<GameResponseDto> findAll() {
         return gameRepository.findAll().stream()
+                .map(GameResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<GameResponseDto> findByCategory(Long categoryId){
+        Category category = categoryRepository.findById(categoryId).orElseThrow(
+                () -> new IllegalArgumentException("해당 카테고리가 존재하지 않습니다. id : " + categoryId));
+
+        List<Game> games = new ArrayList<>();
+        for (GameAndCategory gameAndCategory : category.getGameAndCategory()){
+            games.add(gameAndCategory.getGame());
+        }
+        return games.stream()
                 .map(GameResponseDto::new)
                 .collect(Collectors.toList());
     }

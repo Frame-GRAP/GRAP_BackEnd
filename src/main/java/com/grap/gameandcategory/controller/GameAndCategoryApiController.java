@@ -17,15 +17,5 @@ public class GameAndCategoryApiController {
     public Long save(@PathVariable Long gameId, @PathVariable Long categoryId) {
         return gameAndCategoryService.save(gameId, categoryId);
     }
-
-    @GetMapping("/api/game/{gameId}/category/all")
-    public List<GameAndCategoryListResponseDto> findCategoryByGame(@PathVariable Long gameId) {
-        return gameAndCategoryService.findCategoryByGame(gameId);
-    }
-
-    @GetMapping("/api/category/{categoryId}/game/all")
-    public List<GameAndCategoryListResponseDto> findFavorByUser(@PathVariable Long categoryId) {
-        return gameAndCategoryService.findGameByCategory(categoryId);
-    }
 }
 
