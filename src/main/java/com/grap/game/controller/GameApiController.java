@@ -56,6 +56,12 @@ public class GameApiController {
         return gameService.findAll();
     }
 
+    @GetMapping("/api/category/{categoryId}/game")
+    public List<GameResponseDto> findByCategory(@PathVariable Long categoryId){
+        return gameService.findByCategory(categoryId);
+    }
+
+
     @DeleteMapping("/api/game/{gameId}")
     public Long delete (@PathVariable Long gameId) {
         return gameService.delete(gameId);

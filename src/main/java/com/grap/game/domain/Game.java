@@ -2,6 +2,7 @@ package com.grap.game.domain;
 
 import com.grap.domain.BaseTimeEntity;
 import com.grap.favor.domain.Favor;
+import com.grap.gameandcategory.domain.GameAndCategory;
 import com.grap.review.domain.Review;
 import com.grap.video.domain.Video;
 import lombok.Builder;
@@ -23,7 +24,7 @@ public class Game extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 60, nullable = false)
+    @Column(nullable = false)
     private String name;
 
     @Column(columnDefinition = "TEXT", length = 1000, nullable = false)
@@ -47,6 +48,9 @@ public class Game extends BaseTimeEntity {
     @Column(nullable = false)
     private double rating;
 
+    @Column(nullable = false, name = "vote_count")
+    private int voteCount;
+
     @Column(columnDefinition = "timestamp", nullable = false)
     private LocalDateTime lastVideoCrawled;
 
@@ -58,6 +62,9 @@ public class Game extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
     private List<Favor> favors = new ArrayList<>();
+
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+    private List<GameAndCategory> gameAndCategory = new ArrayList<>();
 
     @PrePersist
     public void initializeColumn() {

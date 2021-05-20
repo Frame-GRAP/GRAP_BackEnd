@@ -2,14 +2,15 @@ package com.grap.category.dto;
 
 import com.grap.category.domain.Category;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-public class CategoryListResponseDto {
-
+@NoArgsConstructor
+public class CategoryResponseDto {
     private Long id;
     private String name;
 
-    public CategoryListResponseDto(Category entity) {
+    public CategoryResponseDto(Category entity) {
         this.id = entity.getId();
         this.name = entity.getName();
     }

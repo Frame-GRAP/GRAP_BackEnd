@@ -39,20 +39,4 @@ public class GameAndCategoryService {
 
         return gameAndCategoryRepository.save(gameAndCategory).getId();
     }
-
-    @Transactional(readOnly = true)
-    public List<GameAndCategoryListResponseDto> findCategoryByGame(Long gameId) {
-
-        return gameAndCategoryRepository.findByGameId(gameId).stream()
-                .map(GameAndCategoryListResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
-    public List<GameAndCategoryListResponseDto> findGameByCategory(Long categoryId) {
-
-        return gameAndCategoryRepository.findByCategoryId(categoryId).stream()
-                .map(GameAndCategoryListResponseDto::new)
-                .collect(Collectors.toList());
-    }
 }
