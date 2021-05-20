@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +30,9 @@ public class User extends BaseTimeEntity {
     @Column
     private String picture;
 
+    @Column
+    private String nickname;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
@@ -45,10 +47,11 @@ public class User extends BaseTimeEntity {
     private List<Favor> favors = new ArrayList<>();
 
     @Builder
-    public User(String email, String name, String picture, Role role) {
+    public User(String email, String name, String picture, String nickname, Role role) {
         this.email = email;
         this.name = name;
         this.picture = picture;
+        this.nickname = nickname;
         this.role = role;
     }
 
