@@ -21,15 +21,20 @@ public class Category {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false, name = "ui_name")
+    private String uiName;
+
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<GameAndCategory> gameAndCategory = new ArrayList<>();
 
     @Builder
-    public Category(String name) {
+    public Category(String name, String uiName) {
         this.name = name;
+        this.uiName = uiName;
     }
 
     public void update(String name) {
         this.name = name;
+        this.name = uiName;
     }
 }
