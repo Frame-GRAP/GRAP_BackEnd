@@ -27,11 +27,10 @@ public class CustomTabService {
     @Transactional
     public Long saveCustomTab(CustomTabSaveRequestDto requestDto) {
 
-        if(customTabRepository.findByName(requestDto.getName()).isEmpty()) {
-            return customTabRepository.save(requestDto.toEntity()).getId();
-        }
+        if(customTabRepository.findByName(requestDto.getName()).isPresent())
+            return (long) -1;
 
-        return (long) -1;
+        return customTabRepository.save(requestDto.toEntity()).getId();
     }
 
     @Transactional
