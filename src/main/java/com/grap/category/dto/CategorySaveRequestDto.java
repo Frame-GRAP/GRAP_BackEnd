@@ -10,15 +10,18 @@ import lombok.NoArgsConstructor;
 public class CategorySaveRequestDto {
 
     private String name;
+    private String uiName;
 
     @Builder
-    public CategorySaveRequestDto(String name) {
+    public CategorySaveRequestDto(String name, String uiName) {
         this.name = name;
+        this.uiName = uiName;
     }
 
     public Category toEntity() {
         return Category.builder()
                 .name(name)
+                .uiName(uiName)
                 .build();
     }
 }

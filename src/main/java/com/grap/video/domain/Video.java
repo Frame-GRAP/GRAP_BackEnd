@@ -69,4 +69,8 @@ public class Video extends BaseTimeEntity {
         this.image = image;
         this.game = game;
     }
+
+    public void revert() {
+        this.isRegistered = !isRegistered;
+    }
 }

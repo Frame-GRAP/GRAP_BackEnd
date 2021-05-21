@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -56,4 +55,14 @@ public class VideoService {
         return video.getId();
     }
 
+    @Transactional
+    public Long updateIsRegistered(Long videoId) {
+        Video video = videoRepository.findById(videoId).orElseThrow(
+                () -> new IllegalArgumentException("해당 영상은 존재하지 않습니다.")
+        );
+
+        video.revert();
+
+        return videoId;
+    }
 }

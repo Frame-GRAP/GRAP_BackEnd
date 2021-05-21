@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.resource.PathResourceResolver;
 
 import java.util.List;
 
@@ -21,7 +22,9 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/header-img/**")
-                .addResourceLocations("/home/ec2-user/grap/GRAP_BackEnd/src/main/resources/static/header-img/"); // "classpath:/static/header-img/" 로컬용
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("file:/home/ec2-user/grap/images/") // "classpath:/static/header-img/" 로컬용
+                .resourceChain(true)
+                .addResolver(new PathResourceResolver());
     }
 }
