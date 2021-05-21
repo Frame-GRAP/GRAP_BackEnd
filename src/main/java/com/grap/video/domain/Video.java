@@ -70,7 +70,7 @@ public class Video extends BaseTimeEntity {
         this.game = game;
     }
 
-    public void update(boolean isRegistered) {
-        this.isRegistered = isRegistered;
+    public void revert() {
+        this.isRegistered = !isRegistered;
     }
 }

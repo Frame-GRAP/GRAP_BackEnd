@@ -5,7 +5,6 @@ import com.grap.game.repository.GameRepository;
 import com.grap.video.domain.Video;
 import com.grap.video.dto.VideoResponseDto;
 import com.grap.video.dto.VideoSaveRequestDto;
-import com.grap.video.dto.VideoUpdateRequestDto;
 import com.grap.video.repository.VideoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -57,12 +56,12 @@ public class VideoService {
     }
 
     @Transactional
-    public Long updateIsRegistered(Long videoId, VideoUpdateRequestDto requestDto) {
+    public Long updateIsRegistered(Long videoId) {
         Video video = videoRepository.findById(videoId).orElseThrow(
                 () -> new IllegalArgumentException("해당 영상은 존재하지 않습니다.")
         );
 
-        video.update(requestDto.isRegistered());
+        video.revert();
 
         return videoId;
     }
