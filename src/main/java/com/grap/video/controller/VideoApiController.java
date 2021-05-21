@@ -2,11 +2,11 @@ package com.grap.video.controller;
 
 import com.grap.video.dto.VideoResponseDto;
 import com.grap.video.dto.VideoSaveRequestDto;
+import com.grap.video.dto.VideoUpdateRequestDto;
 import com.grap.video.service.VideoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -26,7 +26,13 @@ public class VideoApiController {
     }
 
     @DeleteMapping("/api/game/{gameId}/video/{videoId}")
-    public Long delete (@PathVariable Long videoId) {
+    public Long delete(@PathVariable Long videoId) {
         return videoService.delete(videoId);
     }
+
+    @PostMapping("/api/game/{gameId}/video/{videoId}")
+    public Long updateIsRegistered(@PathVariable Long videoId, @RequestBody VideoUpdateRequestDto requestDto) {
+        return videoService.updateIsRegistered(videoId, requestDto);
+    }
+
 }
