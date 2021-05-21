@@ -1,5 +1,6 @@
 package com.grap.category.domain;
 
+import com.grap.categorytab.domain.CategoryTab;
 import com.grap.gameandcategory.domain.GameAndCategory;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,14 +28,16 @@ public class Category {
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<GameAndCategory> gameAndCategory = new ArrayList<>();
 
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<CategoryTab> categoryTabs = new ArrayList<>();
     @Builder
     public Category(String name, String uiName) {
         this.name = name;
         this.uiName = uiName;
     }
 
-    public void update(String name) {
+    public void update(String name, String uiName) {
         this.name = name;
-        this.name = uiName;
+        this.uiName = uiName;
     }
 }

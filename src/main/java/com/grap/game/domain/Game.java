@@ -1,5 +1,6 @@
 package com.grap.game.domain;
 
+import com.grap.categorytab.domain.CategoryTab;
 import com.grap.domain.BaseTimeEntity;
 import com.grap.favor.domain.Favor;
 import com.grap.gameandcategory.domain.GameAndCategory;
@@ -68,10 +69,13 @@ public class Game extends BaseTimeEntity {
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
     private List<GameAndCategory> gameAndCategory = new ArrayList<>();
 
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+    private List<CategoryTab> categoryTabs = new ArrayList<>();
+
     @OneToOne(mappedBy = "game", cascade = CascadeType.ALL)
     private RelatedGame relatedGame;
 
-    @OneToOne(mappedBy = "game", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "game", cascade = CascadeType.REMOVE)
     private Starter starter;
 
     @PrePersist
