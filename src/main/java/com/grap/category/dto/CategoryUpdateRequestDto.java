@@ -9,9 +9,11 @@ import lombok.NoArgsConstructor;
 public class CategoryUpdateRequestDto {
 
     private String name;
+    private String uiName;
 
     @Builder
-    public CategoryUpdateRequestDto(String name) {
+    public CategoryUpdateRequestDto(String name, String uiName) {
         this.name = name;
+        this.uiName = uiName;
     }
 }
