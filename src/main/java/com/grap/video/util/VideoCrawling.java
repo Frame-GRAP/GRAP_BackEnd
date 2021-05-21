@@ -124,6 +124,7 @@ public class VideoCrawling {
                 }
             }catch(NullPointerException e){
                 System.out.println("유튜브 : " + gameName);
+                driver.close();
                 continue;
             }
         }
@@ -162,12 +163,13 @@ public class VideoCrawling {
             }
         }catch(NoSuchElementException e){
             System.out.println("트위치(NoSuch) : " + gameName);
+            driver.close();
             return;
         }catch(Exception e){
             System.out.println("트위치 : " + e + " / 게임 이름 : " + gameName);
+            driver.close();
             return;
         }
-
 
         driver.close();
     }
