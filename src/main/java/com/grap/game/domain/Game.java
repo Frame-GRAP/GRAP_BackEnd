@@ -3,6 +3,7 @@ package com.grap.game.domain;
 import com.grap.domain.BaseTimeEntity;
 import com.grap.favor.domain.Favor;
 import com.grap.gameandcategory.domain.GameAndCategory;
+import com.grap.relatedgame.domain.RelatedGame;
 import com.grap.review.domain.Review;
 import com.grap.starter.domain.Starter;
 import com.grap.video.domain.Video;
@@ -68,6 +69,9 @@ public class Game extends BaseTimeEntity {
     private List<GameAndCategory> gameAndCategory = new ArrayList<>();
 
     @OneToOne(mappedBy = "game", cascade = CascadeType.ALL)
+    private RelatedGame relatedGame;
+
+    @OneToOne(mappedBy = "game", cascade = CascadeType.ALL)
     private Starter starter;
 
     @PrePersist
@@ -76,7 +80,7 @@ public class Game extends BaseTimeEntity {
     }
 
     @Builder
-    public Game(String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl) {
+    public Game(String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl, double rating, int voteCount) {
         this.name = name;
         this.description = description;
         this.developer = developer;
@@ -84,11 +88,18 @@ public class Game extends BaseTimeEntity {
         this.releaseDate = releaseDate;
         this.headerImg = headerImg;
         this.downloadUrl = downloadUrl;
+        this.rating = rating;
+        this.voteCount = voteCount;
     }
 
     public void update(String name, String description,String downloadUrl) {
         this.name = name;
         this.description = description;
         this.downloadUrl = downloadUrl;
+    }
+
+    public void update2(double rating, int voteCount) {
+        this.rating = rating;
+        this.voteCount = voteCount;
     }
 }
