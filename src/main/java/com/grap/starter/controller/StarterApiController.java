@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 public class StarterApiController {
 
-    private  final StarterService starterService;
+    private final StarterService starterService;
 
     @GetMapping("/api/starter/all")
     public List<StarterResponseDto> findAllStarter() {

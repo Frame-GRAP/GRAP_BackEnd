@@ -6,7 +6,6 @@ import com.grap.category.dto.CategorySaveRequestDto;
 import com.grap.category.dto.CategoryUpdateRequestDto;
 import com.grap.category.repository.CategoryRepository;
 import com.grap.game.domain.Game;
-import com.grap.game.dto.GameResponseDto;
 import com.grap.game.repository.GameRepository;
 import com.grap.gameandcategory.domain.GameAndCategory;
 import lombok.RequiredArgsConstructor;
@@ -61,7 +60,7 @@ public class CategoryService {
                 () -> new IllegalArgumentException("해당 카테고리는 존재하지 않습니다.")
         );
 
-        category.update(requestDto.getName());
+        category.update(requestDto.getName(), requestDto.getUiName());
 
         return categoryId;
     }
