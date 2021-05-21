@@ -29,7 +29,7 @@ public class VideoApiController {
         return videoService.delete(videoId);
     }
 
-    @PostMapping("/api/game/{gameId}/video/{videoId}")
+    @PutMapping("/api/game/{gameId}/video/{videoId}")
     public Long updateIsRegistered(@PathVariable Long videoId) {
         return videoService.updateIsRegistered(videoId);
     }

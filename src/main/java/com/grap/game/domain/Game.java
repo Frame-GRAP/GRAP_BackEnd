@@ -4,6 +4,7 @@ import com.grap.domain.BaseTimeEntity;
 import com.grap.favor.domain.Favor;
 import com.grap.gameandcategory.domain.GameAndCategory;
 import com.grap.review.domain.Review;
+import com.grap.starter.domain.Starter;
 import com.grap.video.domain.Video;
 import lombok.Builder;
 import lombok.Getter;
@@ -65,6 +66,9 @@ public class Game extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
     private List<GameAndCategory> gameAndCategory = new ArrayList<>();
+
+    @OneToOne(mappedBy = "game", cascade = CascadeType.ALL)
+    private Starter starter;
 
     @PrePersist
     public void initializeColumn() {
