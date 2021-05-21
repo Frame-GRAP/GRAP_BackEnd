@@ -8,6 +8,7 @@ import com.grap.game.dto.GameSaveRequestDto;
 import com.grap.game.dto.GameUpdateRequestDto;
 import com.grap.game.repository.GameRepository;
 import com.grap.gameandcategory.domain.GameAndCategory;
+import com.grap.relatedgame.domain.RelatedGame;
 import com.grap.video.domain.Video;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,25 @@ public class GameService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 게임이 없습니다. id=" + id));
 
         return new GameResponseDto(entity);
+    }
+
+    @Transactional
+    public List<GameResponseDto> findRelatedGameById(Long id) {
+        Game game = gameRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게임이 없습니다. id=" + id));
+
+        String relatedGameId = game.getRelatedGame().getRelatedGameId();
+        String[] idList = relatedGameId.split(" ");
+
+        List<Game> games = new ArrayList<>();
+        for (String gameId : idList){
+            games.add(gameRepository.findById(Long.parseLong(gameId))
+                    .orElseThrow(() -> new IllegalArgumentException("해당 게임이 없습니다. id=" + gameId)));
+        }
+
+        return games.stream()
+                .map(GameResponseDto::new)
+                .collect(Collectors.toList());
     }
 
     @Transactional

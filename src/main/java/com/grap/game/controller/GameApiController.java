@@ -56,6 +56,11 @@ public class GameApiController {
         return gameService.findAll();
     }
 
+    @GetMapping("/api/game/{gameId}/related")
+    public List<GameResponseDto> findRelatedGameById(@PathVariable Long gameId) {
+        return gameService.findRelatedGameById(gameId);
+    }
+
     @GetMapping("/api/category/{categoryId}/game")
     public List<GameResponseDto> findByCategory(@PathVariable Long categoryId){
         return gameService.findByCategory(categoryId);

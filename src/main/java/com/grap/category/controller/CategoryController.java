@@ -21,9 +21,9 @@ public class CategoryController {
         return categoryService.findAllCategory();
     }
 
-    @GetMapping("/api/game/{gameID}/category/all")
-    public List<CategoryResponseDto> findByGame(@PathVariable Long gameID){
-        return categoryService.findByGame(gameID);
+    @GetMapping("/api/game/{gameId}/category/all")
+    public List<CategoryResponseDto> findByGame(@PathVariable Long gameId){
+        return categoryService.findByGame(gameId);
     }
 
     @PostMapping("/api/category")
