@@ -20,7 +20,8 @@ public class GameResponseDto {
     private LocalDate releaseDate;
     private String headerImg;
     private String downloadUrl;
-    private Double rating;
+    private double rating;
+    private int voteCount;
     private LocalDateTime lastVideoCrawled;
     private List<Long> videosId;
 
@@ -35,11 +36,11 @@ public class GameResponseDto {
         this.downloadUrl = entity.getDownloadUrl();
         this.lastVideoCrawled = entity.getLastVideoCrawled();
         this.rating = entity.getRating();
+        this.voteCount = entity.getVoteCount();
 
         List<Video> videos = entity.getVideos();
         List<Long> videosId = new ArrayList<>();
         videos.forEach(v -> videosId.add(v.getId()));
         this.videosId = videosId;
-
     }
 }
