@@ -2,7 +2,6 @@ package com.grap.video.controller;
 
 import com.grap.video.dto.VideoResponseDto;
 import com.grap.video.dto.VideoSaveRequestDto;
-import com.grap.video.dto.VideoUpdateRequestDto;
 import com.grap.video.service.VideoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +30,8 @@ public class VideoApiController {
     }
 
     @PostMapping("/api/game/{gameId}/video/{videoId}")
-    public Long updateIsRegistered(@PathVariable Long videoId, @RequestBody VideoUpdateRequestDto requestDto) {
-        return videoService.updateIsRegistered(videoId, requestDto);
+    public Long updateIsRegistered(@PathVariable Long videoId) {
+        return videoService.updateIsRegistered(videoId);
     }
 
 }
