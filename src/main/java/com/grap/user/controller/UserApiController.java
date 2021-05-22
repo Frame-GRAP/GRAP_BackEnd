@@ -19,9 +19,14 @@ public class UserApiController {
         return userService.saveOrUpdate(userSaveRequestDto);
     }
 
-    @GetMapping("api/user/nickname/{nickname}")
-    public Map<String, Boolean> checkNickname(@PathVariable String nickname) {
-        return userService.saveNickname(nickname);
+    @GetMapping("api/user/{userId}/nickname/{nickname}")
+    public Map<String, Boolean> dupCheckNickname(@PathVariable String nickname) {
+        return userService.dupCheckNickname(nickname);
+    }
+
+    @PostMapping("api/user/{userId}/nickname/{nickname}")
+    public Long saveNickname(@PathVariable Long userId, @PathVariable String nickname) {
+        return userService.saveNickname(userId, nickname);
     }
 
 }
