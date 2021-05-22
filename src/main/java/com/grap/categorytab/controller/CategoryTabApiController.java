@@ -1,5 +1,6 @@
 package com.grap.categorytab.controller;
 
+import com.grap.categorytab.dto.CategoryTabGameResponseDto;
 import com.grap.categorytab.dto.CategoryTabResponseDto;
 import com.grap.categorytab.service.CategoryTabService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,11 @@ public class CategoryTabApiController {
     @GetMapping("/api/categoryTab/all")
     public List<CategoryTabResponseDto> findAllCategoryTab() {
         return categoryTabService.findAllCategoryTab();
+    }
+
+    @GetMapping("/api/categoryTab/category/{categoryId}/game")
+    public List<CategoryTabGameResponseDto> findByCategoryId(@PathVariable Long categoryId) {
+        return categoryTabService.findByCategoryId(categoryId);
     }
 
     @PostMapping("/api/game/{gameId}/category/{categoryId}/categoryTab")

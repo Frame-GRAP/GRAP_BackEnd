@@ -3,6 +3,7 @@ package com.grap.categorytab.service;
 import com.grap.category.domain.Category;
 import com.grap.category.repository.CategoryRepository;
 import com.grap.categorytab.domain.CategoryTab;
+import com.grap.categorytab.dto.CategoryTabGameResponseDto;
 import com.grap.categorytab.dto.CategoryTabResponseDto;
 import com.grap.categorytab.repository.CategoryTabRepository;
 import com.grap.game.domain.Game;
@@ -58,5 +59,13 @@ public class CategoryTabService {
         categoryTabRepository.delete(categoryTab);
 
         return categoryTabId;
+    }
+
+    @Transactional(readOnly = true)
+    public List<CategoryTabGameResponseDto> findByCategoryId(Long categoryId) {
+
+        return categoryTabRepository.findByCategoryId(categoryId).stream()
+                .map(CategoryTabGameResponseDto::new)
+                .collect(Collectors.toList());
     }
 }
