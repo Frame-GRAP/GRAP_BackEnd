@@ -1,9 +1,12 @@
 package com.grap.user.domain;
 
 import com.grap.domain.BaseTimeEntity;
-import com.grap.report.domain.Report;
 import com.grap.favor.domain.Favor;
+import com.grap.report.domain.Report;
 import com.grap.review.domain.Review;
+import com.grap.starter.domain.Starter;
+import com.grap.usercategorypreference.domain.UserCategoryPreference;
+import com.grap.usergamepreference.domain.UserGamePreference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,6 +48,15 @@ public class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user")
     private List<Favor> favors = new ArrayList<>();
+
+    @OneToOne(mappedBy = "game", cascade = CascadeType.REMOVE)
+    private Starter starter;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserGamePreference> userGamePreferences = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserCategoryPreference> userCategoryPreferences = new ArrayList<>();
 
     @Builder
     public User(String email, String name, String picture, String nickname, Role role) {
