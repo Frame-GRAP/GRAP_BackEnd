@@ -34,17 +34,13 @@ public class UserGamePreferenceService {
     private final UserCategoryPreferenceService userCategoryPreferenceService;
 
     @Transactional
-    public UserGamePreferenceResponseDto findByUserIdAndGameId(Long userId, Long gameId) {
+    public UserGamePreferenceResponseDto findByUserId(Long userId) {
 
         userRepository.findById(userId).orElseThrow(
                 () -> new IllegalArgumentException("해당 유저는 존재하지 않습니다.")
         );
 
-        gameRepository.findById(gameId).orElseThrow(
-                () -> new IllegalArgumentException("해당 게임은 존재하지 않습니다.")
-        );
-
-        UserGamePreference userGamePreference = userGamePreferenceRepository.findTop1ByUserIdAndGameIdOrderByIdDesc(userId, gameId);
+        UserGamePreference userGamePreference = userGamePreferenceRepository.findTop1ByUserIdOrderByIdDesc(userId);
 
         return new UserGamePreferenceResponseDto(userGamePreference);
     }

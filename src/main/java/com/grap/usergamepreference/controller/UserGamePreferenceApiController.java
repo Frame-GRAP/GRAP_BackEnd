@@ -16,10 +16,10 @@ public class UserGamePreferenceApiController {
 
     private final UserGamePreferenceService userGamePreferenceService;
 
-    @GetMapping("/api/user/{userId}/game/{gameId}/userGamePreference")
-    public UserGamePreferenceResponseDto findByUserIdAndGameId(@PathVariable Long userId, @PathVariable Long gameId) {
+    @GetMapping("/api/user/{userId}/userGamePreference")
+    public UserGamePreferenceResponseDto findByUserIdAndGameId(@PathVariable Long userId) {
 
-        return userGamePreferenceService.findByUserIdAndGameId(userId, gameId);
+        return userGamePreferenceService.findByUserId(userId);
     }
 
     @PostMapping("/api/user/{userId}/userGamePreference")
