@@ -7,4 +7,5 @@ public interface UserGamePreferenceRepository extends JpaRepository<UserGamePref
 
     UserGamePreference findTop1ByUserIdAndGameIdOrderByIdDesc(Long userId, Long gameId);
 
+    UserGamePreference findTop1ByUserIdOrderByIdDesc(Long userId);
 }
