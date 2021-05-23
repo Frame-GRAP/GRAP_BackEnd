@@ -5,16 +5,14 @@ import com.grap.favor.dto.FavorListResponseDto;
 import com.grap.favor.repository.FavorRepository;
 import com.grap.game.domain.Game;
 import com.grap.game.repository.GameRepository;
-import com.grap.user.config.auth.dto.SessionUser;
 import com.grap.user.domain.User;
 import com.grap.user.repository.UserRepository;
-import com.grap.video.domain.Video;
+import com.grap.usergamepreference.service.UserGamePreferenceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -23,6 +21,7 @@ public class FavorService {
     private final UserRepository userRepository;
     private final GameRepository gameRepository;
     private final FavorRepository favorRepository;
+    private final UserGamePreferenceService userGamePreferenceService;
 
     @Transactional
     public Long save(Long userId, Long gameId) {
@@ -36,6 +35,8 @@ public class FavorService {
         Favor favor = new Favor();
         favor.mapUser(user);
         favor.mapGame(game);
+
+        userGamePreferenceService.saveFavor(user, game);
 
         return favorRepository.save(favor).getId();
     }
@@ -56,6 +57,7 @@ public class FavorService {
                 () -> new IllegalArgumentException("해당 정보와 일치하는 찜이 없습니다. userId = " + userId + "gameId = " + gameId));
 
         favorRepository.deleteById(favor.getId());
+        userGamePreferenceService.deleteGamePreference(userId, gameId);
         return favor.getId();
     }
 }
