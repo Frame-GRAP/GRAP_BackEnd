@@ -4,6 +4,7 @@ import com.grap.game.dto.GameResponseDto;
 import com.grap.game.dto.GameSaveRequestDto;
 import com.grap.game.dto.GameUpdateRequestDto;
 import com.grap.game.service.GameService;
+import com.grap.video.util.VideoCrawling;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 public class GameApiController {
     private final GameService gameService;
+    private final VideoCrawling videoCrawling;
 
     @PostMapping("/api/game/test")
     public Long save(@RequestBody GameSaveRequestDto requestDto) {
@@ -33,7 +35,10 @@ public class GameApiController {
             multipartFile.transferTo(new File(baseDir + filePath));
             requestDto.setHeaderImg(saveUrl + filePath);
 
-            return gameService.save(requestDto);
+            Long gameId = gameService.save(requestDto);
+            videoCrawling.startCrawl(gameId);
+
+            return gameId;
 
         } catch(Exception e) {
             e.printStackTrace();

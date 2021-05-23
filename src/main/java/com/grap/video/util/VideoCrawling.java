@@ -13,6 +13,7 @@ import org.jsoup.select.Elements;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -62,6 +63,7 @@ public class VideoCrawling {
         return gameOp.get();
     }
 
+    @Async
     public void startCrawl(Long id){
 //        gameRepository.save(Game.builder()
 //                .name(gameName)
