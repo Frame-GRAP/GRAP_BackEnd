@@ -3,6 +3,7 @@ package com.grap.game.util;
 import com.grap.category.domain.Category;
 import com.grap.category.dto.CategoryResponseDto;
 import com.grap.category.repository.CategoryRepository;
+import com.grap.categorytab.service.CategoryTabService;
 import com.grap.game.domain.Game;
 import com.grap.game.repository.GameRepository;
 import com.grap.game.service.GameService;
@@ -10,6 +11,7 @@ import com.grap.gameandcategory.service.GameAndCategoryService;
 import com.grap.relatedgame.domain.RelatedGame;
 import com.grap.relatedgame.repository.RelatedGameRepository;
 import com.grap.relatedgame.service.RelatedGameService;
+import com.grap.starter.service.StarterService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -51,6 +53,10 @@ public class JsonToDB {
     private CategoryRepository categoryRepository;
     @Autowired
     private RelatedGameService relatedGameService;
+    @Autowired
+    private CategoryTabService categoryTabService;
+    @Autowired
+    private StarterService starterService;
 
     @Autowired
     private GameAndCategoryService gameAndCategoryService;
@@ -60,13 +66,13 @@ public class JsonToDB {
 
 
     public void jsonToGameDB(){
-        //saveCategories(); // 카테고리 없을 때
+//        saveCategories(); // 카테고리 없을 때
 
         JSONParser parser = new JSONParser();
 
         try {
             Object obj = parser.parse(new FileReader(
-                    "src/main/resources/json/game_detail.json"
+                    "src/main/resources/json/game_detail2.json"
             ));
             JSONObject jsonObject = (JSONObject) obj;
             Iterator<String> keys = jsonObject.keySet().iterator();
@@ -94,6 +100,8 @@ public class JsonToDB {
                     String tagKey = tagsKeys.next();
                     gameAndCategoryService.save(game.getId(), categoryRepository.findByName(tagKey).getId());
                 }
+
+//                starterService.saveStarter(game.getId()); // 스타터에도 넣을 시
             }
 
         }catch (Exception e){
@@ -122,16 +130,42 @@ public class JsonToDB {
         }
     }
 
+    public void jsonToCategoryTabDB(){
+        JSONParser parser = new JSONParser();
+
+        try {
+            Object obj = parser.parse(new FileReader(
+                    "src/main/resources/json/category_tab_list.json"
+            ));
+            JSONObject jsonObject = (JSONObject) obj;
+            Iterator<String> keys = jsonObject.keySet().iterator();
+            while(keys.hasNext()){
+                String key = keys.next();
+                JSONObject currentJSONObject = (JSONObject)jsonObject.get(key);
+
+                Category category = categoryRepository.findByName(currentJSONObject.get("category_name").toString());
+
+                String[] gameIdList = currentJSONObject.get("game_id").toString().split(" ");
+                for (String gameId : gameIdList){
+                    categoryTabService.saveCategoryTab(Long.parseLong(gameId), category.getId());
+                }
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     private void saveCategories(){
         String[][] categoryNames = { {"Arcade", "Horror", "Action","Adventure", "Casual", "Strategy", "FPS", "RPG"
                 , "Simulation", "Puzzle", "2D", "Atmospheric", "Story Rich", "Sci-fi", "Fantasy", "Colorful"},
                 {"아케이드", "무서운", "액션", "모험적인", "캐주얼한", "전략적인", "FPS", "롤플레잉", "시뮬레이션", "퍼즐", "2D", "분위기 있는"
                 , "풍부한 스토리의", "상상력을 자극하는", "판타지", "색감이 다채로운"}};
 
-        for (String[] categoryName : categoryNames){
+        for (int i = 0; i < categoryNames[0].length ; i++){
             categoryRepository.save(Category.builder()
-                    .name(categoryName[0])
-                    .name(categoryName[1])
+                    .name(categoryNames[0][i])
+                    .uiName(categoryNames[1][i])
                     .build());
         }
     }

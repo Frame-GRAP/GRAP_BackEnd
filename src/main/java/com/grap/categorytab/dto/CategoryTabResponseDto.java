@@ -11,13 +11,13 @@ public class CategoryTabResponseDto {
     private Long gameId;
     private String gameName;
     private Long categoryId;
-    private String categoryName;
+    private String categoryUiName;
 
     public CategoryTabResponseDto(CategoryTab entity) {
         this.id = entity.getId();
         this.gameId = entity.getGame().getId();
         this.gameName = entity.getGame().getName();
         this.categoryId = entity.getCategory().getId();
-        this.categoryName = entity.getCategory().getUiName();
+        this.categoryUiName = entity.getCategory().getUiName();
     }
 }
