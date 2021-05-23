@@ -39,7 +39,7 @@ public class CategoryTabService {
         );
 
         Category category = categoryRepository.findById(categoryId).orElseThrow(
-                () -> new IllegalArgumentException("해당 카테고리는 존재하지 않습니다.")
+                () -> new IllegalArgumentException("해당 카테고리는 존재하지 않습니다. category Id =" + categoryId.toString())
         );
 
         CategoryTab categoryTab = new CategoryTab();

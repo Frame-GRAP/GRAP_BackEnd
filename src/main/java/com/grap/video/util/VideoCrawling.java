@@ -33,7 +33,7 @@ public class VideoCrawling {
         videocrawling = this.crawling;
     }
     필요.
-    메인 메소드에서 videocrawling.startCrawl(게임이름); 호출 필요
+    메인 메소드에서 videocrawling.startCrawl(게임 아이디); 호출 필요
      */
 
     @Autowired
