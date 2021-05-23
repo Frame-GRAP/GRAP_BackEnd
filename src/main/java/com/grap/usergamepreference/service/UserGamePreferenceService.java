@@ -11,6 +11,7 @@ import com.grap.usercategorypreference.domain.UserCategoryPreference;
 import com.grap.usercategorypreference.repository.UserCategoryPreferenceRepository;
 import com.grap.usercategorypreference.service.UserCategoryPreferenceService;
 import com.grap.usergamepreference.domain.UserGamePreference;
+import com.grap.usergamepreference.dto.UserGamePreferenceResponseDto;
 import com.grap.usergamepreference.dto.UserGamePreferenceSaveRequestDto;
 import com.grap.usergamepreference.repository.UserGamePreferenceRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,22 @@ public class UserGamePreferenceService {
     private final GameRepository gameRepository;
     private final CategoryRepository categoryRepository;
     private final UserCategoryPreferenceService userCategoryPreferenceService;
+
+    @Transactional
+    public UserGamePreferenceResponseDto findByUserIdAndGameId(Long userId, Long gameId) {
+
+        userRepository.findById(userId).orElseThrow(
+                () -> new IllegalArgumentException("해당 유저는 존재하지 않습니다.")
+        );
+
+        gameRepository.findById(gameId).orElseThrow(
+                () -> new IllegalArgumentException("해당 게임은 존재하지 않습니다.")
+        );
+
+        UserGamePreference userGamePreference = userGamePreferenceRepository.findTop1ByUserIdAndGameIdOrderByIdDesc(userId, gameId);
+
+        return new UserGamePreferenceResponseDto(userGamePreference);
+    }
 
     @Transactional
     public Long saveUserGamePreferences(Long userId, List<UserGamePreferenceSaveRequestDto> requestDtos) {

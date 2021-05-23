@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RelatedGameApiController {
 
-    private RelatedGameService relatedGameService;
+    private final RelatedGameService relatedGameService;
 
     @GetMapping("/api/game/{gameId}/relatedGame")
     public RelatedGameResponseDto findAllRelatedGame(@PathVariable Long gameId) {
