@@ -4,10 +4,14 @@ import com.grap.category.domain.Category;
 import com.grap.category.dto.CategoryResponseDto;
 import com.grap.category.repository.CategoryRepository;
 import com.grap.categorytab.service.CategoryTabService;
+import com.grap.customtab.domain.CustomTab;
+import com.grap.customtab.repository.CustomTabRepository;
+import com.grap.customtab.service.CustomTabService;
 import com.grap.game.domain.Game;
 import com.grap.game.repository.GameRepository;
 import com.grap.game.service.GameService;
 import com.grap.gameandcategory.service.GameAndCategoryService;
+import com.grap.gameandcustomtab.service.GameAndCustomTabService;
 import com.grap.relatedgame.domain.RelatedGame;
 import com.grap.relatedgame.repository.RelatedGameRepository;
 import com.grap.relatedgame.service.RelatedGameService;
@@ -57,6 +61,10 @@ public class JsonToDB {
     private CategoryTabService categoryTabService;
     @Autowired
     private StarterService starterService;
+    @Autowired
+    private CustomTabRepository customTabRepository;
+    @Autowired
+    private GameAndCustomTabService gameAndCustomTabService;
 
     @Autowired
     private GameAndCategoryService gameAndCategoryService;
@@ -67,12 +75,13 @@ public class JsonToDB {
 
     public void jsonToGameDB(){
 //        saveCategories(); // 카테고리 없을 때
+        //saveCustomTab("최신 인기 게임"); // 커스텀 탭 넣을 시
 
         JSONParser parser = new JSONParser();
 
         try {
             Object obj = parser.parse(new FileReader(
-                    "src/main/resources/json/game_detail2.json"
+                    "src/main/resources/json/popular_game_detail.json"
             ));
             JSONObject jsonObject = (JSONObject) obj;
             Iterator<String> keys = jsonObject.keySet().iterator();
@@ -100,8 +109,9 @@ public class JsonToDB {
                     String tagKey = tagsKeys.next();
                     gameAndCategoryService.save(game.getId(), categoryRepository.findByName(tagKey).getId());
                 }
+                //saveGameAndCustomTab(game.getId(), 1L); // 커스텀 탭에 게임을 넣을 시
 
-//                starterService.saveStarter(game.getId()); // 스타터에도 넣을 시
+//                starterService.saveStarter(game.getId()); // 스타터에 게임을 넣을 시
             }
 
         }catch (Exception e){
@@ -109,6 +119,10 @@ public class JsonToDB {
         }
     }
 
+    public void saveGameAndCustomTab(Long gameId, Long customTabId){
+        gameAndCustomTabService.saveGameAndCustomTab(gameId, customTabId);
+        return;
+    }
     public void jsonToRelatedGameDB(){
         JSONParser parser = new JSONParser();
 
@@ -154,6 +168,12 @@ public class JsonToDB {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void saveCustomTab(String name){
+        customTabRepository.save(CustomTab.builder()
+                .name(name)
+                .build());
     }
 
     private void saveCategories(){
