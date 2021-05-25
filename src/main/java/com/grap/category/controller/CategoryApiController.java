@@ -12,7 +12,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 @RestController
-public class CategoryController {
+public class CategoryApiController {
 
     private final CategoryService categoryService;
 
