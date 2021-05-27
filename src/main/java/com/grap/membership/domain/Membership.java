@@ -1,10 +1,13 @@
 package com.grap.membership.domain;
 
+import com.grap.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -20,6 +23,9 @@ public class Membership {
 
     @Column(nullable = false)
     private Integer price;
+
+    @OneToMany(mappedBy = "membership", cascade = CascadeType.ALL)
+    private List<User> userMembership = new ArrayList<>();
 
     @Builder
     public Membership(String name, Integer price) {

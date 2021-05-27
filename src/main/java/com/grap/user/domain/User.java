@@ -2,6 +2,7 @@ package com.grap.user.domain;
 
 import com.grap.domain.BaseTimeEntity;
 import com.grap.favor.domain.Favor;
+import com.grap.membership.domain.Membership;
 import com.grap.report.domain.Report;
 import com.grap.review.domain.Review;
 import com.grap.starter.domain.Starter;
@@ -58,6 +59,10 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserCategoryPreference> userCategoryPreferences = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "membership_id")
+    private Membership membership;
+
     @Builder
     public User(String email, String name, String picture, String nickname, Role role) {
         this.email = email;
@@ -79,5 +84,9 @@ public class User extends BaseTimeEntity {
 
     public void update(String nickname) {
         this.nickname = nickname;
+    }
+
+    public void mapMembership(Membership membership) {
+        this.membership = membership;
     }
 }
