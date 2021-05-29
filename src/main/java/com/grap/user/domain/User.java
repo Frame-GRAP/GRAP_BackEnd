@@ -60,7 +60,7 @@ public class User extends BaseTimeEntity {
     private List<UserCategoryPreference> userCategoryPreferences = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(nullable = false, name = "membership_id")
+    @JoinColumn(name = "membership_id")
     private Membership membership;
 
     @Builder

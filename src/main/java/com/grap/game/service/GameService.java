@@ -8,8 +8,6 @@ import com.grap.game.dto.GameSaveRequestDto;
 import com.grap.game.dto.GameUpdateRequestDto;
 import com.grap.game.repository.GameRepository;
 import com.grap.gameandcategory.domain.GameAndCategory;
-import com.grap.relatedgame.domain.RelatedGame;
-import com.grap.video.domain.Video;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -96,4 +94,16 @@ public class GameService {
         return game.getId();
     }
 
+    @Transactional(readOnly = true)
+    public Long countAll() {
+
+        return gameRepository.count();
+    }
+
+    public List<String> findAllTitles() {
+
+        return gameRepository.findAll().stream()
+                .map(Game::getName)
+                .collect(Collectors.toList());
+    }
 }

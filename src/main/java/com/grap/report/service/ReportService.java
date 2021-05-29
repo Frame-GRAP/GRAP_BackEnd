@@ -82,11 +82,17 @@ public class ReportService {
         reportRepository.delete(deleteReport);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ReportListResponseDto> findAll() {
         return reportRepository.findAll().stream()
                 .map(ReportListResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public Long countAll() {
+
+        return reportRepository.count();
     }
 }
 

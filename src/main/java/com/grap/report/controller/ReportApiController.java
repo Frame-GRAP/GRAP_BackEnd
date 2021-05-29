@@ -21,6 +21,12 @@ public class ReportApiController {
         return reportService.findAll();
     }
 
+    @GetMapping("/api/report/countAll")
+    public Long countAll() {
+
+        return reportService.countAll();
+    }
+
     @PostMapping("/api/user/{userId}/video/{videoId}/report")
     public Long saveVideoReport(@PathVariable Long userId, @PathVariable Long videoId, @RequestBody ReportSaveRequestDto requestDto) {
         return reportService.saveVideoReport(userId, videoId, requestDto);
