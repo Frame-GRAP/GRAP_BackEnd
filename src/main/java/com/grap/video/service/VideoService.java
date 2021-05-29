@@ -65,4 +65,10 @@ public class VideoService {
 
         return videoId;
     }
+
+    @Transactional(readOnly = true)
+    public Long countAll() {
+
+        return videoRepository.count();
+    }
 }
