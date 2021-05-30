@@ -84,6 +84,7 @@ public class ReportService {
 
     @Transactional(readOnly = true)
     public List<ReportListResponseDto> findAll() {
+
         return reportRepository.findAll().stream()
                 .map(ReportListResponseDto::new)
                 .collect(Collectors.toList());
