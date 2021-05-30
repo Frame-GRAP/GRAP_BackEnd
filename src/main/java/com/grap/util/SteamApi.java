@@ -1,4 +1,4 @@
-package com.grap.game.util;
+package com.grap.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

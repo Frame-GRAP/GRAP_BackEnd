@@ -1,8 +1,9 @@
-package com.grap.game.util;
+package com.grap.util;
 
 import com.grap.category.domain.Category;
 import com.grap.category.dto.CategoryResponseDto;
 import com.grap.category.repository.CategoryRepository;
+import com.grap.categorytab.repository.CategoryTabRepository;
 import com.grap.categorytab.service.CategoryTabService;
 import com.grap.customtab.domain.CustomTab;
 import com.grap.customtab.repository.CustomTabRepository;
@@ -21,6 +22,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.FileReader;
 import java.time.LocalDate;
@@ -29,51 +32,22 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-@Component
+@Service
 public class JsonToDB {
-    /* 메인에서 사용 시
-    @Autowired
-    public static JsonToDB jsonToDB;
 
-    @Autowired
-    private JsonToDB db;
+    private final GameRepository gameRepository;
+    private final CategoryRepository categoryRepository;
+    private final RelatedGameService relatedGameService;
+    private final RelatedGameRepository relatedGameRepository;
+    private final CategoryTabService categoryTabService;
+    private final CategoryTabRepository categoryTabRepository;
+    private final CustomTabRepository customTabRepository;
+    private final GameAndCustomTabService gameAndCustomTabService;
+    private final GameAndCategoryService gameAndCategoryService;
+    private final AWSS3 awsS3;
 
-    @PostConstruct
-    private void initStaticDao () {
-        jsonToDB = this.db;
-    }
-    필요.
-    메인 메소드에서
-    jsonToDB.메소드();
-    호출 필요
-     */
-
-    private Game game = new Game();
-
-    @Autowired
-    private GameRepository gameRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private RelatedGameService relatedGameService;
-    @Autowired
-    private CategoryTabService categoryTabService;
-    @Autowired
-    private StarterService starterService;
-    @Autowired
-    private CustomTabRepository customTabRepository;
-    @Autowired
-    private GameAndCustomTabService gameAndCustomTabService;
-
-    @Autowired
-    private GameAndCategoryService gameAndCategoryService;
-
-    @Autowired
-    private GameService gameService;
-
-
-    public void jsonToGameDB(){
+    @Transactional
+    public void jsonToGameDB(String fileName){
 //        saveCategories(); // 카테고리 없을 때
         //saveCustomTab("최신 인기 게임"); // 커스텀 탭 넣을 시
 
@@ -81,7 +55,7 @@ public class JsonToDB {
 
         try {
             Object obj = parser.parse(new FileReader(
-                    "src/main/resources/json/popular_game_detail.json"
+                    "src/main/resources/json/" + fileName
             ));
             JSONObject jsonObject = (JSONObject) obj;
             Iterator<String> keys = jsonObject.keySet().iterator();
@@ -109,9 +83,9 @@ public class JsonToDB {
                     String tagKey = tagsKeys.next();
                     gameAndCategoryService.save(game.getId(), categoryRepository.findByName(tagKey).getId());
                 }
-                //saveGameAndCustomTab(game.getId(), 1L); // 커스텀 탭에 게임을 넣을 시
 
-//                starterService.saveStarter(game.getId()); // 스타터에 게임을 넣을 시
+                // saveGameAndCustomTab(game.getId(), 1L); // 커스텀 탭에 게임을 넣을 시
+                // starterService.saveStarter(game.getId()); // 스타터에 게임을 넣을 시
             }
 
         }catch (Exception e){
@@ -119,16 +93,16 @@ public class JsonToDB {
         }
     }
 
-    public void saveGameAndCustomTab(Long gameId, Long customTabId){
-        gameAndCustomTabService.saveGameAndCustomTab(gameId, customTabId);
-        return;
-    }
-    public void jsonToRelatedGameDB(){
+    @Transactional
+    public void jsonToRelatedGameDB(String fileName){
+        awsS3.downloadFromS3(fileName);
+        relatedGameRepository.customDeleteAll();
+
         JSONParser parser = new JSONParser();
 
         try {
             Object obj = parser.parse(new FileReader(
-                    "src/main/resources/json/related_game_list.json"
+                    "src/main/resources/json/" + fileName
             ));
             JSONObject jsonObject = (JSONObject) obj;
             Iterator<String> keys = jsonObject.keySet().iterator();
@@ -144,12 +118,16 @@ public class JsonToDB {
         }
     }
 
-    public void jsonToCategoryTabDB(){
+    @Transactional
+    public void jsonToCategoryTabDB(String fileName){
+        awsS3.downloadFromS3(fileName);
+        categoryTabRepository.customDeleteAll();
+
         JSONParser parser = new JSONParser();
 
         try {
             Object obj = parser.parse(new FileReader(
-                    "src/main/resources/json/category_tab_list.json"
+                    "src/main/resources/json/" + fileName
             ));
             JSONObject jsonObject = (JSONObject) obj;
             Iterator<String> keys = jsonObject.keySet().iterator();
@@ -168,6 +146,11 @@ public class JsonToDB {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void saveGameAndCustomTab(Long gameId, Long customTabId){
+        gameAndCustomTabService.saveGameAndCustomTab(gameId, customTabId);
+        return;
     }
 
     public void saveCustomTab(String name){
