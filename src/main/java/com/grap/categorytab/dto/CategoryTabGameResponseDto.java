@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class CategoryTabGameResponseDto {
 
+    private Long id;
     private String name;
     private String description;
     private String developer;
@@ -19,6 +20,7 @@ public class CategoryTabGameResponseDto {
     private String downloadUrl;
 
     public CategoryTabGameResponseDto(CategoryTab entity) {
+        this.id = entity.getGame().getId();
         this.name = entity.getGame().getName();
         this.description = entity.getGame().getDescription();
         this.developer = entity.getGame().getDeveloper();

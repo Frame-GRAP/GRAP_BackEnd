@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.util.List;
 
@@ -59,6 +58,18 @@ public class GameApiController {
     @GetMapping("/api/game/all")
     public List<GameResponseDto> findAll() {
         return gameService.findAll();
+    }
+
+    @GetMapping("/api/game/countAll")
+    public Long countAll() {
+
+        return gameService.countAll();
+    }
+
+    @GetMapping("api/game/titleAll")
+    public List<String> findAllTitles() {
+
+        return gameService.findAllTitles();
     }
 
     @GetMapping("/api/game/{gameId}/related")

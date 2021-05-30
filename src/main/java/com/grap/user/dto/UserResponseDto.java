@@ -8,11 +8,11 @@ public class UserResponseDto {
 
     private Long id;
     private Boolean isRegistered;
-    private String nickName;
+    private String nickname;
 
     public UserResponseDto(User entity, boolean isRegistered) {
         this.id = entity.getId();
         this.isRegistered = isRegistered;
-        this.nickName = entity.getNickname();
+        this.nickname = entity.getNickname();
     }
 }

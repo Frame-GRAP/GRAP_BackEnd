@@ -1,6 +1,7 @@
 package com.grap.user.service;
 
 import com.grap.user.domain.User;
+import com.grap.user.dto.UserInfoResponseDto;
 import com.grap.user.dto.UserResponseDto;
 import com.grap.user.dto.UserSaveRequestDto;
 import com.grap.user.repository.UserRepository;
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -44,5 +47,26 @@ public class UserService {
         user.update(nickname);
 
         return userId;
+    }
+
+    @Transactional(readOnly = true)
+    public Long countAll() {
+
+        return userRepository.count();
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserInfoResponseDto> findAll() {
+        return userRepository.findAll().stream()
+                .map(UserInfoResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> findAllNames() {
+
+        return userRepository.findAll().stream()
+                .map(User::getName)
+                .collect(Collectors.toList());
     }
 }

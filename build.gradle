@@ -10,6 +10,7 @@ version '1.0-SNAPSHOT-'+new Date().format("yyyyMMddHHmmss")
 repositories {
     mavenCentral()
     jcenter()
+    maven{url "https://jitpack.io"}
 }
 
 dependencies {
@@ -38,6 +39,9 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
 
     implementation('commons-io:commons-io:2.6')
+
+    //payment
+    implementation('com.github.iamport:iamport-rest-client-java:0.2.15')
 
     //crawling
     implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'

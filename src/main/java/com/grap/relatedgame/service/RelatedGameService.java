@@ -3,9 +3,8 @@ package com.grap.relatedgame.service;
 import com.grap.game.domain.Game;
 import com.grap.game.repository.GameRepository;
 import com.grap.relatedgame.domain.RelatedGame;
+import com.grap.relatedgame.dto.RelatedGameResponseDto;
 import com.grap.relatedgame.repository.RelatedGameRepository;
-import com.grap.video.domain.Video;
-import com.grap.video.dto.VideoSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,5 +28,15 @@ public class RelatedGameService {
         relatedGame.mapGame(game);
 
         return relatedGameRepository.save(relatedGame).getId();
+    }
+
+    @Transactional
+    public RelatedGameResponseDto findByGameId(Long gameId) {
+
+        RelatedGame relatedGame = relatedGameRepository.findByGameId(gameId).orElseThrow(
+                () -> new IllegalArgumentException("해당 게임에 연관된 게임이 존재하지 않습니다.")
+        );
+
+        return new RelatedGameResponseDto(relatedGame);
     }
 }
