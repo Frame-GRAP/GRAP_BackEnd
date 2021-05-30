@@ -15,6 +15,7 @@ public class ReportListResponseDto {
     private LocalDateTime modifiedDate;
     private String target;
     private Long targetId;
+    private Long gameId;
 
     public ReportListResponseDto(Report entity) {
         this.id = entity.getId();
@@ -26,10 +27,12 @@ public class ReportListResponseDto {
         if(entity.getVideo() == null) {
             this.target = "review";
             this.targetId = entity.getReview().getId();
+            this.gameId = entity.getReview().getGame().getId();;
         }
         else {
             this.target = "video";
             this.targetId = entity.getVideo().getId();
+            this.gameId = entity.getVideo().getGame().getId();
         }
 
     }
