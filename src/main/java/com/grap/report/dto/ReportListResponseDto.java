@@ -13,6 +13,7 @@ public class ReportListResponseDto {
     private String reportType;
     private String content;
     private LocalDateTime modifiedDate;
+    private String target;
 
     public ReportListResponseDto(Report entity) {
         this.id = entity.getId();
@@ -20,5 +21,10 @@ public class ReportListResponseDto {
         this.reportType = entity.getReportType();
         this.content = entity.getContent();
         this.modifiedDate = entity.getModifiedDate();
+
+        if(entity.getVideo() == null)
+            this.target = "review";
+        else
+            this.target = "video";
     }
 }

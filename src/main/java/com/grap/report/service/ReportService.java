@@ -84,6 +84,16 @@ public class ReportService {
 
     @Transactional(readOnly = true)
     public List<ReportListResponseDto> findAll() {
+
+//        List<ReportListResponseDto> list = new ArrayList<>();
+//        List<Report> reportList = reportRepository.findAll();
+//        String target = "";
+//
+//        for(Report r : reportList) {
+//            if(r.getVideo() == null)
+//                list.stream().map()
+//
+//        }
         return reportRepository.findAll().stream()
                 .map(ReportListResponseDto::new)
                 .collect(Collectors.toList());
