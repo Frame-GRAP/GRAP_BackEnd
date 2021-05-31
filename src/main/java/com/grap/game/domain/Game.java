@@ -1,6 +1,7 @@
 package com.grap.game.domain;
 
 import com.grap.categorytab.domain.CategoryTab;
+import com.grap.coupon.domain.Coupon;
 import com.grap.domain.BaseTimeEntity;
 import com.grap.favor.domain.Favor;
 import com.grap.gameandcategory.domain.GameAndCategory;
@@ -75,6 +76,9 @@ public class Game extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
     private List<UserGamePreference> userGamePreferences = new ArrayList<>();
+
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+    private List<Coupon> coupons = new ArrayList<>();
 
     @OneToOne(mappedBy = "game", cascade = CascadeType.ALL)
     private RelatedGame relatedGame;
