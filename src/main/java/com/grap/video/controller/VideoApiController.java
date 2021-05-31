@@ -30,12 +30,12 @@ public class VideoApiController {
         return videoService.findByGameId(gameId);
     }
 
-    @DeleteMapping("/api/game/{gameId}/video/{videoId}")
+    @DeleteMapping("/api/video/{videoId}")
     public Long delete(@PathVariable Long videoId) {
         return videoService.delete(videoId);
     }
 
-    @PutMapping("/api/game/{gameId}/video/{videoId}")
+    @PutMapping("/api/video/{videoId}")
     public Long updateIsRegistered(@PathVariable Long videoId) {
         return videoService.updateIsRegistered(videoId);
     }
