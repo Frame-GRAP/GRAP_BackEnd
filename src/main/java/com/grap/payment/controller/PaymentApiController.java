@@ -7,6 +7,7 @@ import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.Certification;
 import com.siot.IamportRestClient.response.IamportResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,9 +20,13 @@ import java.io.IOException;
 @Controller
 public class PaymentApiController {
 
+    @Value("${api.key}")
+    private String imp_key;
+
+    @Value("${api.secret}")
+    private String imp_secret;
+
     private final PaymentService paymentService;
-    public static final String imp_key = "";
-    public static final String imp_secret = "";
 
     @PostMapping("/api/checkPayment")
     public Long checkPayment(@RequestBody PaymentSaveRequestDto requestDto) throws IOException, IamportResponseException {
