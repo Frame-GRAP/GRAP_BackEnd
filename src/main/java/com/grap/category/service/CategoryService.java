@@ -25,6 +25,13 @@ public class CategoryService {
 
     @Transactional(readOnly = true)
     public List<CategoryResponseDto> findAllCategory() {
+        return categoryRepository.findAllByType("category").stream()
+                .map(CategoryResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<CategoryResponseDto> findAllCategoryAndTag() {
         return categoryRepository.findAll().stream()
                 .map(CategoryResponseDto::new)
                 .collect(Collectors.toList());
@@ -74,4 +81,5 @@ public class CategoryService {
 
         categoryRepository.delete(category);
     }
+
 }
