@@ -16,6 +16,11 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
+    @GetMapping("/api/category-tag/all")
+    public List<CategoryResponseDto> findAllCategoryAndTag() {
+        return categoryService.findAllCategoryAndTag();
+    }
+
     @GetMapping("/api/category/all")
     public List<CategoryResponseDto> findAllCategory() {
         return categoryService.findAllCategory();
