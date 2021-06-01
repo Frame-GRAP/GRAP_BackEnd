@@ -60,7 +60,7 @@ public class CategoryService {
                 () -> new IllegalArgumentException("해당 카테고리는 존재하지 않습니다.")
         );
 
-        category.update(requestDto.getName(), requestDto.getUiName());
+        category.update(requestDto.getName(), requestDto.getUiName(), requestDto.getType());
 
         return categoryId;
     }

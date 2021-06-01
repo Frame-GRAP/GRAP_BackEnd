@@ -11,17 +11,20 @@ public class CategorySaveRequestDto {
 
     private String name;
     private String uiName;
+    private String type;
 
     @Builder
-    public CategorySaveRequestDto(String name, String uiName) {
+    public CategorySaveRequestDto(String name, String uiName, String type) {
         this.name = name;
         this.uiName = uiName;
+        this.type = type;
     }
 
     public Category toEntity() {
         return Category.builder()
                 .name(name)
                 .uiName(uiName)
+                .type(type)
                 .build();
     }
 }
