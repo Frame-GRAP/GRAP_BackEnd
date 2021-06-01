@@ -1,5 +1,6 @@
 package com.grap.membership.domain;
 
+import com.grap.payment.domain.Payment;
 import com.grap.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,6 +27,9 @@ public class Membership {
 
     @OneToMany(mappedBy = "membership", cascade = CascadeType.ALL)
     private List<User> userMembership = new ArrayList<>();
+
+    @OneToMany(mappedBy = "membership", cascade = CascadeType.ALL)
+    private List<Payment> payments = new ArrayList<>();
 
     @Builder
     public Membership(String name, Integer price) {

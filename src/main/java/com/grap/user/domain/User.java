@@ -3,6 +3,7 @@ package com.grap.user.domain;
 import com.grap.domain.BaseTimeEntity;
 import com.grap.favor.domain.Favor;
 import com.grap.membership.domain.Membership;
+import com.grap.payment.domain.Payment;
 import com.grap.report.domain.Report;
 import com.grap.review.domain.Review;
 import com.grap.starter.domain.Starter;
@@ -58,6 +59,9 @@ public class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserCategoryPreference> userCategoryPreferences = new ArrayList<>();
+
+    @OneToMany(mappedBy = "membership", cascade = CascadeType.ALL)
+    private List<Payment> pays = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "membership_id")
