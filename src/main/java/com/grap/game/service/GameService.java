@@ -72,6 +72,13 @@ public class GameService {
     }
 
     @Transactional
+    public List<GameResponseDto> findByNameLike(String gameName){
+        return gameRepository.findByNameLike("%" + gameName + "%").stream()
+                .map(GameResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
     public List<GameResponseDto> findByCategory(Long categoryId){
         Category category = categoryRepository.findById(categoryId).orElseThrow(
                 () -> new IllegalArgumentException("해당 카테고리가 존재하지 않습니다. id : " + categoryId));

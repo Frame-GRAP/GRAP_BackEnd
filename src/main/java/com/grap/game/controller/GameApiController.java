@@ -45,9 +45,16 @@ public class GameApiController {
         return (long) -1;
     }
 
+
+
     @PutMapping("/api/game/{gameId}")
     public Long update(@PathVariable Long gameId, @RequestBody GameUpdateRequestDto requestDto){
         return gameService.update(gameId, requestDto);
+    }
+
+    @GetMapping("/api/game")
+    public List<GameResponseDto> findByNameLike(@RequestParam(value = "name") String gameName){
+        return gameService.findByNameLike(gameName);
     }
 
     @GetMapping("/api/game/{gameId}")
