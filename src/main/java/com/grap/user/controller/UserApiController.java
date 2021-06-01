@@ -48,4 +48,9 @@ public class UserApiController {
 
         return userService.findAllNames();
     }
+
+    @DeleteMapping("/api/user/{userId}")
+    public Long delete(@PathVariable Long userId){
+        return userService.delete(userId);
+    }
 }

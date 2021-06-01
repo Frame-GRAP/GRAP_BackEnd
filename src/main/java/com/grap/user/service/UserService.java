@@ -69,4 +69,15 @@ public class UserService {
                 .map(User::getName)
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public Long delete(Long userId){
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new IllegalArgumentException("해당 유저는 존재하지 않습니다.")
+        );
+
+        userRepository.delete(user);
+
+        return user.getId();
+    }
 }
