@@ -6,6 +6,7 @@ import com.grap.membership.domain.Membership;
 import com.grap.report.domain.Report;
 import com.grap.review.domain.Review;
 import com.grap.starter.domain.Starter;
+import com.grap.userandcoupon.domain.UserAndCoupon;
 import com.grap.usercategorypreference.domain.UserCategoryPreference;
 import com.grap.usergamepreference.domain.UserGamePreference;
 import lombok.Builder;
@@ -58,6 +59,9 @@ public class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserCategoryPreference> userCategoryPreferences = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserAndCoupon> userAndCoupons = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "membership_id")
