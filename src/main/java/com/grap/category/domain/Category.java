@@ -26,6 +26,9 @@ public class Category {
     @Column(nullable = false, name = "ui_name")
     private String uiName;
 
+    @Column(nullable = false)
+    private String type;
+
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<GameAndCategory> gameAndCategory = new ArrayList<>();
 
@@ -36,13 +39,15 @@ public class Category {
     private List<UserCategoryPreference> userCategoryPreferences = new ArrayList<>();
 
     @Builder
-    public Category(String name, String uiName) {
+    public Category(String name, String uiName, String type) {
         this.name = name;
         this.uiName = uiName;
+        this.type = type;
     }
 
-    public void update(String name, String uiName) {
+    public void update(String name, String uiName, String type) {
         this.name = name;
         this.uiName = uiName;
+        this.type = type;
     }
 }
