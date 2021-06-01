@@ -1,50 +1,82 @@
 package com.grap.payment.controller;
 
+import com.grap.payment.dto.PaymentReserveRequestDto;
 import com.grap.payment.dto.PaymentSaveRequestDto;
 import com.grap.payment.service.PaymentService;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
-import com.siot.IamportRestClient.response.Certification;
-import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.request.ScheduleData;
+import com.siot.IamportRestClient.request.ScheduleEntry;
+import com.siot.IamportRestClient.request.UnscheduleData;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
 
 @CrossOrigin("*")
 @RequiredArgsConstructor
-@Controller
+@RestController
 public class PaymentApiController {
 
+    @Value("${api.key}")
+    private String imp_key;
+
+    @Value("${api.secret}")
+    private String imp_secret;
+
     private final PaymentService paymentService;
-    public static final String imp_key = "";
-    public static final String imp_secret = "";
 
-    @PostMapping("/api/checkPayment")
-    public Long checkPayment(@RequestBody PaymentSaveRequestDto requestDto) throws IOException, IamportResponseException {
+    @PostMapping("/api/checkPayment/{imp_uid}")
+    public Long checkPayment(@PathVariable String imp_uid, @RequestBody PaymentSaveRequestDto requestDto) throws IOException, IamportResponseException {
 
+        Long responseVal = (long) -1;
         IamportClient client = new IamportClient(imp_key, imp_secret);
-        IamportResponse<Certification> certificationResponse = client.certificationByImpUid(requestDto.getCustomerUid());
 
-        System.out.println("getMessage ->" + certificationResponse.getMessage());
-        System.out.println("getResponse ->" + certificationResponse.getResponse());
-        System.out.println("getBirth ->" + certificationResponse.getResponse().getBirth().toString());
-        System.out.println("getGender ->" + certificationResponse.getResponse().getGender());
-        System.out.println("getName ->" + certificationResponse.getResponse().getName());
-        System.out.println("getPgProvider ->" + certificationResponse.getResponse().getPgProvider());
-        System.out.println("getImpUid ->" + certificationResponse.getResponse().getImpUid().toString());
-        System.out.println("getMerchantUid ->" + certificationResponse.getResponse().getMerchantUid().toString());
-        System.out.println("getPgTid ->" + certificationResponse.getResponse().getPgTid().toString());
-        System.out.println("getUniqueKey ->" + certificationResponse.getResponse().getUniqueKey().toString());
-        System.out.println("getUniqueInSite ->" + certificationResponse.getResponse().getUniqueInSite().toString());
-        System.out.println("getOrigin ->" + certificationResponse.getResponse().getOrigin().toString());
-        System.out.println("getCarrier ->" + certificationResponse.getResponse().getCarrier().toString());
-        System.out.println("getPhone ->" + certificationResponse.getResponse().getPhone().toString());
+        if(requestDto.getPaidAmount().equals(client.paymentByImpUid(imp_uid).getResponse().getAmount())) {
+            responseVal = paymentService.savePayment(requestDto);
 
-        return (long) 1;
+            createSchedule(client, requestDto.getMerchantUid(), requestDto.getCustomerUid(), requestDto.getPaidAmount());
+        }
+
+        return responseVal;
     }
 
+    @PostMapping("/api/checkPayment/iamport-callback")
+    public void reservePayment(@RequestBody PaymentReserveRequestDto requestDto) throws IOException, IamportResponseException {
+
+        IamportClient client = new IamportClient(imp_key, imp_secret);
+        com.siot.IamportRestClient.response.Payment response = client.paymentByImpUid(requestDto.getImp_uid()).getResponse();
+
+        long num = Long.parseLong(response.getMerchantUid().replaceAll("[^0-9]","")) + 1;
+        String merchantUid = "정기결제_" + num;
+
+        paymentService.saveNextPayment(response.getCustomerUid(), merchantUid);
+
+        createSchedule(client, merchantUid, response.getCustomerUid(), response.getAmount());
+    }
+
+    @PostMapping("/api/checkPayment/unsubscribe/{customerUid}")
+    public void cancleSubscription(@PathVariable String customerUid) throws IOException, IamportResponseException {
+
+        UnscheduleData unscheduleData = new UnscheduleData(customerUid);
+        IamportClient client = new IamportClient(imp_key, imp_secret);
+        client.unsubscribeSchedule(unscheduleData);
+    }
+
+    private void createSchedule(IamportClient client, String merchantUid, String customerUid, BigDecimal amount) throws IOException, IamportResponseException {
+
+        Date reserve = new Date();
+        Calendar myCal = Calendar.getInstance();
+        myCal.setTime(reserve);
+        myCal.add(Calendar.MINUTE, +10);
+        reserve = myCal.getTime();
+
+        ScheduleData scheduleData = new ScheduleData(customerUid);
+        scheduleData.addSchedule(new ScheduleEntry(merchantUid, reserve, amount));
+        client.subscribeSchedule(scheduleData);
+    }
 }
