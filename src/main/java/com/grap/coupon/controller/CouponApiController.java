@@ -43,7 +43,4 @@ public class CouponApiController {
     public Long update(@PathVariable Long couponId, @RequestBody CouponUpdateRequestDto requestDto){
         return couponService.update(couponId, requestDto);
     }
-
-
-
 }

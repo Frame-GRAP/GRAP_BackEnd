@@ -40,6 +40,6 @@ public class Coupon {
 
     public void update(String name, LocalDate expirationDate) {
         this.name = name;
-        this.expirationDate = expirationDate;;
+        this.expirationDate = expirationDate;
     }
 }

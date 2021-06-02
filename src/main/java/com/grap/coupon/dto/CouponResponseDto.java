@@ -9,14 +9,14 @@ import java.time.LocalDate;
 public class CouponResponseDto {
 
     private Long couponId;
-    private String couponName;
+    private String name;
     private LocalDate expirationDate;
     private String gameHeaderImage;
     private String gameName;
 
     public CouponResponseDto(Coupon entity){
         this.couponId = entity.getId();
-        this.couponName = entity.getName();
+        this.name = entity.getName();
         this.expirationDate = entity.getExpirationDate();
         this.gameHeaderImage = entity.getGame().getHeaderImg();
         this.gameName = entity.getGame().getName();
