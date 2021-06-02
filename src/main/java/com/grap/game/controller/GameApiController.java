@@ -56,8 +56,8 @@ public class GameApiController {
     }
 
     @GetMapping("/api/game/search")
-    public List<GameResponseDto> findByNameContaining(@RequestParam(value = "name") String gameName, @RequestParam int size) {
-        return gameService.findByNameContaining(gameName, size);
+    public List<GameResponseDto> findByNameContaining(@RequestParam(value = "name") String gameName, @RequestParam int pageNum, @RequestParam int size) {
+        return gameService.findByNameContaining(gameName, pageNum, size);
     }
 
     @GetMapping("/api/game/{gameId}")
