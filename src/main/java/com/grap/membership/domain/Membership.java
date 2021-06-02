@@ -25,20 +25,25 @@ public class Membership {
     @Column(nullable = false)
     private Integer price;
 
+    @Column(nullable = false)
+    private Integer availableCoupon;
+
     @OneToMany(mappedBy = "membership", cascade = CascadeType.ALL)
-    private List<User> userMembership = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
 
     @OneToMany(mappedBy = "membership", cascade = CascadeType.ALL)
     private List<Payment> payments = new ArrayList<>();
 
     @Builder
-    public Membership(String name, Integer price) {
+    public Membership(String name, Integer price, Integer availableCoupon) {
         this.name = name;
         this.price = price;
+        this.availableCoupon = availableCoupon;
     }
 
-    public void update(String name, Integer price) {
+    public void update(String name, Integer price, Integer availableCoupon) {
         this.name = name;
         this.price = price;
+        this.availableCoupon = availableCoupon;
     }
 }

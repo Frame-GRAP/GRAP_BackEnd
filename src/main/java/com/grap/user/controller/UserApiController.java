@@ -27,6 +27,11 @@ public class UserApiController {
         return userService.dupCheckNickname(nickname);
     }
 
+    @GetMapping("api/user/{userId}")
+    public UserInfoResponseDto findByUserId(@PathVariable Long userId) {
+        return userService.findByUserId(userId);
+    }
+
     @PostMapping("api/user/{userId}/nickname/{nickname}")
     public Long saveNickname(@PathVariable Long userId, @PathVariable String nickname) {
         return userService.saveNickname(userId, nickname);
@@ -53,4 +58,16 @@ public class UserApiController {
     public Long delete(@PathVariable Long userId){
         return userService.delete(userId);
     }
+
+
+    @PutMapping("api/user/{userId}/membership/{membershipId}")
+    public String userRegisterMembership(@PathVariable Long userId, @PathVariable Long membershipId) {
+        return userService.mapMembership(userId, membershipId);
+    }
+
+    @PutMapping("/api/user/{userId}/membership")
+    public String unsubscribeMembership(@PathVariable Long userId) {
+        return userService.unmapMembership(userId);
+    }
+
 }

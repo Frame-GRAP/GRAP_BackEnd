@@ -39,7 +39,7 @@ public class MembershipService {
                 () -> new IllegalArgumentException("해당 멤버십 존재하지 않습니다.")
         );
 
-        membership.update(requestDto.getName(), requestDto.getPrice());
+        membership.update(requestDto.getName(), requestDto.getPrice(), requestDto.getAvailableCoupon());
 
         return membershipId;
     }
