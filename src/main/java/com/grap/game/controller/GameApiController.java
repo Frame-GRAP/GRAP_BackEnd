@@ -51,8 +51,8 @@ public class GameApiController {
     }
 
     @GetMapping("/api/game")
-    public List<GameResponseDto> findByNameLike(@RequestParam(value = "name") String gameName){
-        return gameService.findByNameLike(gameName);
+    public List<GameResponseDto> findByNameLike(@RequestParam(value = "name") String gameName, @RequestParam int size) {
+        return gameService.findByNameLike(gameName, size);
     }
 
     @GetMapping("/api/game/{gameId}")

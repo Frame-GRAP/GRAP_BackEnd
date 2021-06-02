@@ -74,14 +74,17 @@ public class GameService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
-    public List<GameResponseDto> findByNameLike(String gameName){
-        return gameRepository.findByNameLike("%" + gameName + "%").stream()
-                .map(GameResponseDto::new)
-                .collect(Collectors.toList());
+    @Transactional(readOnly = true)
+    public List<GameResponseDto> findByNameLike(String gameName, int size) {
+        PageRequest pageRequest = PageRequest.of(0, size);
+
+        Page<Game> games = gameRepository.findByNameContainingIgnoreCase(gameName, pageRequest);
+
+        return games.stream().map(GameResponseDto::new).collect(Collectors.toList());
     }
 
 
+    @Transactional(readOnly = true)
     public List<GameResponseDto> findByCategoryId(Long gameId, Long categoryId, int size) {
 
         Page<GameAndCategory> gameAndCategories = fetchPages(gameId, categoryId, size);
@@ -91,16 +94,6 @@ public class GameService {
                 .map(GameAndCategory::getGame )
                 .map(GameResponseDto::new)
                 .collect(Collectors.toList());
-    }
-
-    private Page<GameAndCategory> fetchPages(Long gameId, Long categoryId, int size) {
-        PageRequest pageRequest = PageRequest.of(0, size);
-
-        categoryRepository.findById(categoryId).orElseThrow(
-                () -> new IllegalArgumentException("해당 카테고리가 존재하지 않습니다. id : " + categoryId)
-        );
-
-        return gameAndCategoryRepository.findByCategoryIdAndGameIdLessThanOrderByGameIdDesc(categoryId, gameId, pageRequest);
     }
 
     @Transactional
@@ -123,5 +116,15 @@ public class GameService {
         return gameRepository.findAll().stream()
                 .map(Game::getName)
                 .collect(Collectors.toList());
+    }
+
+    private Page<GameAndCategory> fetchPages(Long gameId, Long categoryId, int size) {
+        PageRequest pageRequest = PageRequest.of(0, size);
+
+        categoryRepository.findById(categoryId).orElseThrow(
+                () -> new IllegalArgumentException("해당 카테고리가 존재하지 않습니다. id : " + categoryId)
+        );
+
+        return gameAndCategoryRepository.findByCategoryIdAndGameIdLessThanOrderByGameIdDesc(categoryId, gameId, pageRequest);
     }
 }
