@@ -1,5 +1,6 @@
 package com.grap.user.service;
 
+import com.grap.membership.repository.MembershipRepository;
 import com.grap.user.domain.User;
 import com.grap.user.dto.UserInfoResponseDto;
 import com.grap.user.dto.UserResponseDto;
@@ -17,7 +18,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class UserService {
+
     private final UserRepository userRepository;
+    private final MembershipRepository membershipRepository;
 
     @Transactional
     public UserResponseDto saveOrUpdate(UserSaveRequestDto requestDto) {
@@ -70,6 +73,15 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+//    @Transactional(readOnly = true)
+//    public MembershipResponseDto findByUserId(Long userId) {
+//        User user = userRepository.findById(userId).orElseThrow(
+//                () -> new IllegalArgumentException("해당 유저는 존재하지 않습니다.")
+//        );
+//
+//        if(user)
+//    }
+
     @Transactional
     public Long delete(Long userId){
         User user = userRepository.findById(userId).orElseThrow(
@@ -79,5 +91,14 @@ public class UserService {
         userRepository.delete(user);
 
         return user.getId();
+    }
+
+    @Transactional(readOnly = true)
+    public UserInfoResponseDto findByUserId(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new IllegalArgumentException("해당 유저는 존재하지 않습니다.")
+        );
+
+        return new UserInfoResponseDto(user);
     }
 }

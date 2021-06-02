@@ -27,6 +27,11 @@ public class UserApiController {
         return userService.dupCheckNickname(nickname);
     }
 
+    @GetMapping("api/user/{userId}")
+    public UserInfoResponseDto findByUserId(@PathVariable Long userId) {
+        return userService.findByUserId(userId);
+    }
+
     @PostMapping("api/user/{userId}/nickname/{nickname}")
     public Long saveNickname(@PathVariable Long userId, @PathVariable String nickname) {
         return userService.saveNickname(userId, nickname);
