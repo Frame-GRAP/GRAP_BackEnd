@@ -1,6 +1,5 @@
 package com.grap.game.service;
 
-import com.grap.category.domain.Category;
 import com.grap.category.repository.CategoryRepository;
 import com.grap.game.domain.Game;
 import com.grap.game.dto.GameResponseDto;
@@ -8,7 +7,10 @@ import com.grap.game.dto.GameSaveRequestDto;
 import com.grap.game.dto.GameUpdateRequestDto;
 import com.grap.game.repository.GameRepository;
 import com.grap.gameandcategory.domain.GameAndCategory;
+import com.grap.gameandcategory.repository.GameAndCategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,7 @@ public class GameService {
 
     private final GameRepository gameRepository;
     private final CategoryRepository categoryRepository;
+    private final GameAndCategoryRepository gameAndCategoryRepository;
 
     @Transactional
     public Long save(GameSaveRequestDto requestDto) {
@@ -78,18 +81,26 @@ public class GameService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
-    public List<GameResponseDto> findByCategory(Long categoryId){
-        Category category = categoryRepository.findById(categoryId).orElseThrow(
-                () -> new IllegalArgumentException("해당 카테고리가 존재하지 않습니다. id : " + categoryId));
 
-        List<Game> games = new ArrayList<>();
-        for (GameAndCategory gameAndCategory : category.getGameAndCategory()){
-            games.add(gameAndCategory.getGame());
-        }
-        return games.stream()
+    public List<GameResponseDto> findByCategoryId(Long gameId, Long categoryId, int size) {
+
+        Page<GameAndCategory> gameAndCategories = fetchPages(gameId, categoryId, size);
+
+        return gameAndCategories
+                .stream()
+                .map(GameAndCategory::getGame )
                 .map(GameResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    private Page<GameAndCategory> fetchPages(Long gameId, Long categoryId, int size) {
+        PageRequest pageRequest = PageRequest.of(0, size);
+
+        categoryRepository.findById(categoryId).orElseThrow(
+                () -> new IllegalArgumentException("해당 카테고리가 존재하지 않습니다. id : " + categoryId)
+        );
+
+        return gameAndCategoryRepository.findByCategoryIdAndGameIdLessThanOrderByGameIdDesc(categoryId, gameId, pageRequest);
     }
 
     @Transactional

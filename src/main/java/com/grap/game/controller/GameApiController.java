@@ -45,8 +45,6 @@ public class GameApiController {
         return (long) -1;
     }
 
-
-
     @PutMapping("/api/game/{gameId}")
     public Long update(@PathVariable Long gameId, @RequestBody GameUpdateRequestDto requestDto){
         return gameService.update(gameId, requestDto);
@@ -79,16 +77,15 @@ public class GameApiController {
         return gameService.findAllTitles();
     }
 
-    @GetMapping("/api/game/{gameId}/related")
+    @GetMapping("/api/game/{gameId}/related/all")
     public List<GameResponseDto> findRelatedGameById(@PathVariable Long gameId) {
         return gameService.findRelatedGameById(gameId);
     }
 
-    @GetMapping("/api/category/{categoryId}/game")
-    public List<GameResponseDto> findByCategory(@PathVariable Long categoryId){
-        return gameService.findByCategory(categoryId);
+    @GetMapping("/api/game/{gameId}/all")
+    public List<GameResponseDto> findByCategoryId(@PathVariable Long gameId, @RequestParam Long categoryId, @RequestParam int size) {
+        return gameService.findByCategoryId(gameId, categoryId, size);
     }
-
 
     @DeleteMapping("/api/game/{gameId}")
     public Long delete (@PathVariable Long gameId) {
