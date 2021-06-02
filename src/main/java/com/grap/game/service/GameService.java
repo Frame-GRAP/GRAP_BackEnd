@@ -67,7 +67,7 @@ public class GameService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<GameResponseDto> findAll() {
         return gameRepository.findAll().stream()
                 .map(GameResponseDto::new)
@@ -75,14 +75,20 @@ public class GameService {
     }
 
     @Transactional(readOnly = true)
-    public List<GameResponseDto> findByNameLike(String gameName, int size) {
+    public List<GameResponseDto> findByNameLike(String gameName){
+        return gameRepository.findByNameLike("%" + gameName + "%").stream()
+                .map(GameResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<GameResponseDto> findByNameContaining(String gameName, int size) {
         PageRequest pageRequest = PageRequest.of(0, size);
 
         Page<Game> games = gameRepository.findByNameContainingIgnoreCase(gameName, pageRequest);
 
         return games.stream().map(GameResponseDto::new).collect(Collectors.toList());
     }
-
 
     @Transactional(readOnly = true)
     public List<GameResponseDto> findByCategoryId(Long gameId, Long categoryId, int size) {

@@ -50,9 +50,14 @@ public class GameApiController {
         return gameService.update(gameId, requestDto);
     }
 
-    @GetMapping("/api/game")
-    public List<GameResponseDto> findByNameLike(@RequestParam(value = "name") String gameName, @RequestParam int size) {
-        return gameService.findByNameLike(gameName, size);
+    @GetMapping("/api/game") // 관리자용 임시
+    public List<GameResponseDto> findByNameLike(@RequestParam(value = "name") String gameName){
+        return gameService.findByNameLike(gameName);
+    }
+
+    @GetMapping("/api/game/search")
+    public List<GameResponseDto> findByNameContaining(@RequestParam(value = "name") String gameName, @RequestParam int size) {
+        return gameService.findByNameContaining(gameName, size);
     }
 
     @GetMapping("/api/game/{gameId}")
@@ -67,13 +72,11 @@ public class GameApiController {
 
     @GetMapping("/api/game/countAll")
     public Long countAll() {
-
         return gameService.countAll();
     }
 
     @GetMapping("api/game/titleAll")
     public List<String> findAllTitles() {
-
         return gameService.findAllTitles();
     }
 
