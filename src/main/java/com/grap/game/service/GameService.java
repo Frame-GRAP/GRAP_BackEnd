@@ -82,8 +82,8 @@ public class GameService {
     }
 
     @Transactional(readOnly = true)
-    public List<GameResponseDto> findByNameContaining(String gameName, int size) {
-        PageRequest pageRequest = PageRequest.of(0, size);
+    public List<GameResponseDto> findByNameContaining(String gameName, int pageNum, int size) {
+        PageRequest pageRequest = PageRequest.of(pageNum, size);
 
         Page<Game> games = gameRepository.findByNameContainingIgnoreCase(gameName, pageRequest);
 
