@@ -58,4 +58,16 @@ public class UserApiController {
     public Long delete(@PathVariable Long userId){
         return userService.delete(userId);
     }
+
+
+    @PutMapping("api/user/{userId}/membership/{membershipId}")
+    public String userRegisterMembership(@PathVariable Long userId, @PathVariable Long membershipId) {
+        return userService.mapMembership(userId, membershipId);
+    }
+
+    @PutMapping("/api/user/{userId}/membership")
+    public String unsubscribeMembership(@PathVariable Long userId) {
+        return userService.unmapMembership(userId);
+    }
+
 }

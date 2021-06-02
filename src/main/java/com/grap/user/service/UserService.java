@@ -1,5 +1,6 @@
 package com.grap.user.service;
 
+import com.grap.membership.domain.Membership;
 import com.grap.membership.repository.MembershipRepository;
 import com.grap.user.domain.User;
 import com.grap.user.dto.UserInfoResponseDto;
@@ -100,5 +101,33 @@ public class UserService {
         );
 
         return new UserInfoResponseDto(user);
+    }
+
+    @Transactional
+    public String mapMembership(Long userId, Long membershipId) {
+
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new IllegalArgumentException("해당 유저는 존재하지 않습니다.")
+        );
+
+        Membership membership = membershipRepository.findById(membershipId).orElseThrow(
+                () -> new IllegalArgumentException("해당 멤버십은 존재하지 않습니다.")
+        );
+
+        user.mapMembership(membership);
+
+        return "멤버십 가입 완료";
+    }
+
+    @Transactional
+    public String unmapMembership(Long userId) {
+
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new IllegalArgumentException("해당 유저는 존재하지 않습니다.")
+        );
+
+        user.mapMembership(null);
+
+        return "멤버십 해지 완료";
     }
 }
