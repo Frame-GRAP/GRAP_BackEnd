@@ -56,6 +56,9 @@ public class Game extends BaseTimeEntity {
     @Column(nullable = false, name = "vote_count")
     private int voteCount;
 
+    @Column(nullable = false)
+    private String price;
+
     @Column(columnDefinition = "timestamp", nullable = false)
     private LocalDateTime lastVideoCrawled;
 
@@ -92,7 +95,7 @@ public class Game extends BaseTimeEntity {
     }
 
     @Builder
-    public Game(String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl, double rating, int voteCount) {
+    public Game(String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl, double rating, int voteCount, String price) {
         this.name = name;
         this.description = description;
         this.developer = developer;
@@ -102,6 +105,7 @@ public class Game extends BaseTimeEntity {
         this.downloadUrl = downloadUrl;
         this.rating = rating;
         this.voteCount = voteCount;
+        this.price = price;
     }
 
     public void update(String name, String description,String downloadUrl) {

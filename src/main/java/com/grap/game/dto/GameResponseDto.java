@@ -4,7 +4,6 @@ import com.grap.game.domain.Game;
 import com.grap.video.domain.Video;
 import lombok.Getter;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,6 +21,7 @@ public class GameResponseDto {
     private String downloadUrl;
     private double rating;
     private int voteCount;
+    private String price;
     private LocalDateTime lastVideoCrawled;
     private List<Long> videosId;
 
@@ -37,7 +37,7 @@ public class GameResponseDto {
         this.lastVideoCrawled = entity.getLastVideoCrawled();
         this.rating = entity.getRating();
         this.voteCount = entity.getVoteCount();
-
+        this.price = entity.getPrice();
         List<Video> videos = entity.getVideos();
         List<Long> videosId = new ArrayList<>();
         videos.forEach(v -> videosId.add(v.getId()));
