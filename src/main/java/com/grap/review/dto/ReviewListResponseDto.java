@@ -9,14 +9,14 @@ import java.time.LocalDateTime;
 public class ReviewListResponseDto {
 
     private Long review_id;
-    private String username;
+    private String nickname;
     private String content;
     private int rating;
     private LocalDateTime modifiedDate;
 
     public ReviewListResponseDto(Review entity) {
         this.review_id = entity.getId();
-        this.username = entity.getUser().getName();
+        this.nickname = entity.getUser().getNickname();
         this.content = entity.getContent();
         this.rating = entity.getRating();
         this.modifiedDate = entity.getModifiedDate();
