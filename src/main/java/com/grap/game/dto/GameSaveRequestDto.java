@@ -17,9 +17,10 @@ public class GameSaveRequestDto {
     private LocalDate releaseDate;
     private String headerImg;
     private String downloadUrl;
+    private String price;
 
     @Builder
-    public GameSaveRequestDto(String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl) {
+    public GameSaveRequestDto(String name, String description, String developer, String publisher, LocalDate releaseDate, String headerImg, String downloadUrl, String price) {
         this.name = name;
         this.description = description;
         this.developer = developer;
@@ -27,6 +28,7 @@ public class GameSaveRequestDto {
         this.releaseDate = releaseDate;
         this.headerImg = headerImg;
         this.downloadUrl = downloadUrl;
+        this.price = price;
     }
 
     public Game toEntity(){
@@ -38,6 +40,7 @@ public class GameSaveRequestDto {
                 .releaseDate(releaseDate)
                 .headerImg(headerImg)
                 .downloadUrl(downloadUrl)
+                .price(price)
                 .build();
     }
 
