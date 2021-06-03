@@ -61,7 +61,7 @@ public class PaymentApiController {
         Date reserve = new Date();
         Calendar myCal = Calendar.getInstance();
         myCal.setTime(reserve);
-        myCal.add(Calendar.MINUTE, +10);
+        myCal.add(Calendar.MONTH, +1);
         reserve = myCal.getTime();
 
         userService.updateNextPaymentDay(Long.parseLong(customerUid.replaceAll("[^0-9]","")), reserve);
