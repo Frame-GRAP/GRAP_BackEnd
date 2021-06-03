@@ -67,7 +67,7 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserAndCoupon> userAndCoupons = new ArrayList<>();
 
-    @OneToMany(mappedBy = "membership", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "membership", cascade = CascadeType.ALL)
     private List<Payment> pays = new ArrayList<>();
 
 
