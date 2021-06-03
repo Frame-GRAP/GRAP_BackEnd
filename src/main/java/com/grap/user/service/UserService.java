@@ -2,6 +2,7 @@ package com.grap.user.service;
 
 import com.grap.membership.domain.Membership;
 import com.grap.membership.repository.MembershipRepository;
+import com.grap.payment.service.PaymentService;
 import com.grap.user.domain.User;
 import com.grap.user.dto.UserInfoResponseDto;
 import com.grap.user.dto.UserResponseDto;
@@ -22,6 +23,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final MembershipRepository membershipRepository;
+    private final PaymentService paymentService;
 
     @Transactional
     public UserResponseDto saveOrUpdate(UserSaveRequestDto requestDto) {
@@ -74,15 +76,6 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-//    @Transactional(readOnly = true)
-//    public MembershipResponseDto findByUserId(Long userId) {
-//        User user = userRepository.findById(userId).orElseThrow(
-//                () -> new IllegalArgumentException("해당 유저는 존재하지 않습니다.")
-//        );
-//
-//        if(user)
-//    }
-
     @Transactional
     public Long delete(Long userId){
         User user = userRepository.findById(userId).orElseThrow(
@@ -115,19 +108,20 @@ public class UserService {
         );
 
         user.mapMembership(membership);
+        user.updateOnSubscription(true);
 
-        return "멤버십 가입 완료";
+        return "멤버십 구독 완료";
     }
 
     @Transactional
-    public String unmapMembership(Long userId) {
+    public String unsubscribeMembership(Long userId) {
 
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new IllegalArgumentException("해당 유저는 존재하지 않습니다.")
         );
 
-        user.mapMembership(null);
+        user.updateOnSubscription(false);
 
-        return "멤버십 해지 완료";
+        return "구독 해지 완료";
     }
 }

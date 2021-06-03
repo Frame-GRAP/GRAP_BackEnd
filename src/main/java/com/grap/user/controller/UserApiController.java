@@ -67,7 +67,7 @@ public class UserApiController {
 
     @PutMapping("/api/user/{userId}/membership")
     public String unsubscribeMembership(@PathVariable Long userId) {
-        return userService.unmapMembership(userId);
+        return userService.unsubscribeMembership(userId);
     }
 
 }
