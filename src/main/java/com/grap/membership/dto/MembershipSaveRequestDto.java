@@ -11,20 +11,20 @@ public class MembershipSaveRequestDto {
 
     private String name;
     private Integer price;
-    private Integer availableCoupon;
+    private Integer couponNum;
 
     @Builder
-    public MembershipSaveRequestDto(String name, Integer price, Integer availableCoupon) {
+    public MembershipSaveRequestDto(String name, Integer price, Integer couponNum) {
         this.name = name;
         this.price = price;
-        this.availableCoupon = availableCoupon;
+        this.couponNum = couponNum;
     }
 
     public Membership toEntity() {
         return Membership.builder()
                 .name(name)
                 .price(price)
-                .availableCoupon(availableCoupon)
+                .couponNum(couponNum)
                 .build();
     }
 }

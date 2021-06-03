@@ -26,7 +26,7 @@ public class Membership {
     private Integer price;
 
     @Column(nullable = false)
-    private Integer availableCoupon;
+    private Integer couponNum;
 
     @OneToMany(mappedBy = "membership", cascade = CascadeType.ALL)
     private List<User> users = new ArrayList<>();
@@ -35,15 +35,15 @@ public class Membership {
     private List<Payment> payments = new ArrayList<>();
 
     @Builder
-    public Membership(String name, Integer price, Integer availableCoupon) {
+    public Membership(String name, Integer price, Integer couponNum) {
         this.name = name;
         this.price = price;
-        this.availableCoupon = availableCoupon;
+        this.couponNum = couponNum;
     }
 
-    public void update(String name, Integer price, Integer availableCoupon) {
+    public void update(String name, Integer price, Integer couponNum) {
         this.name = name;
         this.price = price;
-        this.availableCoupon = availableCoupon;
+        this.couponNum = couponNum;
     }
 }

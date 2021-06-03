@@ -11,12 +11,12 @@ public class MembershipResponseDto {
     private Long id;
     private String name;
     private Integer price;
-    private Integer availableCoupon;
+    private Integer couponNum;
 
     public MembershipResponseDto(Membership entity) {
         this.id = entity.getId();
         this.name = entity.getName();
         this.price = entity.getPrice();
-        this.availableCoupon = entity.getAvailableCoupon();
+        this.couponNum = entity.getCouponNum();
     }
 }

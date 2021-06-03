@@ -115,6 +115,7 @@ public class UserService {
 
         user.mapMembership(membership);
         user.updateOnSubscription(true);
+        user.updateAvailableCoupon(membership.getCouponNum());
 
         return "멤버십 구독 완료";
     }

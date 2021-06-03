@@ -1,11 +1,7 @@
 package com.grap.userandcoupon.service;
 
 import com.grap.coupon.domain.Coupon;
-import com.grap.coupon.dto.CouponResponseDto;
 import com.grap.coupon.repository.CouponRepository;
-import com.grap.customtab.domain.CustomTab;
-import com.grap.game.domain.Game;
-import com.grap.gameandcustomtab.domain.GameAndCustomTab;
 import com.grap.user.domain.User;
 import com.grap.user.repository.UserRepository;
 import com.grap.userandcoupon.domain.UserAndCoupon;
@@ -38,12 +34,17 @@ public class UserAndCouponService {
                 () -> new IllegalArgumentException("해당 쿠폰은 존재하지 않습니다.")
         );
 
+        if(user.getAvailableCoupon() == 0)
+            return (long) -1;
+
         UserAndCoupon userAndCoupon = new UserAndCoupon();
 
         userAndCoupon.setCode(createCouponCode(8));
 
         userAndCoupon.mapUser(user);
         userAndCoupon.mapCoupon(coupon);
+
+        user.updateAvailableCoupon(user.getAvailableCoupon() - 1);
 
         return userAndCouponRepository.save(userAndCoupon).getId();
     }
