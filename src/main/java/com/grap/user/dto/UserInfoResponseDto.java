@@ -3,6 +3,8 @@ package com.grap.user.dto;
 import com.grap.user.domain.User;
 import lombok.Getter;
 
+import java.util.Date;
+
 @Getter
 public class UserInfoResponseDto {
 
@@ -14,6 +16,7 @@ public class UserInfoResponseDto {
     private String membershipName;
     private Integer price;
     private Integer availableCoupon;
+    private Date nextPaymentDay;
 
     public UserInfoResponseDto(User entity) {
         this.id = entity.getId();
@@ -25,6 +28,7 @@ public class UserInfoResponseDto {
             this.membershipName = entity.getMembership().getName();
             this.price = entity.getMembership().getPrice();
             this.availableCoupon = entity.getAvailableCoupon();
+            this.nextPaymentDay = entity.getNextPaymentDay();
         }
     }
 }
