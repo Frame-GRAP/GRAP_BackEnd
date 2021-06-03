@@ -1,6 +1,7 @@
 package com.grap.review.controller;
 
 import com.grap.review.dto.ReviewListResponseDto;
+import com.grap.review.dto.ReviewResponseDto;
 import com.grap.review.dto.ReviewSaveRequestDto;
 import com.grap.review.dto.ReviewUpdateRequestDto;
 import com.grap.review.service.ReviewService;
@@ -21,6 +22,11 @@ public class ReviewApiController {
         return reviewService.findByGameId(gameId);
     }
 
+    @GetMapping("/api/review/{reviewId}")
+    public ReviewResponseDto findReviewById(@PathVariable Long reviewId) {
+        return reviewService.findByReviewId(reviewId);
+    }
+
     @PostMapping("/api/user/{userId}/game/{gameId}/review")
     public String saveReview(@PathVariable Long userId, @PathVariable Long gameId, @RequestBody ReviewSaveRequestDto requestDto) {
         return reviewService.saveReview(userId, gameId, requestDto);
@@ -32,7 +38,6 @@ public class ReviewApiController {
     }
 
     @DeleteMapping("/api/review/{reviewId}")
-
     public Long deleteReview(@PathVariable Long reviewId) {
         reviewService.deleteReview(reviewId);
 

@@ -4,9 +4,6 @@ import com.grap.coupon.dto.CouponResponseDto;
 import com.grap.coupon.dto.CouponSaveRequestDto;
 import com.grap.coupon.dto.CouponUpdateRequestDto;
 import com.grap.coupon.service.CouponService;
-import com.grap.game.dto.GameResponseDto;
-import com.grap.game.dto.GameUpdateRequestDto;
-import com.grap.video.dto.VideoResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +19,11 @@ public class CouponApiController {
     @PostMapping("/api/game/{gameId}/coupon")
     public Long save(@RequestBody CouponSaveRequestDto requestDto, @PathVariable Long gameId) {
         return couponService.save(requestDto, gameId);
+    }
+
+    @GetMapping("/api/coupon/countAll")
+    public Long countAll() {
+        return couponService.countAll();
     }
 
     @GetMapping("/api/coupon/all")

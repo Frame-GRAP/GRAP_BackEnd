@@ -21,8 +21,12 @@ public class VideoApiController {
 
     @GetMapping("/api/video/countAll")
     public Long countAll() {
-
         return videoService.countAll();
+    }
+
+    @GetMapping("/api/video/{videoId}")
+    public VideoResponseDto findById(@PathVariable Long videoId) {
+        return videoService.findById(videoId);
     }
 
     @GetMapping("/api/game/{gameId}/video/all")

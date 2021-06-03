@@ -6,7 +6,6 @@ import com.grap.coupon.dto.CouponSaveRequestDto;
 import com.grap.coupon.dto.CouponUpdateRequestDto;
 import com.grap.coupon.repository.CouponRepository;
 import com.grap.game.domain.Game;
-import com.grap.game.dto.GameUpdateRequestDto;
 import com.grap.game.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +20,11 @@ public class CouponService {
 
     private final GameRepository gameRepository;
     private final CouponRepository couponRepository;
+
+    @Transactional(readOnly = true)
+    public Long countAll() {
+        return couponRepository.count();
+    }
 
     @Transactional
     public Long save(CouponSaveRequestDto requestDto, Long gameId) {
