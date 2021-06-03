@@ -13,7 +13,7 @@ public class UserInfoResponseDto {
     private String nickname;
     private String membershipName;
     private Integer price;
-    private Integer availableCoupon;
+    private Integer couponNum;
 
     public UserInfoResponseDto(User entity) {
         this.id = entity.getId();
@@ -24,7 +24,7 @@ public class UserInfoResponseDto {
         if(entity.getMembership() != null) {
             this.membershipName = entity.getMembership().getName();
             this.price = entity.getMembership().getPrice();
-            this.availableCoupon = entity.getMembership().getAvailableCoupon();
+            this.couponNum = entity.getMembership().getCouponNum();
         }
     }
 }
