@@ -30,7 +30,7 @@ public class PaymentApiController {
     private final PaymentService paymentService;
 
     @PostMapping("/api/checkPayment/iamport-callback")
-    public void reservePayment(@RequestBody PaymentReserveRequestDto requestDto) throws IOException, IamportResponseException {
+    public String reservePayment(@RequestBody PaymentReserveRequestDto requestDto) throws IOException, IamportResponseException {
 
         IamportClient client = new IamportClient(imp_key, imp_secret);
         com.siot.IamportRestClient.response.Payment response = client.paymentByImpUid(requestDto.getImp_uid()).getResponse();
@@ -38,10 +38,12 @@ public class PaymentApiController {
         long num = Long.parseLong(response.getMerchantUid().replaceAll("[^0-9]","")) + 1;
         String merchantUid = "정기결제_" + num;
 
-        if(paymentService.saveNextPayment(response.getCustomerUid(), merchantUid, response.getAmount()) < 0)
-            return;
-
-        createSchedule(client, merchantUid, response.getCustomerUid(), response.getAmount());
+        if(paymentService.savePayment(response.getCustomerUid(), merchantUid, response.getAmount()) > 0) {
+            createSchedule(client, merchantUid, response.getCustomerUid(), response.getAmount());
+            return "예약 완료";
+        }
+        else
+            return "예약 취소";
     }
 
     @PostMapping("/api/checkPayment/unsubscribe/{customerUid}")

@@ -21,7 +21,7 @@ public class PaymentService {
     private final MembershipRepository membershipRepository;
 
     @Transactional
-    public int saveNextPayment(String customerUid, String merchantUid, BigDecimal amount) {
+    public int savePayment(String customerUid, String merchantUid, BigDecimal amount) {
 
         Long userId = Long.parseLong(customerUid.replaceAll("[^0-9]",""));
 
