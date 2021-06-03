@@ -4,6 +4,7 @@ import com.grap.game.domain.Game;
 import com.grap.game.repository.GameRepository;
 import com.grap.review.domain.Review;
 import com.grap.review.dto.ReviewListResponseDto;
+import com.grap.review.dto.ReviewResponseDto;
 import com.grap.review.dto.ReviewSaveRequestDto;
 import com.grap.review.dto.ReviewUpdateRequestDto;
 import com.grap.review.repository.ReviewRepository;
@@ -62,9 +63,19 @@ public class ReviewService {
     @Transactional
     public void deleteReview(Long reviewId) {
         Review deleteReview = reviewRepository.findById(reviewId).orElseThrow(
-                () -> new IllegalArgumentException("해당 리뷰 존재하지 않습니다.")
+                () -> new IllegalArgumentException("해당 리뷰는 존재하지 않습니다.")
         );
 
         reviewRepository.delete(deleteReview);
+    }
+
+    @Transactional
+    public ReviewResponseDto findByReviewId(Long reviewId) {
+
+        Review review = reviewRepository.findById(reviewId).orElseThrow(
+                () -> new IllegalArgumentException("해당 리뷰는 존재하지 않습니다.")
+        );
+
+        return new ReviewResponseDto(review);
     }
 }
