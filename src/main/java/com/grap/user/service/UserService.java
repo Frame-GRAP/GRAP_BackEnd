@@ -134,6 +134,7 @@ public class UserService {
         return "구독 해지 완료";
     }
 
+    @Transactional
     public void updateNextPaymentDay(long userId, Date date) {
 
         User user = userRepository.findById(userId).orElseThrow(
