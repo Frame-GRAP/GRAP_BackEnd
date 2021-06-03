@@ -47,7 +47,7 @@ public class User extends BaseTimeEntity {
     private boolean onSubscription;
 
     @Column
-    private int availableCoupon;
+    private Integer availableCoupon;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> userReviews = new ArrayList<>();
