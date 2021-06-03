@@ -38,7 +38,8 @@ public class PaymentApiController {
         long num = Long.parseLong(response.getMerchantUid().replaceAll("[^0-9]","")) + 1;
         String merchantUid = "정기결제_" + num;
 
-        paymentService.saveNextPayment(response.getCustomerUid(), merchantUid, response.getAmount());
+        if(paymentService.saveNextPayment(response.getCustomerUid(), merchantUid, response.getAmount()) < 0)
+            return;
 
         createSchedule(client, merchantUid, response.getCustomerUid(), response.getAmount());
     }

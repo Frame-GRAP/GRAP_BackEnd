@@ -21,25 +21,28 @@ public class PaymentService {
     private final MembershipRepository membershipRepository;
 
     @Transactional
-    public void saveNextPayment(String customerUid, String merchantUid, BigDecimal amount) {
-
-        Payment payment = new Payment(customerUid, merchantUid, amount);
+    public int saveNextPayment(String customerUid, String merchantUid, BigDecimal amount) {
 
         Long userId = Long.parseLong(customerUid.replaceAll("[^0-9]",""));
-        Long membershipId = amount.intValue() == 4500 ? (long) 1: (long) 2;
 
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new IllegalArgumentException("해당 유저는 존재하지 않습니다.")
         );
-
-        Membership membership = membershipRepository.findById(membershipId).orElseThrow(
+        Membership membership = membershipRepository.findByPrice(amount.intValue()).orElseThrow(
                 () -> new IllegalArgumentException("해당 멤버십은 존재하지 않습니다.")
         );
+
+        if(!user.isOnSubscription()) {
+            user.unmapMembership(membership);
+            return -1;
+        }
+
+        Payment payment = new Payment(customerUid, merchantUid, amount);
 
         payment.mapUser(user);
         payment.mapMembership(membership);
 
-        paymentRepository.save(payment);
+        return paymentRepository.save(payment).getId().intValue();
     }
 
 }

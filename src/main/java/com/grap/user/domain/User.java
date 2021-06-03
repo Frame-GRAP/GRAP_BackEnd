@@ -43,6 +43,9 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private Role role;
 
+    @Column(nullable = false)
+    private boolean onSubscription;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> userReviews = new ArrayList<>();
 
@@ -64,7 +67,7 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserAndCoupon> userAndCoupons = new ArrayList<>();
 
-    @OneToMany(mappedBy = "membership", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "membership", cascade = CascadeType.REMOVE)
     private List<Payment> pays = new ArrayList<>();
 
 
@@ -97,5 +100,13 @@ public class User extends BaseTimeEntity {
 
     public void mapMembership(Membership membership) {
         this.membership = membership;
+    }
+
+    public void unmapMembership(Membership membership) {
+        this.membership = null;
+    }
+
+    public void updateOnSubscription(boolean onSubscription) {
+        this.onSubscription = onSubscription;
     }
 }
