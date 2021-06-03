@@ -1,7 +1,6 @@
 package com.grap.payment.controller;
 
 import com.grap.payment.dto.PaymentReserveRequestDto;
-import com.grap.payment.dto.PaymentSaveRequestDto;
 import com.grap.payment.service.PaymentService;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
@@ -30,21 +29,6 @@ public class PaymentApiController {
 
     private final PaymentService paymentService;
 
-    @PostMapping("/api/checkPayment/{imp_uid}")
-    public Long checkPayment(@PathVariable String imp_uid, @RequestBody PaymentSaveRequestDto requestDto) throws IOException, IamportResponseException {
-
-        Long responseVal = (long) -1;
-        IamportClient client = new IamportClient(imp_key, imp_secret);
-
-        if(requestDto.getPaidAmount().equals(client.paymentByImpUid(imp_uid).getResponse().getAmount())) {
-            responseVal = paymentService.savePayment(requestDto);
-
-            createSchedule(client, requestDto.getMerchantUid(), requestDto.getCustomerUid(), requestDto.getPaidAmount());
-        }
-
-        return responseVal;
-    }
-
     @PostMapping("/api/checkPayment/iamport-callback")
     public void reservePayment(@RequestBody PaymentReserveRequestDto requestDto) throws IOException, IamportResponseException {
 
@@ -54,7 +38,7 @@ public class PaymentApiController {
         long num = Long.parseLong(response.getMerchantUid().replaceAll("[^0-9]","")) + 1;
         String merchantUid = "정기결제_" + num;
 
-        paymentService.saveNextPayment(response.getCustomerUid(), merchantUid);
+        paymentService.saveNextPayment(response.getCustomerUid(), merchantUid, response.getAmount());
 
         createSchedule(client, merchantUid, response.getCustomerUid(), response.getAmount());
     }
