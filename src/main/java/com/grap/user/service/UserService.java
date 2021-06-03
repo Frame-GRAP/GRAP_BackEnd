@@ -2,7 +2,8 @@ package com.grap.user.service;
 
 import com.grap.membership.domain.Membership;
 import com.grap.membership.repository.MembershipRepository;
-import com.grap.payment.service.PaymentService;
+import com.grap.payment.domain.Payment;
+import com.grap.payment.repository.PaymentRepository;
 import com.grap.user.domain.User;
 import com.grap.user.dto.UserInfoResponseDto;
 import com.grap.user.dto.UserResponseDto;
@@ -23,7 +24,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final MembershipRepository membershipRepository;
-    private final PaymentService paymentService;
+    private final PaymentRepository paymentRepository;
 
     @Transactional
     public UserResponseDto saveOrUpdate(UserSaveRequestDto requestDto) {
@@ -81,6 +82,11 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new IllegalArgumentException("해당 유저는 존재하지 않습니다.")
         );
+
+        List<Payment> payments = paymentRepository.findAllByUserId(userId);
+
+        for(Payment p : payments)
+            paymentRepository.delete(p);
 
         userRepository.delete(user);
 
