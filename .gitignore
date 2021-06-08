@@ -4,3 +4,4 @@
 build
 *.yaml
 *.yml
+!.travis.yml
