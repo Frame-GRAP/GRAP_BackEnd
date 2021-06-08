@@ -2,6 +2,7 @@ package com.grap.payment.controller;
 
 import com.grap.payment.dto.PaymentReserveRequestDto;
 import com.grap.payment.service.PaymentService;
+import com.grap.user.service.UserService;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.request.ScheduleData;
@@ -28,6 +29,7 @@ public class PaymentApiController {
     private String imp_secret;
 
     private final PaymentService paymentService;
+    private final UserService userService;
 
     @PostMapping("/api/checkPayment/iamport-callback")
     public String reservePayment(@RequestBody PaymentReserveRequestDto requestDto) throws IOException, IamportResponseException {
@@ -59,8 +61,10 @@ public class PaymentApiController {
         Date reserve = new Date();
         Calendar myCal = Calendar.getInstance();
         myCal.setTime(reserve);
-        myCal.add(Calendar.MINUTE, +10);
+        myCal.add(Calendar.MONTH, +1);
         reserve = myCal.getTime();
+
+        userService.updateNextPaymentDay(Long.parseLong(customerUid.replaceAll("[^0-9]","")), reserve);
 
         ScheduleData scheduleData = new ScheduleData(customerUid);
         scheduleData.addSchedule(new ScheduleEntry(merchantUid, reserve, amount));

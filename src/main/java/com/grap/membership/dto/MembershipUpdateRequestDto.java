@@ -10,12 +10,12 @@ public class MembershipUpdateRequestDto {
 
     private String name;
     private Integer price;
-    private Integer availableCoupon;
+    private Integer couponNum;
 
     @Builder
-    public MembershipUpdateRequestDto(String name, Integer price, Integer availableCoupon) {
+    public MembershipUpdateRequestDto(String name, Integer price, Integer couponNum) {
         this.name = name;
         this.price = price;
-        this.availableCoupon = availableCoupon;
+        this.couponNum = couponNum;
     }
 }

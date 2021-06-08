@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -115,6 +116,7 @@ public class UserService {
 
         user.mapMembership(membership);
         user.updateOnSubscription(true);
+        user.updateAvailableCoupon(membership.getCouponNum());
 
         return "멤버십 구독 완료";
     }
@@ -127,7 +129,17 @@ public class UserService {
         );
 
         user.updateOnSubscription(false);
+        user.updateNextPaymentDay(null);
 
         return "구독 해지 완료";
+    }
+
+    @Transactional
+    public void updateNextPaymentDay(long userId, Date date) {
+
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new IllegalArgumentException("해당 유저는 존재하지 않습니다.")
+        );
+        user.updateNextPaymentDay(date);
     }
 }

@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -45,6 +46,12 @@ public class User extends BaseTimeEntity {
 
     @Column(nullable = false)
     private boolean onSubscription;
+
+    @Column
+    private Integer availableCoupon;
+
+    @Column
+    private Date nextPaymentDay;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> userReviews = new ArrayList<>();
@@ -108,5 +115,13 @@ public class User extends BaseTimeEntity {
 
     public void updateOnSubscription(boolean onSubscription) {
         this.onSubscription = onSubscription;
+    }
+
+    public void updateAvailableCoupon(Integer couponNum) {
+        this.availableCoupon = couponNum;
+    }
+
+    public void updateNextPaymentDay(Date date) {
+        this.nextPaymentDay = date;
     }
 }
