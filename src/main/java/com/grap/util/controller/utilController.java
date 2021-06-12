@@ -17,7 +17,6 @@ public class utilController {
     public void jsonInS3ToDB() {
         jsonToDB.jsonToRelatedGameDB("related_game_list.json");
         jsonToDB.jsonToCategoryTabDB("category_tab_list.json");
-
-        return;
+        jsonToDB.jsonToRecommnedGameForUserDB("recommend_for_user_game_list.json");
     }
 }

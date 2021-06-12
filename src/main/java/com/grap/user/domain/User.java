@@ -10,6 +10,7 @@ import com.grap.starter.domain.Starter;
 import com.grap.userandcoupon.domain.UserAndCoupon;
 import com.grap.usercategorypreference.domain.UserCategoryPreference;
 import com.grap.usergamepreference.domain.UserGamePreference;
+import com.grap.recommendgameforuser.domain.RecommendGameForUser;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -61,6 +62,9 @@ public class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Favor> favors = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<RecommendGameForUser> recommendGameForUsers = new ArrayList<>();
 
     @OneToOne(mappedBy = "game", cascade = CascadeType.REMOVE)
     private Starter starter;

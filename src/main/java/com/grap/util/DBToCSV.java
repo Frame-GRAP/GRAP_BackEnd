@@ -4,6 +4,8 @@ import com.grap.category.dto.CategoryResponseDto;
 import com.grap.category.service.CategoryService;
 import com.grap.game.domain.Game;
 import com.grap.game.repository.GameRepository;
+import com.grap.review.domain.Review;
+import com.grap.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
@@ -39,6 +41,7 @@ public class DBToCSV {
     호출 필요
      */
     private final GameRepository gameRepository;
+    private final ReviewRepository reviewRepository;
     private final CategoryService categoryService;
     private final AWSS3 awsS3;
 
@@ -47,7 +50,13 @@ public class DBToCSV {
         return new RestTemplate();
     }
 
-    //@Scheduled(cron = "0 0 4 * * *")
+//    @Scheduled(cron = "0 0 4 * * *")
+    public void startDBToCSV(){
+        gameDBToCSV();
+        reviewDBToCSV();
+        requestFlaskAPI();
+    }
+
     public void gameDBToCSV() {
         String filePath = "src/main/resources/csv/game.csv";
 
@@ -94,7 +103,47 @@ public class DBToCSV {
 
             File csvFile = new File(filePath);
             awsS3.UploadToS3(csvFile, "game.csv");
-            requestFlaskAPI();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("파일 경로가 잘못되었습니다. filePath = " + filePath);
+        }
+    }
+
+    public void reviewDBToCSV() {
+        String filePath = "src/main/resources/csv/ratings.csv";
+
+        File file = new File(filePath);
+        if (file.exists()){
+            file.delete();
+        }
+
+        try{
+            BufferedWriter fw
+                    = new BufferedWriter(new FileWriter(filePath, true));
+
+            fw.write(",userId,movieId,rating,timestamp");
+            fw.newLine();
+
+            List<Review> reviews = reviewRepository.findAll();
+            int i = 1;
+
+            for (Review review : reviews){
+                fw.write(Integer.toString(i)+",");
+                i++;
+                fw.write(review.getUser().getId().toString()+",");
+                fw.write(review.getGame().getId().toString()+",");
+                fw.write(review.getRating()+",");
+                fw.write("0");
+
+
+                fw.newLine();
+            }
+
+            fw.flush();
+            fw.close();
+
+            File csvFile = new File(filePath);
+            awsS3.UploadToS3(csvFile, "ratings.csv");
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("파일 경로가 잘못되었습니다. filePath = " + filePath);
