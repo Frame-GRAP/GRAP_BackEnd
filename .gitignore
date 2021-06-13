@@ -5,3 +5,4 @@ build
 *.yaml
 *.yml
 !.travis.yml
+!appspec.yml
