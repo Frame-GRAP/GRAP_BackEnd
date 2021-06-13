@@ -65,7 +65,7 @@ public class GameApiController {
         return gameService.findById(gameId);
     }
 
-    @GetMapping("/api/game/all")
+    @GetMapping("/api/game/alls")
     public List<GameResponseDto> findAll() {
         return gameService.findAll();
     }
