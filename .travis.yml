@@ -43,7 +43,7 @@ deploy:
     secret_access_key: $AWS_SECRET_KEY
     bucket: yun-springboot
     key: GRAP_BackEnd.zip
-    bundle-type: zip
+    bundle_type: zip
     application: grap
     deployment_group: grap-group
     region: ap-northeast-2
