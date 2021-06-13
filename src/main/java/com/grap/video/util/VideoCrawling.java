@@ -12,6 +12,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -44,10 +45,8 @@ public class VideoCrawling {
     GameRepository gameRepository;
 
     int time_limit = 5;
-    String chromeDriverPath = "C:/저장할 것들/기타자료/chromedriver/chromedriver.exe";
 
     private Game findGameByName(String gameName){
-        System.out.println(gameName + " 크롤링 시작");
         Optional<Game> gameOp = gameRepository.findByName(gameName);
         if(!gameOp.isPresent()) {
             throw new IllegalArgumentException("일치하는 게임이 없습니다. name =" + gameName);
@@ -65,26 +64,23 @@ public class VideoCrawling {
 
     @Async
     public void startCrawl(Long id){
-//        gameRepository.save(Game.builder()
-//                .name(gameName)
-//                .description("description")
-//                .developer("developer")
-//                .publisher("publisher")
-//                .releaseDate(LocalDate.now())
-//                .headerImg("headerImg")
-//                .downloadUrl("downloadUrl")
-//                .build());
-
         Game gameEntity = findGameById(id);
         googleCrawl(gameEntity.getName(), gameEntity);
         twitchCrawl(gameEntity.getName(), gameEntity);
     }
 
     private void googleCrawl(String gameName, Game gameEntity){
-        System.setProperty("webdriver.chrome.driver", "C:/저장할 것들/기타자료/chromedriver/chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--single-process");
+        options.addArguments("--disable-dev-shm-usage");
 
-        driver.get("https://www.youtube.com/results?search_query=" + gameName + ", video");
+//        System.setProperty("webdriver.chrome.driver", "C:/저장할 것들/기타자료/chromedriver/chromedriver.exe"); // 로컬용
+        System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver"); // ec2 서버용
+        WebDriver driver = new ChromeDriver(options);
+
+        driver.get("https://www.youtube.com/results?search_query=" + gameName + " game play, video");
 
         scrollDown(15, driver);
 
@@ -95,7 +91,6 @@ public class VideoCrawling {
         for (Element video : videos){
             try {
                 String time = video.selectFirst("#overlays > ytd-thumbnail-overlay-time-status-renderer > span").text();
-                System.out.println(time);
 
                 String[] timeSplit = time.split(":");
                 if (timeSplit.length > 2)
@@ -126,7 +121,6 @@ public class VideoCrawling {
                 }
             }catch(NullPointerException e){
                 System.out.println("유튜브 : " + gameName);
-                driver.close();
                 continue;
             }
         }
@@ -134,24 +128,32 @@ public class VideoCrawling {
     }
 
     private void twitchCrawl(String gameName, Game gameEntity){
-        System.setProperty("webdriver.chrome.driver", "C:/저장할 것들/기타자료/chromedriver/chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--single-process");
+        options.addArguments("--disable-dev-shm-usage");
+
+//        System.setProperty("webdriver.chrome.driver", "C:/저장할 것들/기타자료/chromedriver/chromedriver.exe"); // 로컬용
+        System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver"); // ec2 서버용
+        WebDriver driver = new ChromeDriver(options);
+
         driver.get("https://www.twitch.tv/directory/game/" + gameName + "/clips");
 
-        try {
-            prepareTwitchScrollDown(driver);
-            scrollDown(3, driver);
+        prepareTwitchScrollDown(driver);
+        scrollDown(3, driver);
 
-            String req = driver.getPageSource();
-            Document doc = Jsoup.parse(req);
+        String req = driver.getPageSource();
+        Document doc = Jsoup.parse(req);
 
-            Elements videos = doc.select(".ScTower-sc-1dei8tr-0.hRbnOC.tw-tower > .tw-mg-b-2");
+        try{
+            Elements videos = doc.select("#root > div > div.sc-AxjAm.tlQbp > div > main > div.root-scrollable.scrollable-area.scrollable-area--suppress-scroll-x > div.simplebar-scroll-content > div > div > div > div > div > div.sc-AxjAm.gBRyDo > div.sc-AxjAm.fzeiWJ > div > div > div > div");
             for (Element video : videos) {
-                String time = video.selectFirst("article > div.tw-item-order-1 > div > div.ScTransformWrapper-uo2e2v-1.coZOAa > a > div > div > div.tw-absolute.tw-full-height.tw-full-width.tw-left-0.tw-media-card-image__corners.tw-top-0 > div.tw-absolute.tw-left-0.tw-mg-1.tw-top-0 > div > p").text();
-                String title = video.selectFirst("article > div.tw-item-order-2.tw-mg-t-1 > div > div.tw-flex-grow-1.tw-flex-shrink-1.tw-full-width.tw-item-order-2.tw-media-card-meta__text-container > div.tw-media-card-meta__title > div > a > div > h3").text();
-                String uploader = video.selectFirst("article > div.tw-item-order-2.tw-mg-t-1 > div > div.tw-flex-grow-1.tw-flex-shrink-1.tw-full-width.tw-item-order-2.tw-media-card-meta__text-container > div.tw-media-card-meta__links > div:nth-child(1) > p > a").text();
-                String urlKey = video.selectFirst("article > div.tw-item-order-1 > div > div.ScTransformWrapper-uo2e2v-1.coZOAa > a").attr("href").split("/")[3];
-                String image = video.selectFirst("div.tw-item-order-1 > div > div.ScTransformWrapper-uo2e2v-1.coZOAa > a > div > div > div.ScAspectRatio-sc-1sw3lwy-1.dNNaBC.tw-aspect > img").attr("src");
+                String time = video.selectFirst("article > div.sc-AxjAm.kJBVIw > div > div.ScTransformWrapper-uo2e2v-1.eiQqOY > a > div > div > div.ScPositionOver-sc-1iiybo2-0.hahEKi.tw-media-card-image__corners > div.sc-AxjAm.eFyVLi > div > p").text();
+                String title = video.selectFirst("article > div.sc-AxjAm.czqVsG > div > div.ScTextWrapper-sc-14f6evl-1.gboCPP > div:nth-child(1) > div > a > div > h3").text();
+                String uploader = video.selectFirst("article > div.sc-AxjAm.czqVsG > div > div.ScTextWrapper-sc-14f6evl-1.gboCPP > div:nth-child(2) > p:nth-child(1) > a").text();
+                String urlKey = video.selectFirst("article > div.sc-AxjAm.kJBVIw > div > div.ScTransformWrapper-uo2e2v-1.eiQqOY > a").attr("href").split("/")[3];
+                String image = video.selectFirst("article > div.sc-AxjAm.kJBVIw > div > div.ScTransformWrapper-uo2e2v-1.eiQqOY > a > div > div > div.ScAspectRatio-sc-1sw3lwy-1.dNNaBC.tw-aspect > img").attr("src");
                 videoRepository.save(Video.builder()
                         .title(title)
                         .uploader(uploader)
@@ -196,7 +198,7 @@ public class VideoCrawling {
 
     private void prepareTwitchScrollDown(WebDriver driver){
         timeSleep(3);
-        WebElement forScroll = driver.findElement(By.cssSelector("#root > div > div.tw-flex.tw-flex-column.tw-flex-nowrap.tw-full-height > div > main > div.root-scrollable.scrollable-area.scrollable-area--suppress-scroll-x > div.simplebar-scroll-content > div > div > div > div > div > div.directory-header-new__banner-cover.tw-overflow-hidden.tw-relative > div.directory-header-new__info.tw-bottom-0.tw-left-0.tw-pd-b-2.tw-pd-t-3.tw-right-0 > div > div.tw-flex.tw-flex-column.tw-justify-content-center > div.tw-flex.tw-justify-content-between.tw-relative > h1"));
+        WebElement forScroll = driver.findElement(By.cssSelector("#root > div > div.sc-AxjAm.tlQbp > div > main > div.root-scrollable.scrollable-area.scrollable-area--suppress-scroll-x"));
         forScroll.click();
     }
 
