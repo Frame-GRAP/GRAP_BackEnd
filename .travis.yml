@@ -29,6 +29,8 @@ deploy:
     region: ap-northeast-2
     skip_cleanup: true
     acl: private
+    on:
+      branch: main
     local_dir: deploy
     wait-until-deployed: true
 
